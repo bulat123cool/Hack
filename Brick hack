@@ -195,7 +195,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		for i, v in pairs(game.Players:GetPlayers()) do
 			if v.Character == char then continue end
 			char:PivotTo(v.Character:GetPivot())
-			wait(.2)
+			wait(.06)
 		end
 	end
 end)
