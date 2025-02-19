@@ -192,7 +192,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		char:PivotTo(LocalPlayer:GetMouse().Hit)
 	elseif key.KeyCode == Enum.KeyCode.H then
 		local char = LocalPlayer.Character
-		for i, v in pairs(game.Players:GetChildren()) do
+		for i, v in pairs(game.Players:GetPlayers()) do
 			if v.Character == char then continue end
 			char:PivotTo(v.Character:GetPivot())
 			wait(.2)
