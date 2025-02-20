@@ -6,6 +6,7 @@ local flying = false
 local anchor = false
 local sp = false
 local hl = false
+local en = true
 local flySpeed = 50
 local storSP
 local storJP
@@ -71,6 +72,15 @@ sampleButton4.Text = "Highlight"
 sampleButton4.TextScaled = true
 sampleButton4.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton4.Parent = adminFrame
+
+local sampleButton5 = Instance.new("TextButton")
+sampleButton5.Size = UDim2.new(0.8, 0, 0, 50)
+sampleButton5.Position = UDim2.new(0.1, 0, 0, 300)
+sampleButton5.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+sampleButton5.Text = "Hotkeys enabled"
+sampleButton5.TextScaled = true
+sampleButton5.TextColor3 = Color3.fromRGB(255, 255, 255)
+sampleButton5.Parent = adminFrame
 
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
@@ -155,6 +165,9 @@ sampleButton4.Activated:Connect(function()
 		sampleButton4.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
 	end
 end)
+sampleButton5.Activated:Connect(function()
+	en = not en
+end)
 game:GetService("RunService").RenderStepped:Connect(function()
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
@@ -188,14 +201,16 @@ end)
 
 UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 	if key.KeyCode == Enum.KeyCode.C then
+		if not en then return end
 		local char = LocalPlayer.Character
 		char:PivotTo(LocalPlayer:GetMouse().Hit)
 	elseif key.KeyCode == Enum.KeyCode.H then
+		if not en then return end
 		local char = LocalPlayer.Character
 		for i, v in pairs(game.Players:GetPlayers()) do
 			if v.Character == char then continue end
 			char:PivotTo(v.Character:GetPivot())
-			wait(.06)
+			wait(.2)
 		end
 	end
 end)
