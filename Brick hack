@@ -3,6 +3,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local flying = false
+local pos = 1
+local volumed = false
 local anchor = false
 local sp = false
 local hl = false
@@ -15,10 +17,33 @@ local storJP
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AdminPanel"
 screenGui.Parent = PlayerGui
+screenGui.ResetOnSpawn = false
+
+local music_list = {83428822788311,14145627144,14145623658,1837466605,14145621445,14145625362}
+local volume = 0.25
 
 -- Create a Frame for the admin panel
+
+local adminFrameM = Instance.new("Frame")
+adminFrameM.Size = UDim2.new(0, 250, 0, 50)
+adminFrameM.Position = UDim2.new(0.35, 0, 0.3, 0)
+adminFrameM.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
+adminFrameM.Parent = screenGui
+
+local adminFrameMUnDrag = Instance.new("ScrollingFrame")
+adminFrameMUnDrag.Size = UDim2.new(0, 250, 0, 130)
+adminFrameMUnDrag.Position = UDim2.new(0, 0, 1, 0)
+adminFrameMUnDrag.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+adminFrameMUnDrag.Parent = adminFrameM
+
+local UiDr = Instance.new("UIDragDetector")
+UiDr.Parent = adminFrameM
+
+local sound = Instance.new("Sound")
+sound.Parent = LocalPlayer
+
 local adminFrame = Instance.new("Frame")
-adminFrame.Size = UDim2.new(0, 250, 0, 400)
+adminFrame.Size = UDim2.new(0, 250, 0, 500)
 adminFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 adminFrame.Parent = screenGui
@@ -81,6 +106,22 @@ sampleButton5.Text = "Hotkeys enabled"
 sampleButton5.TextScaled = true
 sampleButton5.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton5.Parent = adminFrame
+local sampleButtonFRM = Instance.new("TextButton")
+sampleButtonFRM.Size = UDim2.new(0.8, 0, 0, 50)
+sampleButtonFRM.Position = UDim2.new(0.1, 0, 0, 15)
+sampleButtonFRM.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+sampleButtonFRM.Text = "Change music"
+sampleButtonFRM.TextScaled = true
+sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
+sampleButtonFRM.Parent = adminFrameMUnDrag
+local stop = Instance.new("TextButton")
+stop.Size = UDim2.new(0.8, 0, 0, 20)
+stop.Position = UDim2.new(0.1, 0, 0, 75)
+stop.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+stop.Text = "stop"
+stop.TextScaled = true
+stop.TextColor3 = Color3.fromRGB(255, 255, 255)
+stop.Parent = adminFrameMUnDrag
 
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
@@ -167,6 +208,28 @@ sampleButton4.Activated:Connect(function()
 end)
 sampleButton5.Activated:Connect(function()
 	en = not en
+	if en then
+		sampleButton5.BackgroundColor3 = Color3.new(0.282353, 1, 0.0627451)
+	else
+		sampleButton5.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
+	end
+end)
+sampleButtonFRM.Activated:Connect(function()
+	sound:Stop()
+	sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
+	pos = pos + 1
+	sound:Play()
+	if pos > #music_list then
+		pos = 1
+	end
+end)
+stop.Activated:Connect(function()
+	volumed = not volumed
+	if volumed  then
+		sound.Volume = volume
+	else
+		sound.Volume = 0
+	end
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
@@ -196,7 +259,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 quit.Activated:Connect(function()
 	screenGui:Destroy()
-	script:Destroy()
+	sound:Destroy()
+	en = false
 end)
 
 UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
