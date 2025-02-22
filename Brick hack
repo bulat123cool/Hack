@@ -114,14 +114,35 @@ sampleButtonFRM.Text = "Change music"
 sampleButtonFRM.TextScaled = true
 sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButtonFRM.Parent = adminFrameMUnDrag
+
+
+local stopV = Instance.new("TextBox")
+stopV.Size = UDim2.new(0.6, 0, 0, 20)
+stopV.Position = UDim2.new(0.1, 0, 0, 75)
+stopV.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+stopV.PlaceholderText = "Enter volume"
+stopV.Text = ""
+stopV.TextScaled = true
+stopV.TextColor3 = Color3.fromRGB(255, 255, 255)
+stopV.Parent = adminFrameMUnDrag
+
 local stop = Instance.new("TextButton")
-stop.Size = UDim2.new(0.8, 0, 0, 20)
-stop.Position = UDim2.new(0.1, 0, 0, 75)
+stop.Size = UDim2.new(0.2, 0, 0, 20)
+stop.Position = UDim2.new(0.7, 0, 0, 75)
 stop.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 stop.Text = "stop"
 stop.TextScaled = true
 stop.TextColor3 = Color3.fromRGB(255, 255, 255)
 stop.Parent = adminFrameMUnDrag
+
+local quitS = Instance.new("TextButton")
+quitS.Size = UDim2.new(0, 20, 0, 20)
+quitS.Position = UDim2.new(1, 5, 0, -10)
+quitS.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
+quitS.Text = "X"
+quitS.TextScaled = true
+quitS.TextColor3 = Color3.fromRGB(255, 255, 255)
+quitS.Parent = adminFrame
 
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
@@ -225,10 +246,10 @@ sampleButtonFRM.Activated:Connect(function()
 end)
 stop.Activated:Connect(function()
 	volumed = not volumed
-	if volumed  then
-		sound.Volume = volume
+	if tonumber(stopV.Text) then
+		sound.Volume = tonumber(stopV.Text)
 	else
-		sound.Volume = 0
+		sound.Volume = volume
 	end
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
@@ -256,6 +277,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
 		end
 	end
+end)
+quitS.Activated:Connect(function()
+	adminFrameM:Destroy()
+	sound:Destroy()
 end)
 quit.Activated:Connect(function()
 	screenGui:Destroy()
