@@ -264,9 +264,6 @@ sampleButton6.Activated:Connect(function()
 	local char = LocalPlayer.Character
 	local bodyVelocity = Instance.new("BodyVelocity")
 	local savePos = LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position
-	local savePart = Instance.new("Part")
-	savePart.Position = savePos
-	savePart.Parent = workspace
 	bodyVelocity.MaxForce = Vector3.new(4000, 999999999, 4000)
 	bodyVelocity.Velocity = Vector3.new(0, 0, 0)
 	bodyVelocity.Parent = char:WaitForChild("HumanoidRootPart")
@@ -276,9 +273,9 @@ sampleButton6.Activated:Connect(function()
 	wait(3)
 	bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
 	bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-	LocalPlayer.Character:PivotTo(savePart:GetPivot())
+	LocalPlayer.Character:PivotTo(CFrame.new(savePos),CFrame.new(savePos)+Vector3.new(0,0,2))
 	LocalPlayer.Character:WaitForChild("HumanoidRootPart").AssemblyLinearVelocity = Vector3.new(0,0,0)
-	savePart:Destroy()
+	bodyVelocity:Destroy()
 end)
 sampleButtonFRM.Activated:Connect(function()
 	sound:Stop()
