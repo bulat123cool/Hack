@@ -188,6 +188,16 @@ TB.TextScaled = true
 TB.TextColor3 = Color3.fromRGB(255, 255, 255)
 TB.Parent = adminFrame
 
+local TB2 = Instance.new("TextBox")
+TB2.Size = UDim2.new(0.2, 0, 0, 50)
+TB2.Position = UDim2.new(0.75, 0, 0, 360)
+TB2.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+TB2.Text = ""
+TB2.PlaceholderText = "Enter nickname"
+TB2.TextScaled = true
+TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TB2.Parent = adminFrame
+
 sampleButton.Activated:Connect(function()
 	local char = LocalPlayer.Character
 	flying = not flying
@@ -343,5 +353,9 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 			char:PivotTo(v.Character:GetPivot())
 			wait(.02)
 		end
+	elseif key.KeyCode == Enum.KeyCode.J then
+		if not en then return end
+		local char = LocalPlayer.Character
+		char:PivotTo(game.Players:FindFirstChild(TB2.Text).Character:GetPivot())
 	end
 end)
