@@ -189,8 +189,8 @@ TB.TextColor3 = Color3.fromRGB(255, 255, 255)
 TB.Parent = adminFrame
 
 local TB2 = Instance.new("TextBox")
-TB2.Size = UDim2.new(0.2, 0, 0, 50)
-TB2.Position = UDim2.new(0.75, 0, 0, 360)
+TB2.Size = UDim2.new(0.8, 0, 0, 50)
+TB2.Position = UDim2.new(0.1, 0, 0, 420)
 TB2.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 TB2.Text = ""
 TB2.PlaceholderText = "Enter nickname"
