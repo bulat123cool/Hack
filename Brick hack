@@ -19,7 +19,21 @@ screenGui.Name = "AdminPanel"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
 
-local music_list = {83428822788311,14145627144,14145623658,1837466605,14145621445,14145625362}
+local music_list = {
+	83428822788311,
+	14145627144,
+	14145623658,
+	1837466605,
+	14145621445,
+	14145625362,
+	1836019934,
+	1839904416,
+	84784950648127,
+	17422074849,
+	14145624031,
+	120889371113999,
+	16662833837
+}
 local volume = 0.25
 
 -- Create a Frame for the admin panel
@@ -41,6 +55,7 @@ UiDr.Parent = adminFrameM
 
 local sound = Instance.new("Sound")
 sound.Parent = LocalPlayer
+sound.Looped = true
 
 local adminFrame = Instance.new("Frame")
 adminFrame.Size = UDim2.new(0, 250, 0, 500)
@@ -106,6 +121,16 @@ sampleButton5.Text = "Hotkeys enabled"
 sampleButton5.TextScaled = true
 sampleButton5.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton5.Parent = adminFrame
+
+local sampleButton6 = Instance.new("TextButton")
+sampleButton6.Size = UDim2.new(0.8, 0, 0, 50)
+sampleButton6.Position = UDim2.new(0.1, 0, 0, 360)
+sampleButton6.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+sampleButton6.Text = "Fly up"
+sampleButton6.TextScaled = true
+sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
+sampleButton6.Parent = adminFrame
+
 local sampleButtonFRM = Instance.new("TextButton")
 sampleButtonFRM.Size = UDim2.new(0.8, 0, 0, 50)
 sampleButtonFRM.Position = UDim2.new(0.1, 0, 0, 15)
@@ -142,7 +167,7 @@ quitS.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
 quitS.Text = "X"
 quitS.TextScaled = true
 quitS.TextColor3 = Color3.fromRGB(255, 255, 255)
-quitS.Parent = adminFrame
+quitS.Parent = adminFrameM
 
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
@@ -235,6 +260,26 @@ sampleButton5.Activated:Connect(function()
 		sampleButton5.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
 	end
 end)
+sampleButton6.Activated:Connect(function()
+	local char = LocalPlayer.Character
+	local bodyVelocity = Instance.new("BodyVelocity")
+	local savePos = LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position
+	local savePart = Instance.new("Part")
+	savePart.Position = savePos
+	savePart.Parent = workspace
+	bodyVelocity.MaxForce = Vector3.new(4000, 999999999, 4000)
+	bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+	bodyVelocity.Parent = char:WaitForChild("HumanoidRootPart")
+	local direction = Vector3.new(0,100,0)
+	local camera = workspace.CurrentCamera
+	bodyVelocity.Velocity = direction * 999999
+	wait(3)
+	bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
+	bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+	LocalPlayer.Character:PivotTo(savePart:GetPivot())
+	LocalPlayer.Character:WaitForChild("HumanoidRootPart").AssemblyLinearVelocity = Vector3.new(0,0,0)
+	savePart:Destroy()
+end)
 sampleButtonFRM.Activated:Connect(function()
 	sound:Stop()
 	sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
@@ -299,7 +344,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		for i, v in pairs(game.Players:GetPlayers()) do
 			if v.Character == char then continue end
 			char:PivotTo(v.Character:GetPivot())
-			wait(.2)
+			wait(.02)
 		end
 	end
 end)
