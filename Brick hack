@@ -356,6 +356,10 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 	elseif key.KeyCode == Enum.KeyCode.J then
 		if not en then return end
 		local char = LocalPlayer.Character
-		char:PivotTo(game.Players:FindFirstChild(TB2.Text).Character:GetPivot())
+		for i, v in pairs(game.Players:GetChildren()) do
+			if string.match(v.Name,TB2) then
+				char:PivotTo(game.Players:FindFirstChild(v.Name).Character:GetPivot())
+			end
+		end
 	end
 end)
