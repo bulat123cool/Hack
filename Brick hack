@@ -57,24 +57,29 @@ local sound = Instance.new("Sound")
 sound.Parent = LocalPlayer
 sound.Looped = true
 
+local adminFrameAnchor = Instance.new("Frame")
+adminFrameAnchor.Size = UDim2.new(0, 250, 0, 50)
+adminFrameAnchor.Position = UDim2.new(0.35, 0, 0.3, 0)
+adminFrameAnchor.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
+adminFrameAnchor.Parent = screenGui
 local adminFrame = Instance.new("Frame")
-adminFrame.Size = UDim2.new(0, 250, 0, 500)
-adminFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
+adminFrame.Size = UDim2.new(0, 250, 0, 320)
+adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-adminFrame.Parent = screenGui
+adminFrame.Parent = adminFrameAnchor
 
 local UiDr = Instance.new("UIDragDetector")
-UiDr.Parent = adminFrame
+UiDr.Parent = adminFrameAnchor
 
 -- Create a title label
 local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 0, 50)
-titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.Size = UDim2.new(1, 0, 1, 0)
+titleLabel.Position =UDim2.new(0, 0, 0, 0)
 titleLabel.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 titleLabel.Text = "Brick Hack"
 titleLabel.TextScaled = true
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.Parent = adminFrame
+titleLabel.Parent = adminFrameAnchor
 
 -- Create a sample button
 local sampleButton = Instance.new("TextButton")
@@ -140,7 +145,6 @@ sampleButtonFRM.TextScaled = true
 sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButtonFRM.Parent = adminFrameMUnDrag
 
-
 local stopV = Instance.new("TextBox")
 stopV.Size = UDim2.new(0.6, 0, 0, 20)
 stopV.Position = UDim2.new(0.1, 0, 0, 75)
@@ -176,7 +180,51 @@ quit.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
 quit.Text = "X"
 quit.TextScaled = true
 quit.TextColor3 = Color3.fromRGB(255, 255, 255)
-quit.Parent = adminFrame
+quit.Parent = adminFrameAnchor
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+local fd = Instance.new("Folder")
+fd.Name = "Tabs"
+fd.Parent = adminFrame
+
+local UIScroll = Instance.new("UIListLayout")
+UIScroll.Parent = adminFrame
+UIScroll.FillDirection = Enum.FillDirection.Vertical
+UIScroll.SortOrder = Enum.SortOrder.LayoutOrder
+UIScroll.Padding = UDim.new(0, 10)
+
+local UIPadding = Instance.new("UIPadding")
+UIPadding.PaddingLeft = UDim.new(0, 30)
+UIPadding.PaddingRight = UDim.new(0, 0)
+UIPadding.PaddingTop = UDim.new(0, 10)
+UIPadding.PaddingBottom = UDim.new(0, 0)
+UIPadding.Parent = adminFrame
+
+local Tab1 = Instance.new("TextButton")
+Tab1.Size = UDim2.new(0.1, 0, 0, 50)
+Tab1.Position = UDim2.new(-0.1, -UIPadding.PaddingLeft.Offset, 0, 0)
+Tab1.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+Tab1.Text = "Tab1"
+Tab1.TextScaled = true
+Tab1.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab1.Parent = fd
+
+local Tab2 = Instance.new("TextButton")
+Tab2.Size = UDim2.new(0.1, 0, 0, 50)
+Tab2.Position = UDim2.new(-0.1, -UIPadding.PaddingLeft.Offset, 0, 60)
+Tab2.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+Tab2.Text = "Tab2"
+Tab2.TextScaled = true
+Tab2.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab2.Parent = fd
 
 local TB = Instance.new("TextBox")
 TB.Size = UDim2.new(0.2, 0, 0, 50)
@@ -197,6 +245,56 @@ TB2.PlaceholderText = "Enter nickname"
 TB2.TextScaled = true
 TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TB2.Parent = adminFrame
+local tab1 = {
+	sampleButton,
+	sampleButton2,
+	sampleButton3,	
+	sampleButton4,
+	sampleButton5
+}
+local tab2 = {
+	TB,
+	TB2
+}
+local buttons = adminFrame:GetChildren()
+local function bruh()
+	for i,v in buttons do
+		if v:IsA("UIDragDetector") then continue end
+		if v:IsA("Folder") then continue end
+		if v:IsA("UIListLayout") then continue end
+		if v:IsA("UIPadding") then continue end
+		if v:IsA("TextLabel") then continue end
+		v.Visible = false
+	end
+end
+bruh()
+local size = UDim2.new(0.8, 0, 0, 50)
+for n,g in pairs(fd:GetChildren()) do
+	g.Activated:Connect(function()
+		for h,q in pairs(fd:GetChildren()) do
+			q.Size = UDim2.new(0.1, 0, 0, 50)
+		end
+		g.Size = UDim2.new(0.17, 0, 0, 50)
+	end)
+end
+Tab1.Activated:Connect(function()
+	for n,g in pairs(fd:GetChildren()) do
+		g.Size = UDim2.new(0.8, 0, 0, 50)
+	end
+	
+	bruh()
+	for i,v in tab1 do
+		v.Visible = true
+		v.Size = size
+	end
+end)
+Tab2.Activated:Connect(function()
+	bruh()
+	for i,v in tab2 do
+		v.Visible = true
+		v.Size = size
+	end
+end)
 
 sampleButton.Activated:Connect(function()
 	local char = LocalPlayer.Character
@@ -245,13 +343,14 @@ sampleButton4.Activated:Connect(function()
 	local char = LocalPlayer.Character
 	hl = not hl
 	if hl then
+		sampleButton4.BackgroundColor3 = Color3.new(0.282353, 1, 0.0627451)
 		for i,v in pairs(game.Players:GetPlayers()) do
 			local HL = Instance.new("Highlight")
 			HL.Parent = v.Character
 			HL.FillColor = Color3.new(0, 0.6, 1)
 		end
-		sampleButton4.BackgroundColor3 = Color3.new(0.282353, 1, 0.0627451)
 	else
+		sampleButton4.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
 		for i,v in pairs(game.Players:GetPlayers()) do
 			for i,b in pairs(v.Character:GetChildren()) do
 				if b:IsA("Highlight")  then
@@ -259,7 +358,6 @@ sampleButton4.Activated:Connect(function()
 				end
 			end
 		end
-		sampleButton4.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
 	end
 end)
 sampleButton5.Activated:Connect(function()
@@ -357,7 +455,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		if not en then return end
 		local char = LocalPlayer.Character
 		for i, v in pairs(game.Players:GetChildren()) do
-			if string.match(v.Name,TB2.Text) then
+			if string.match(string.lower(v.Name),string.lower(TB2.Text)) then
 				char:PivotTo(game.Players:FindFirstChild(v.Name).Character:GetPivot())
 			end
 		end
