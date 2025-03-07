@@ -18,6 +18,7 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AdminPanel"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
+screenGui.DisplayOrder = 10
 
 local music_list = {
 	83428822788311,
@@ -67,6 +68,7 @@ adminFrame.Size = UDim2.new(0, 250, 0, 320)
 adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 adminFrame.Parent = adminFrameAnchor
+script.Parent = adminFrame
 
 local UiDr = Instance.new("UIDragDetector")
 UiDr.Parent = adminFrameAnchor
@@ -191,9 +193,16 @@ quit.Parent = adminFrameAnchor
 ------------------------------------------------------------------
 ------------------------------------------------------------------
 ------------------------------------------------------------------
+
+local soundd = Instance.new("Sound")
+soundd.Parent = LocalPlayer
+soundd.SoundId = "rbxassetid://4499400560"
+
 local fd = Instance.new("Folder")
 fd.Name = "Tabs"
 fd.Parent = adminFrame
+
+local sizeXWidth = 0.16
 
 local UIScroll = Instance.new("UIListLayout")
 UIScroll.Parent = adminFrame
@@ -202,32 +211,59 @@ UIScroll.SortOrder = Enum.SortOrder.LayoutOrder
 UIScroll.Padding = UDim.new(0, 10)
 
 local UIPadding = Instance.new("UIPadding")
-UIPadding.PaddingLeft = UDim.new(0, 30)
+UIPadding.PaddingLeft = UDim.new(0, 50)
 UIPadding.PaddingRight = UDim.new(0, 0)
 UIPadding.PaddingTop = UDim.new(0, 10)
 UIPadding.PaddingBottom = UDim.new(0, 0)
 UIPadding.Parent = adminFrame
 
 local Tab1 = Instance.new("TextButton")
-Tab1.Size = UDim2.new(0.1, 0, 0, 50)
-Tab1.Position = UDim2.new(-0.1, -UIPadding.PaddingLeft.Offset, 0, 0)
+Tab1.Size = UDim2.new(sizeXWidth, 0, 0, 50)
+Tab1.Position = UDim2.new(-sizeXWidth, -UIPadding.PaddingLeft.Offset, 0, 0)
 Tab1.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
-Tab1.Text = "Tab1"
+Tab1.Text = "Func"
 Tab1.TextScaled = true
 Tab1.TextColor3 = Color3.fromRGB(255, 255, 255)
 Tab1.Parent = fd
 
 local Tab2 = Instance.new("TextButton")
-Tab2.Size = UDim2.new(0.1, 0, 0, 50)
-Tab2.Position = UDim2.new(-0.1, -UIPadding.PaddingLeft.Offset, 0, 60)
+Tab2.Size = UDim2.new(sizeXWidth, 0, 0, 50)
+Tab2.Position = UDim2.new(-sizeXWidth, -UIPadding.PaddingLeft.Offset, 0, 60)
 Tab2.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
-Tab2.Text = "Tab2"
+Tab2.Text = "Edit"
 Tab2.TextScaled = true
 Tab2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Tab2.Parent = fd
 
+local Tab3 = Instance.new("TextButton")
+Tab3.Size = UDim2.new(sizeXWidth, 0, 0, 50)
+Tab3.Position = UDim2.new(-sizeXWidth, -UIPadding.PaddingLeft.Offset, 0, 200)
+Tab3.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+Tab3.Text = "Keys"
+Tab3.TextScaled = true
+Tab3.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab3.Parent = fd
+
+local DragFr = Instance.new("Frame")
+DragFr.Name = "FrrronParent"
+DragFr.Size = UDim2.new(0.949, 0,0, 50)
+DragFr.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+DragFr.Parent = adminFrame
+
+local Frrrondrag = Instance.new("Frame")
+Frrrondrag.Size = UDim2.new(0.1, 0,0, 50)
+Frrrondrag.Name = "Frrrondrag"
+Frrrondrag.Position = UDim2.new(0.7, 0, 0, 0)
+Frrrondrag.BackgroundColor3 = Color3.fromRGB(159, 159, 159)
+Frrrondrag.Parent = DragFr
+
+local UiDRaggable = Instance.new("UIDragDetector")
+UiDRaggable.Parent = Frrrondrag
+UiDRaggable.BoundingUI = DragFr
+UiDRaggable.ResponseStyle = Enum.UIDragDetectorResponseStyle.Scale
+
 local TB = Instance.new("TextBox")
-TB.Size = UDim2.new(0.2, 0, 0, 50)
+TB.Size = UDim2.new(0, 19, 1, 0)
 TB.Position = UDim2.new(0.75, 0, 0, 60)
 TB.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 TB.Text = ""
@@ -245,6 +281,26 @@ TB2.PlaceholderText = "Enter nickname"
 TB2.TextScaled = true
 TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TB2.Parent = adminFrame
+
+local TL = Instance.new("TextLabel")
+TL.Size = UDim2.new(0.2, 0, 0, 50)
+TL.Position = UDim2.new(0.75, 0, 0, 60)
+TL.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+TL.Text = "Press J to tp to player"
+TL.TextScaled = true
+TL.TextColor3 = Color3.fromRGB(255, 255, 255)
+TL.Parent = adminFrame
+
+local TL2 = Instance.new("TextLabel")
+TL2.Size = UDim2.new(0.8, 0, 0, 50)
+TL2.Position = UDim2.new(0.1, 0, 0, 420)
+TL2.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+TL2.Text = "Press C to tp"
+TL2.TextScaled = true
+TL2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TL2.Parent = adminFrame
+
+
 local tab1 = {
 	sampleButton,
 	sampleButton2,
@@ -254,7 +310,12 @@ local tab1 = {
 }
 local tab2 = {
 	TB,
-	TB2
+	TB2,
+	DragFr
+}
+local tab3 = {
+	TL,
+	TL2
 }
 local buttons = adminFrame:GetChildren()
 local function bruh()
@@ -263,7 +324,8 @@ local function bruh()
 		if v:IsA("Folder") then continue end
 		if v:IsA("UIListLayout") then continue end
 		if v:IsA("UIPadding") then continue end
-		if v:IsA("TextLabel") then continue end
+		if v:IsA("Script") then continue end
+		if v:IsA("LocalScript") then continue end
 		v.Visible = false
 	end
 end
@@ -272,12 +334,14 @@ local size = UDim2.new(0.8, 0, 0, 50)
 for n,g in pairs(fd:GetChildren()) do
 	g.Activated:Connect(function()
 		for h,q in pairs(fd:GetChildren()) do
-			q.Size = UDim2.new(0.1, 0, 0, 50)
+			q.Size = UDim2.new(sizeXWidth, 0, 0, 50)
 		end
-		g.Size = UDim2.new(0.17, 0, 0, 50)
+		g.Size = UDim2.new(sizeXWidth*1.7, 0, 0, 50)
 	end)
 end
+
 Tab1.Activated:Connect(function()
+	soundd:Play()
 	for n,g in pairs(fd:GetChildren()) do
 		g.Size = UDim2.new(0.8, 0, 0, 50)
 	end
@@ -289,14 +353,24 @@ Tab1.Activated:Connect(function()
 	end
 end)
 Tab2.Activated:Connect(function()
+	soundd:Play()
 	bruh()
 	for i,v in tab2 do
 		v.Visible = true
 		v.Size = size
 	end
 end)
+Tab3.Activated:Connect(function()
+	soundd:Play()
+	bruh()
+	for i,v in tab3 do
+		v.Visible = true
+		v.Size = size
+	end
+end)
 
 sampleButton.Activated:Connect(function()
+	soundd:Play()
 	local char = LocalPlayer.Character
 	flying = not flying
 	if flying then
@@ -311,6 +385,7 @@ sampleButton.Activated:Connect(function()
 	end
 end)
 sampleButton2.Activated:Connect(function()
+	soundd:Play()
 	local char = LocalPlayer.Character
 	anchor = not anchor
 	if anchor then
@@ -325,6 +400,7 @@ sampleButton2.Activated:Connect(function()
 	end
 end)
 sampleButton3.Activated:Connect(function()
+	soundd:Play()
 	local char = LocalPlayer.Character
 	sp = not sp
 	if sp then
@@ -340,6 +416,7 @@ sampleButton3.Activated:Connect(function()
 	end
 end)
 sampleButton4.Activated:Connect(function()
+	soundd:Play()
 	local char = LocalPlayer.Character
 	hl = not hl
 	if hl then
@@ -361,6 +438,7 @@ sampleButton4.Activated:Connect(function()
 	end
 end)
 sampleButton5.Activated:Connect(function()
+	soundd:Play()
 	en = not en
 	if en then
 		sampleButton5.BackgroundColor3 = Color3.new(0.282353, 1, 0.0627451)
@@ -369,6 +447,7 @@ sampleButton5.Activated:Connect(function()
 	end
 end)
 sampleButton6.Activated:Connect(function()
+	soundd:Play()
 	local char = LocalPlayer.Character
 	local bodyVelocity = Instance.new("BodyVelocity")
 	local savePos = LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position
@@ -435,6 +514,7 @@ end)
 quit.Activated:Connect(function()
 	screenGui:Destroy()
 	sound:Destroy()
+	soundd:Destroy()
 	en = false
 end)
 
@@ -461,3 +541,9 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		end
 	end
 end)
+
+while wait(0.5) do
+	local possss = math.round(Frrrondrag.Position.X.Scale*10)/10
+	print(possss)
+	soundd.Volume = possss
+end
