@@ -21,42 +21,42 @@ screenGui.ResetOnSpawn = false
 screenGui.DisplayOrder = 10
 
 local music_list = {
-	83428822788311,
-	14145627144,
 	14145623658,
-	1837466605,
+	--1837466605,
 	14145621445,
 	14145625362,
 	1836019934,
-	1839904416,
+	--1839904416,
 	84784950648127,
 	17422074849,
 	14145624031,
 	120889371113999,
-	16662833837
+	16662833837,
 }
 local volume = 0.25
 
 -- Create a Frame for the admin panel
 
-local adminFrameM = Instance.new("Frame")
-adminFrameM.Size = UDim2.new(0, 250, 0, 50)
-adminFrameM.Position = UDim2.new(0.35, 0, 0.3, 0)
-adminFrameM.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
-adminFrameM.Parent = screenGui
+--local adminFrameM = Instance.new("Frame")
+--adminFrameM.Size = UDim2.new(0, 250, 0, 50)
+--adminFrameM.Position = UDim2.new(0.35, 0, 0.3, 0)
+--adminFrameM.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
+--adminFrameM.Parent = screenGui
 
-local adminFrameMUnDrag = Instance.new("ScrollingFrame")
-adminFrameMUnDrag.Size = UDim2.new(0, 250, 0, 130)
-adminFrameMUnDrag.Position = UDim2.new(0, 0, 1, 0)
-adminFrameMUnDrag.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-adminFrameMUnDrag.Parent = adminFrameM
+--local adminFrameMUnDrag = Instance.new("ScrollingFrame")
+--adminFrameMUnDrag.Size = UDim2.new(0, 250, 0, 130)
+--adminFrameMUnDrag.Position = UDim2.new(0, 0, 1, 0)
+--adminFrameMUnDrag.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+--adminFrameMUnDrag.Parent = adminFrameM
 
-local UiDr = Instance.new("UIDragDetector")
-UiDr.Parent = adminFrameM
+--local UiDr = Instance.new("UIDragDetector")
+--UiDr.Parent = adminFrameM
 
 local sound = Instance.new("Sound")
 sound.Parent = LocalPlayer
 sound.Looped = true
+
+
 
 local adminFrameAnchor = Instance.new("Frame")
 adminFrameAnchor.Size = UDim2.new(0, 250, 0, 50)
@@ -64,7 +64,7 @@ adminFrameAnchor.Position = UDim2.new(0.35, 0, 0.3, 0)
 adminFrameAnchor.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
 adminFrameAnchor.Parent = screenGui
 local adminFrame = Instance.new("Frame")
-adminFrame.Size = UDim2.new(0, 250, 0, 320)
+adminFrame.Size = UDim2.new(0, 250, 0, 330)
 adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 adminFrame.Parent = adminFrameAnchor
@@ -137,43 +137,119 @@ sampleButton6.Text = "Fly up"
 sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
+-------------------------------------------------------
 
-local sampleButtonFRM = Instance.new("TextButton")
-sampleButtonFRM.Size = UDim2.new(0.8, 0, 0, 50)
-sampleButtonFRM.Position = UDim2.new(0.1, 0, 0, 15)
-sampleButtonFRM.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-sampleButtonFRM.Text = "Change music"
-sampleButtonFRM.TextScaled = true
-sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
-sampleButtonFRM.Parent = adminFrameMUnDrag
 
-local stopV = Instance.new("TextBox")
-stopV.Size = UDim2.new(0.6, 0, 0, 20)
-stopV.Position = UDim2.new(0.1, 0, 0, 75)
-stopV.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-stopV.PlaceholderText = "Enter volume"
-stopV.Text = ""
-stopV.TextScaled = true
-stopV.TextColor3 = Color3.fromRGB(255, 255, 255)
-stopV.Parent = adminFrameMUnDrag
+
+
+
+
+
+
+-------------------------------------------------------
+local changeS = Instance.new("TextButton")
+changeS.Size = UDim2.new(0.8, 0, 0, 50)
+changeS.Position = UDim2.new(0.1, 0, 0, 360)
+changeS.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+changeS.Text = "Change sound"
+changeS.TextScaled = true
+changeS.TextColor3 = Color3.fromRGB(255, 255, 255)
+changeS.Parent = adminFrame
 
 local stop = Instance.new("TextButton")
-stop.Size = UDim2.new(0.2, 0, 0, 20)
-stop.Position = UDim2.new(0.7, 0, 0, 75)
+stop.Size = UDim2.new(0.8, 0, 0, 50)
+stop.Position = UDim2.new(0.1, 0, 0, 360)
 stop.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-stop.Text = "stop"
+stop.Text = "Set Volume"
 stop.TextScaled = true
 stop.TextColor3 = Color3.fromRGB(255, 255, 255)
-stop.Parent = adminFrameMUnDrag
+stop.Parent = adminFrame
 
-local quitS = Instance.new("TextButton")
-quitS.Size = UDim2.new(0, 20, 0, 20)
-quitS.Position = UDim2.new(1, 5, 0, -10)
-quitS.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
-quitS.Text = "X"
-quitS.TextScaled = true
-quitS.TextColor3 = Color3.fromRGB(255, 255, 255)
-quitS.Parent = adminFrameM
+local TBLL = Instance.new("TextLabel")
+TBLL.Size = UDim2.new(0, 19, 1, 0)
+TBLL.Position = UDim2.new(0.75, 0, 0, 60)
+TBLL.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+TBLL.Text = "Current sound:"
+TBLL.TextScaled = true
+TBLL.TextColor3 = Color3.fromRGB(255, 255, 255)
+TBLL.Parent = adminFrame
+
+local TBX = Instance.new("TextBox")
+TBX.Size = UDim2.new(0, 19, 1, 0)
+TBX.Position = UDim2.new(0.75, 0, 0, 60)
+TBX.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+TBX.Text = ""
+TBX.PlaceholderText = "Set Volume"
+TBX.TextScaled = true
+TBX.TextColor3 = Color3.fromRGB(255, 255, 255)
+TBX.Parent = adminFrame
+
+changeS.Activated:Connect(function()
+	sound:Stop()
+	sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
+	pos = pos + 1
+	sound:Play()
+	if pos > #music_list then
+		pos = 1
+	end
+	TBLL.Text = "Current sound:"..sound.SoundId
+	print(sound.SoundId)
+end)
+
+stop.Activated:Connect(function()
+	if tonumber(TBX.Text) then
+		sound.Volume = TBX.Text
+	else
+		TBX.Text = "Enter volume"
+		sound.Volume = volume
+	end
+end)
+
+-------------------------------------------------------
+
+
+
+
+
+
+
+-------------------------------------------------------
+--local sampleButtonFRM = Instance.new("TextButton")
+--sampleButtonFRM.Size = UDim2.new(0.8, 0, 0, 50)
+--sampleButtonFRM.Position = UDim2.new(0.1, 0, 0, 15)
+--sampleButtonFRM.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+--sampleButtonFRM.Text = "Change music"
+--sampleButtonFRM.TextScaled = true
+--sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
+--sampleButtonFRM.Parent = adminFrameMUnDrag
+
+--local stopV = Instance.new("TextBox")
+--stopV.Size = UDim2.new(0.6, 0, 0, 20)
+--stopV.Position = UDim2.new(0.1, 0, 0, 75)
+--stopV.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+--stopV.PlaceholderText = "Enter volume"
+--stopV.Text = ""
+--stopV.TextScaled = true
+--stopV.TextColor3 = Color3.fromRGB(255, 255, 255)
+--stopV.Parent = adminFrameMUnDrag
+
+--local stop = Instance.new("TextButton")
+--stop.Size = UDim2.new(0.2, 0, 0, 20)
+--stop.Position = UDim2.new(0.7, 0, 0, 75)
+--stop.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+--stop.Text = "stop"
+--stop.TextScaled = true
+--stop.TextColor3 = Color3.fromRGB(255, 255, 255)
+--stop.Parent = adminFrameMUnDrag
+
+--local quitS = Instance.new("TextButton")
+--quitS.Size = UDim2.new(0, 20, 0, 20)
+--quitS.Position = UDim2.new(1, 5, 0, -10)
+--quitS.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
+--quitS.Text = "X"
+--quitS.TextScaled = true
+--quitS.TextColor3 = Color3.fromRGB(255, 255, 255)
+--quitS.Parent = adminFrameM
 
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
@@ -244,6 +320,15 @@ Tab3.TextScaled = true
 Tab3.TextColor3 = Color3.fromRGB(255, 255, 255)
 Tab3.Parent = fd
 
+local Tab4 = Instance.new("TextButton")
+Tab4.Size = UDim2.new(sizeXWidth, 0, 0, 50)
+Tab4.Position = UDim2.new(-sizeXWidth, -UIPadding.PaddingLeft.Offset, 0, 260)
+Tab4.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+Tab4.Text = "Music"
+Tab4.TextScaled = true
+Tab4.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab4.Parent = fd
+
 local DragFr = Instance.new("Frame")
 DragFr.Name = "FrrronParent"
 DragFr.Size = UDim2.new(0.949, 0,0, 50)
@@ -306,7 +391,7 @@ local tab1 = {
 	sampleButton2,
 	sampleButton3,	
 	sampleButton4,
-	sampleButton5
+	sampleButton5,
 }
 local tab2 = {
 	TB,
@@ -315,11 +400,19 @@ local tab2 = {
 }
 local tab3 = {
 	TL,
-	TL2
+	TL2,
+	TBX
+}
+local tab4 = {
+	changeS,
+	TBLL,
+	TBX,
+	stop
 }
 local buttons = adminFrame:GetChildren()
 local function bruh()
 	for i,v in buttons do
+		soundd:Play()
 		if v:IsA("UIDragDetector") then continue end
 		if v:IsA("Folder") then continue end
 		if v:IsA("UIListLayout") then continue end
@@ -345,7 +438,6 @@ Tab1.Activated:Connect(function()
 	for n,g in pairs(fd:GetChildren()) do
 		g.Size = UDim2.new(0.8, 0, 0, 50)
 	end
-	
 	bruh()
 	for i,v in tab1 do
 		v.Visible = true
@@ -353,6 +445,9 @@ Tab1.Activated:Connect(function()
 	end
 end)
 Tab2.Activated:Connect(function()
+	for n,g in pairs(fd:GetChildren()) do
+		g.Size = UDim2.new(0.8, 0, 0, 50)
+	end
 	soundd:Play()
 	bruh()
 	for i,v in tab2 do
@@ -361,9 +456,23 @@ Tab2.Activated:Connect(function()
 	end
 end)
 Tab3.Activated:Connect(function()
+	for n,g in pairs(fd:GetChildren()) do
+		g.Size = UDim2.new(0.8, 0, 0, 50)
+	end
 	soundd:Play()
 	bruh()
 	for i,v in tab3 do
+		v.Visible = true
+		v.Size = size
+	end
+end)
+Tab4.Activated:Connect(function()
+	for n,g in pairs(fd:GetChildren()) do
+		g.Size = UDim2.new(0.8, 0, 0, 50)
+	end
+	soundd:Play()
+	bruh()
+	for i,v in tab4 do
 		v.Visible = true
 		v.Size = size
 	end
@@ -464,23 +573,23 @@ sampleButton6.Activated:Connect(function()
 	LocalPlayer.Character:WaitForChild("HumanoidRootPart").AssemblyLinearVelocity = Vector3.new(0,0,0)
 	bodyVelocity:Destroy()
 end)
-sampleButtonFRM.Activated:Connect(function()
-	sound:Stop()
-	sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
-	pos = pos + 1
-	sound:Play()
-	if pos > #music_list then
-		pos = 1
-	end
-end)
-stop.Activated:Connect(function()
-	volumed = not volumed
-	if tonumber(stopV.Text) then
-		sound.Volume = tonumber(stopV.Text)
-	else
-		sound.Volume = volume
-	end
-end)
+--sampleButtonFRM.Activated:Connect(function()
+	--sound:Stop()
+	--sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
+	--pos = pos + 1
+	--sound:Play()
+	--if pos > #music_list then
+	--	pos = 1
+	--end
+--end)
+--stop.Activated:Connect(function()
+--	volumed = not volumed
+--	if tonumber(stopV.Text) then
+--		sound.Volume = tonumber(stopV.Text)
+--	else
+--		sound.Volume = volume
+--	end
+--end)
 game:GetService("RunService").RenderStepped:Connect(function()
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
@@ -507,10 +616,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		end
 	end
 end)
-quitS.Activated:Connect(function()
-	adminFrameM:Destroy()
-	sound:Destroy()
-end)
+--quitS.Activated:Connect(function()
+--	adminFrameM:Destroy()
+--	sound:Destroy()
+--end)
 quit.Activated:Connect(function()
 	screenGui:Destroy()
 	sound:Destroy()
@@ -523,14 +632,14 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		if not en then return end
 		local char = LocalPlayer.Character
 		char:PivotTo(LocalPlayer:GetMouse().Hit)
-	elseif key.KeyCode == Enum.KeyCode.H then
-		if not en then return end
-		local char = LocalPlayer.Character
-		for i, v in pairs(game.Players:GetPlayers()) do
-			if v.Character == char then continue end
-			char:PivotTo(v.Character:GetPivot())
-			wait(.02)
-		end
+	--elseif key.KeyCode == Enum.KeyCode.H then
+	--	if not en then return end
+	--	local char = LocalPlayer.Character
+	--	for i, v in pairs(game.Players:GetPlayers()) do
+	--		if v.Character == char then continue end
+	--		char:PivotTo(v.Character:GetPivot())
+	--		wait(.02)
+	--	end
 	elseif key.KeyCode == Enum.KeyCode.J then
 		if not en then return end
 		local char = LocalPlayer.Character
