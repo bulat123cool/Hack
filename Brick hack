@@ -18,7 +18,7 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AdminPanel"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
-screenGui.DisplayOrder = 10
+screenGui.DisplayOrder = 10000
 
 local music_list = {
 	14145623658,
@@ -384,7 +384,17 @@ TL2.Text = "Press C to tp"
 TL2.TextScaled = true
 TL2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TL2.Parent = adminFrame
+-----------------------------------------------
+-----------------------------------------------
 
+-----------------------------------------------
+
+-----------------------------------------------
+
+-----------------------------------------------
+-----------------------------------------------
+
+-----------------------------------------------
 
 local tab1 = {
 	sampleButton,
@@ -396,12 +406,12 @@ local tab1 = {
 local tab2 = {
 	TB,
 	TB2,
-	DragFr
+	DragFr,
+	TBX
 }
 local tab3 = {
 	TL,
 	TL2,
-	TBX
 }
 local tab4 = {
 	changeS,
@@ -409,6 +419,15 @@ local tab4 = {
 	TBX,
 	stop
 }
+
+-----------------------------------------------
+
+-----------------------------------------------
+-----------------------------------------------
+
+-----------------------------------------------
+
+-----------------------------------------------
 local buttons = adminFrame:GetChildren()
 local function bruh()
 	for i,v in buttons do
