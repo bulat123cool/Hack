@@ -137,6 +137,28 @@ sampleButton6.Text = "Fly up"
 sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
+
+local bb = true
+
+local OpenClose = Instance.new("ImageButton")
+OpenClose.Size = UDim2.new(0, 50, 0, 50)
+OpenClose.Position = UDim2.new(0.1, 0, 0, 360)
+OpenClose.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+OpenClose.Image = "rbxassetid://10841875703"
+OpenClose.Parent = screenGui
+--local UiDr2 = Instance.new("UIDragDetector")
+--UiDr2.Parent = OpenClose
+
+OpenClose.Activated:Connect(function()
+	bb = not bb
+	if bb then
+		adminFrame.Visible = true
+		OpenClose.Image = "rbxassetid://10841875703"
+	else
+		adminFrame.Visible = false
+		OpenClose.Image = "rbxassetid://10841870664"
+	end
+end)
 -------------------------------------------------------
 
 
@@ -147,6 +169,7 @@ sampleButton6.Parent = adminFrame
 
 
 -------------------------------------------------------
+
 local changeS = Instance.new("TextButton")
 changeS.Size = UDim2.new(0.8, 0, 0, 50)
 changeS.Position = UDim2.new(0.1, 0, 0, 360)
@@ -214,43 +237,6 @@ end)
 
 
 -------------------------------------------------------
---local sampleButtonFRM = Instance.new("TextButton")
---sampleButtonFRM.Size = UDim2.new(0.8, 0, 0, 50)
---sampleButtonFRM.Position = UDim2.new(0.1, 0, 0, 15)
---sampleButtonFRM.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
---sampleButtonFRM.Text = "Change music"
---sampleButtonFRM.TextScaled = true
---sampleButtonFRM.TextColor3 = Color3.fromRGB(255, 255, 255)
---sampleButtonFRM.Parent = adminFrameMUnDrag
-
---local stopV = Instance.new("TextBox")
---stopV.Size = UDim2.new(0.6, 0, 0, 20)
---stopV.Position = UDim2.new(0.1, 0, 0, 75)
---stopV.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
---stopV.PlaceholderText = "Enter volume"
---stopV.Text = ""
---stopV.TextScaled = true
---stopV.TextColor3 = Color3.fromRGB(255, 255, 255)
---stopV.Parent = adminFrameMUnDrag
-
---local stop = Instance.new("TextButton")
---stop.Size = UDim2.new(0.2, 0, 0, 20)
---stop.Position = UDim2.new(0.7, 0, 0, 75)
---stop.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
---stop.Text = "stop"
---stop.TextScaled = true
---stop.TextColor3 = Color3.fromRGB(255, 255, 255)
---stop.Parent = adminFrameMUnDrag
-
---local quitS = Instance.new("TextButton")
---quitS.Size = UDim2.new(0, 20, 0, 20)
---quitS.Position = UDim2.new(1, 5, 0, -10)
---quitS.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
---quitS.Text = "X"
---quitS.TextScaled = true
---quitS.TextColor3 = Color3.fromRGB(255, 255, 255)
---quitS.Parent = adminFrameM
-
 local quit = Instance.new("TextButton")
 quit.Size = UDim2.new(0, 20, 0, 20)
 quit.Position = UDim2.new(1, 5, 0, -10)
@@ -260,14 +246,14 @@ quit.TextScaled = true
 quit.TextColor3 = Color3.fromRGB(255, 255, 255)
 quit.Parent = adminFrameAnchor
 ------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
-------------------------------------------------------------------
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------
 
 local soundd = Instance.new("Sound")
@@ -289,7 +275,7 @@ UIScroll.Padding = UDim.new(0, 10)
 local UIPadding = Instance.new("UIPadding")
 UIPadding.PaddingLeft = UDim.new(0, 50)
 UIPadding.PaddingRight = UDim.new(0, 0)
-UIPadding.PaddingTop = UDim.new(0, 10)
+UIPadding.PaddingTop = UDim.new(0, 0)
 UIPadding.PaddingBottom = UDim.new(0, 0)
 UIPadding.Parent = adminFrame
 
@@ -414,6 +400,12 @@ local tab3 = {
 	TL2,
 }
 local tab4 = {
+	changeS,
+	TBLL,
+	TBX,
+	stop
+}
+local tab5 = {
 	changeS,
 	TBLL,
 	TBX,
@@ -610,6 +602,9 @@ end)
 --	end
 --end)
 game:GetService("RunService").RenderStepped:Connect(function()
+	local possss = math.round(Frrrondrag.Position.X.Scale*10)/10
+	soundd.Volume = possss
+	OpenClose.Position = adminFrameAnchor.Position - UDim2.new(0,OpenClose.Size.X.Offset+1,0,0)
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
@@ -669,9 +664,3 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		end
 	end
 end)
-
-while wait(0.5) do
-	local possss = math.round(Frrrondrag.Position.X.Scale*10)/10
-	print(possss)
-	soundd.Volume = possss
-end
