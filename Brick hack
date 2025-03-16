@@ -162,6 +162,24 @@ sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
 
+local spec = Instance.new("TextButton")
+spec.Size = UDim2.new(0.8, 0, 0, 50)
+spec.Position = UDim2.new(0.1, 0, 0, 360)
+spec.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+spec.Text = "Spectate him"
+spec.TextScaled = true
+spec.TextColor3 = Color3.fromRGB(255, 255, 255)
+spec.Parent = adminFrame
+
+local highHim = Instance.new("TextButton")
+highHim.Size = UDim2.new(0.8, 0, 0, 50)
+highHim.Position = UDim2.new(0.1, 0, 0, 360)
+highHim.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+highHim.Text = "Highlight him"
+highHim.TextScaled = true
+highHim.TextColor3 = Color3.fromRGB(255, 255, 255)
+highHim.Parent = adminFrame
+
 --local UiDr2 = Instance.new("UIDragDetector")
 --UiDr2.Parent = OpenClose
 
@@ -321,6 +339,15 @@ Tab4.TextScaled = true
 Tab4.TextColor3 = Color3.fromRGB(255, 255, 255)
 Tab4.Parent = fd
 
+local Tab6 = Instance.new("TextButton")
+Tab6.Size = UDim2.new(sizeXWidth, 0, 0, 50)
+Tab6.Position = UDim2.new(-sizeXWidth, -UIPadding.PaddingLeft.Offset, 0, 140)
+Tab6.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+Tab6.Text = "Spec"
+Tab6.TextScaled = true
+Tab6.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab6.Parent = fd
+
 local DragFr = Instance.new("Frame")
 DragFr.Name = "FrrronParent"
 DragFr.Size = UDim2.new(0.949, 0,0, 50)
@@ -356,7 +383,7 @@ TB2.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 TB2.Text = ""
 TB2.PlaceholderText = "Enter nickname"
 TB2.TextScaled = true
-TB2.TextColor3 = Color3.fromRGB(0, 0, 0)
+TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TB2.Parent = adminFrame
 
 local TBL = Instance.new("TextButton")
@@ -425,7 +452,11 @@ local tab5 = {
 	TBX,
 	stop
 }
-
+local tab6 = {
+	spec,
+	highHim,
+	TB2
+}
 -----------------------------------------------
 
 -----------------------------------------------
@@ -502,6 +533,17 @@ Tab4.Activated:Connect(function()
 	soundd:Play()
 	bruh()
 	for i,v in tab4 do
+		v.Visible = true
+		v.Size = size
+	end
+end)
+Tab6.Activated:Connect(function()
+	for n,g in pairs(fd:GetChildren()) do
+		g.Size = UDim2.new(0.8, 0, 0, 50)
+	end
+	soundd:Play()
+	bruh()
+	for i,v in tab6 do
 		v.Visible = true
 		v.Size = size
 	end
@@ -601,6 +643,40 @@ sampleButton6.Activated:Connect(function()
 	LocalPlayer.Character:PivotTo(CFrame.new(savePos),CFrame.new(savePos)+Vector3.new(0,0,2))
 	LocalPlayer.Character:WaitForChild("HumanoidRootPart").AssemblyLinearVelocity = Vector3.new(0,0,0)
 	bodyVelocity:Destroy()
+end)
+spec.Activated:Connect(function()
+	soundd:Play()
+	local Mychar = LocalPlayer.Character
+	local findHim = false
+	for i, v in pairs(game.Players:GetChildren()) do
+		if string.match(string.lower(v.Name),string.lower(TB2.Text)) then
+			findHim = true
+			local Hischar = v.Character
+			workspace.Camera.CameraType = Enum.CameraType.Custom
+			workspace.Camera.CameraSubject = Hischar:FindFirstChild("Humanoid")
+		end
+	end
+	if not findHim then
+		workspace.Camera.CameraSubject = Mychar:FindFirstChild("Humanoid")
+	end
+end)
+local wantHigh = false
+highHim.Activated:Connect(function()
+	soundd:Play()
+	wantHigh = not wantHigh
+	for i, v in pairs(game.Players:GetChildren()) do
+		if string.match(string.lower(v.Name),string.lower(TB2.Text)) then
+			local Hischar = v.Character
+			if Hischar:FindFirstChildOfClass("Highlight") then
+				Hischar:FindFirstChildOfClass("Highlight"):Destroy()
+			end
+			if wantHigh then
+				local HL = Instance.new("Highlight")
+				HL.Parent = Hischar
+				HL.FillColor = Color3.new(1, 0, 0)
+			end
+		end
+	end
 end)
 TBL.Activated:Connect(function()
 	soundd:Play()
