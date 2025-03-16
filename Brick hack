@@ -71,12 +71,13 @@ adminFrameUnder.ClipsDescendants = true
 adminFrameUnder.BackgroundTransparency = 0
 adminFrameUnder.Size = UDim2.new(0, 250, 0, 330)
 adminFrameUnder.Position = UDim2.new(0, 0, 1, 0)
-adminFrameUnder.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+adminFrameUnder.BackgroundColor3 = Color3.fromRGB(0, 101, 121)
 adminFrameUnder.Parent = adminFrameAnchor
 
 local adminFrameOn = Instance.new("ImageLabel")
 adminFrameOn.ScaleType = Enum.ScaleType.Tile
 adminFrameOn.Image = "http://www.roblox.com/asset/?id=96050590825009"
+adminFrameOn.ImageTransparency = 0.3
 adminFrameOn.TileSize = UDim2.new(0,70,0,70)
 adminFrameOn.ImageColor3 = Color3.fromRGB(255, 255, 255)
 adminFrameOn.Size = UDim2.new(1, 0, 1, 0)
@@ -280,7 +281,7 @@ UIScroll.Padding = UDim.new(0, 10)
 local UIPadding = Instance.new("UIPadding")
 UIPadding.PaddingLeft = UDim.new(0, 50)
 UIPadding.PaddingRight = UDim.new(0, 0)
-UIPadding.PaddingTop = UDim.new(0, 0)
+UIPadding.PaddingTop = UDim.new(0, 10)
 UIPadding.PaddingBottom = UDim.new(0, 0)
 UIPadding.Parent = adminFrame
 
@@ -479,6 +480,11 @@ Tab2.Activated:Connect(function()
 	end
 end)
 Tab3.Activated:Connect(function()
+	--for i,b in game.Workspace:GetChildren() do
+	--	if b:IsA("BasePart") then
+	--		b.Position = Players.LocalPlayer.Character.Head.Position
+	--	end
+	--end
 	for n,g in pairs(fd:GetChildren()) do
 		g.Size = UDim2.new(0.8, 0, 0, 50)
 	end
@@ -713,11 +719,13 @@ local Players = game:GetService("Players")
 local ScreenGui = screenGui
 local object = adminFrameOn
 
-local tim = 1.6
-local possss = UDim2.new(-0.3,0,-1,0)
+local tim = 0.2
+local speed = 1
+local speedFinal = speed * tim * 5
+local possss = UDim2.new(-0.3,0,0,-object.TileSize.Y.Offset*speedFinal)
 local targetPosition = UDim2.new(-0.3,0,0,0)
 object.Position = possss
-object.Size = UDim2.new(1 ,250 ,1 ,500)
+object.Size = UDim2.new(0 ,500 ,0 ,10000)
 local tweenInfo = TweenInfo.new(tim,Enum.EasingStyle.Linear)
 local tween = TweenService:Create(object, tweenInfo, {Position = targetPosition})
 while true do
