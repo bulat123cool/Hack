@@ -9,6 +9,7 @@ local anchor = false
 local sp = false
 local hl = false
 local en = true
+local storeEn = en
 local flySpeed = 50
 local storSP
 local storJP
@@ -63,7 +64,7 @@ sound.Looped = true
 local adminFrameAnchor = Instance.new("Frame")
 adminFrameAnchor.Size = UDim2.new(0, 250, 0, 50)
 adminFrameAnchor.Position = UDim2.new(0.35, 0, 0.3, 0)
-adminFrameAnchor.BackgroundColor3 = Color3.fromRGB(84, 84, 84)
+adminFrameAnchor.BackgroundColor3 = Color3.fromRGB(0, 88, 108)
 adminFrameAnchor.Parent = screenGui
 
 local adminFrameUnder = Instance.new("Frame")
@@ -83,14 +84,14 @@ adminFrameOn.ImageColor3 = Color3.fromRGB(255, 255, 255)
 adminFrameOn.Size = UDim2.new(1, 0, 1, 0)
 adminFrameOn.Position = possss
 adminFrameOn.BackgroundTransparency = 1
-adminFrameOn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+adminFrameOn.BackgroundColor3 = Color3.fromRGB(1, 75, 141)
 adminFrameOn.Parent = adminFrameUnder
 
 local adminFrame = Instance.new("Frame")
 adminFrame.BackgroundTransparency = 1
 adminFrame.Size = UDim2.new(0, 250, 0, 330)
 adminFrame.Position = UDim2.new(0, 0, 1, 0)
-adminFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
 adminFrame.Parent = adminFrameAnchor
 
 
@@ -101,7 +102,7 @@ UiDr.Parent = adminFrameAnchor
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 1, 0)
 titleLabel.Position =UDim2.new(0, 0, 0, 0)
-titleLabel.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+titleLabel.BackgroundColor3 = Color3.fromRGB(0, 86, 126)
 titleLabel.Text = "Brick Hack"
 titleLabel.TextScaled = true
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -193,6 +194,18 @@ highHim.Parent = adminFrame
 
 
 -------------------------------------------------------
+local UIS = game:GetService("UserInputService")
+
+UIS.InputBegan:Connect(function(input, gpe)
+	if gpe then
+		storeEn = en
+		print("player is chatting")
+		storeEn = false
+	else
+		print("player is not Chatting")
+		storeEn = true
+	end
+end)
 
 local changeS = Instance.new("TextButton")
 changeS.Size = UDim2.new(0.8, 0, 0, 50)
@@ -438,7 +451,7 @@ local tab3 = {
 	TBL,
 	TBL2,
 	sampleButton5
-	
+
 }
 local tab4 = {
 	changeS,
@@ -688,13 +701,13 @@ TBL2.Activated:Connect(function()
 end)
 
 --sampleButtonFRM.Activated:Connect(function()
-	--sound:Stop()
-	--sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
-	--pos = pos + 1
-	--sound:Play()
-	--if pos > #music_list then
-	--	pos = 1
-	--end
+--sound:Stop()
+--sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
+--pos = pos + 1
+--sound:Play()
+--if pos > #music_list then
+--	pos = 1
+--end
 --end)
 --stop.Activated:Connect(function()
 --	volumed = not volumed
@@ -769,6 +782,7 @@ end)
 UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 	if key.KeyCode == Enum.KeyCode.C then
 		if not en then return end
+		if not storeEn then return end
 		if Cenabled == true then
 			local char = LocalPlayer.Character
 			char:PivotTo(LocalPlayer:GetMouse().Hit)
@@ -777,6 +791,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		end
 	elseif key.KeyCode == Enum.KeyCode.J then
 		if not en then return end
+		if not storeEn then return end
 		if Jenabled == true then
 			local char = LocalPlayer.Character
 			for i, v in pairs(game.Players:GetChildren()) do
