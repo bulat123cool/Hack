@@ -837,7 +837,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 		else
 			return
 		end
-	elseif key.KeyCode == Enum.KeyCode.B then
+	elseif key.KeyCode == Enum.KeyCode.T then
 		if not en then return end
 		if not storeEn then return end
 		if Benabled == true then
