@@ -9,10 +9,24 @@ local anchor = false
 local sp = false
 local hl = false
 local en = true
+local anim1
+local anim2
 local storeEn = en
 local flySpeed = 50
 local storSP
 local storJP
+task.spawn(function()
+	task.wait(2)
+	local char = LocalPlayer.Character
+	anim1 = Instance.new("Animator")
+	anim1.Parent = char:WaitForChild("Humanoid")
+	anim2 = Instance.new("Animation")
+	anim2.AnimationId = "rbxassetid://119044972657272"
+	anim2.Parent = script
+	print("loaded")
+end)
+
+Benabled = true
 
 local tim = 1.2
 local possss = UDim2.new(-0.3,0,-1,0)
@@ -421,6 +435,15 @@ TBL2.Parent = adminFrame
 
 Cenabled = true
 
+local TBL3 = Instance.new("TextButton")
+TBL3.Size = UDim2.new(0.8, 0, 0, 50)
+TBL3.Position = UDim2.new(0.1, 0, 0, 420)
+TBL3.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
+TBL3.Text = "Press B to do stuff"
+TBL3.TextScaled = true
+TBL3.TextColor3 = Color3.fromRGB(255, 255, 255)
+TBL3.Parent = adminFrame
+
 
 -----------------------------------------------
 -----------------------------------------------
@@ -450,6 +473,7 @@ local tab2 = {
 local tab3 = {
 	TBL,
 	TBL2,
+	TBL3,
 	sampleButton5
 
 }
@@ -699,6 +723,10 @@ TBL2.Activated:Connect(function()
 	soundd:Play()
 	Cenabled = not Cenabled
 end)
+TBL3.Activated:Connect(function()
+	soundd:Play()
+	Benabled = not Benabled
+end)
 
 --sampleButtonFRM.Activated:Connect(function()
 --sound:Stop()
@@ -727,6 +755,13 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if en  then
 			if v == TBL then
 				if Jenabled then
+					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
+				else
+					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+				end
+			end
+			if v == TBL3 then
+				if Benabled then
 					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
 				else
 					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
@@ -798,6 +833,21 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 				if string.match(string.lower(v.Name),string.lower(TB2.Text)) then
 					char:PivotTo(game.Players:FindFirstChild(v.Name).Character:GetPivot())
 				end
+			end
+		else
+			return
+		end
+	elseif key.KeyCode == Enum.KeyCode.B then
+		if not en then return end
+		if not storeEn then return end
+		if Benabled == true then
+			local playAnimTrack = anim1:LoadAnimation(anim2)
+			while true do
+				playAnimTrack:Play()
+				wait(.3)
+				if Benabled == false then break end
+				if not en then break end
+				if not storeEn then break end
 			end
 		else
 			return
