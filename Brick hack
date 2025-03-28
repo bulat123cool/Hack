@@ -15,8 +15,7 @@ local storeEn = en
 local flySpeed = 50
 local storSP
 local storJP
-task.spawn(function()
-	task.wait(2)
+LocalPlayer.CharacterAdded:Connect(function()
 	local char = LocalPlayer.Character
 	anim1 = Instance.new("Animator")
 	anim1.Parent = char:WaitForChild("Humanoid")
