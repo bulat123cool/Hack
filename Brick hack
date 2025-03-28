@@ -25,7 +25,8 @@ LocalPlayer.CharacterAdded:Connect(function()
 	print("loaded")
 end)
 
-Benabled = true
+Tenabled = true
+Henabled = true
 
 local tim = 1.2
 local possss = UDim2.new(-0.3,0,-1,0)
@@ -438,10 +439,19 @@ local TBL3 = Instance.new("TextButton")
 TBL3.Size = UDim2.new(0.8, 0, 0, 50)
 TBL3.Position = UDim2.new(0.1, 0, 0, 420)
 TBL3.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
-TBL3.Text = "Press B to do stuff"
+TBL3.Text = "Press T to do stuff"
 TBL3.TextScaled = true
 TBL3.TextColor3 = Color3.fromRGB(255, 255, 255)
 TBL3.Parent = adminFrame
+
+local TBL4 = Instance.new("TextButton")
+TBL4.Size = UDim2.new(0.8, 0, 0, 50)
+TBL4.Position = UDim2.new(0.1, 0, 0, 420)
+TBL4.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
+TBL4.Text = "Press H to do noclip"
+TBL4.TextScaled = true
+TBL4.TextColor3 = Color3.fromRGB(255, 255, 255)
+TBL4.Parent = adminFrame
 
 
 -----------------------------------------------
@@ -473,6 +483,7 @@ local tab3 = {
 	TBL,
 	TBL2,
 	TBL3,
+	TBL4,
 	sampleButton5
 
 }
@@ -724,9 +735,12 @@ TBL2.Activated:Connect(function()
 end)
 TBL3.Activated:Connect(function()
 	soundd:Play()
-	Benabled = not Benabled
+	Tenabled = not Tenabled
 end)
-
+TBL4.Activated:Connect(function()
+	soundd:Play()
+	Henabled = not Henabled
+end)
 --sampleButtonFRM.Activated:Connect(function()
 --sound:Stop()
 --sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
@@ -760,7 +774,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				end
 			end
 			if v == TBL3 then
-				if Benabled then
+				if Tenabled then
 					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
 				else
 					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
@@ -839,15 +853,77 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 	elseif key.KeyCode == Enum.KeyCode.T then
 		if not en then return end
 		if not storeEn then return end
-		if Benabled == true then
+		if Tenabled == true then
 			local playAnimTrack = anim1:LoadAnimation(anim2)
 			while true do
 				playAnimTrack:Play()
 				wait(.3)
-				if Benabled == false then break end
+				if Tenabled == false then break end
 				if not en then break end
 				if not storeEn then break end
 			end
+		else
+			return
+		end
+	elseif key.KeyCode == Enum.KeyCode.H then
+		Henabled = not Henabled
+		if not en then return end
+		if not storeEn then return end
+		if Henabled == true then
+			local direction = Vector3.new()
+			local part = Instance.new("Part")
+			part.CanCollide = false
+			part.Parent = workspace
+			part.Size = Vector3.new(1.5,2.5,1.5)
+			part.Transparency = 0.7
+			part.Position = LocalPlayer.Character.HumanoidRootPart.Position
+			part.Anchored = true
+			local t = .04
+			local rainbowColors = {
+				Color3.new(1, 0, 0.0156863),
+				Color3.new(1, 0.478431, 0.129412),
+				Color3.new(1, 1, 0),
+				Color3.new(0, 1, 0.0666667),
+				Color3.new(0.00392157, 0.866667, 1),
+				Color3.new(0, 0.235294, 1),
+				Color3.new(0.635294, 0, 1)
+			}
+			local pos = 1
+			while wait(t) do
+				pos += 1
+				if pos > 7 then
+					pos = 1
+				end
+				local c = rainbowColors[pos]
+				part.Color = c
+				LocalPlayer.Character.HumanoidRootPart.Anchored = true
+				direction = Vector3.new()
+				if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+					direction = direction + workspace.CurrentCamera.CFrame.LookVector
+				end
+				if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+					direction = direction - workspace.CurrentCamera.CFrame.LookVector
+				end
+				if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+					direction = direction - workspace.CurrentCamera.CFrame.RightVector
+				end
+				if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+					direction = direction + workspace.CurrentCamera.CFrame.RightVector
+				end
+				if tonumber(TB.Text) then
+					part.Position += direction * tonumber(TB.Text) * t
+				else
+					part.Position += direction * flySpeed * t
+				end
+				workspace.CurrentCamera.CameraSubject = part
+				if Henabled == false then
+					LocalPlayer.Character.HumanoidRootPart.Anchored = false
+					LocalPlayer.Character:PivotTo(part:GetPivot())
+					workspace.CurrentCamera.CameraSubject = LocalPlayer.Character.Humanoid
+					part:Destroy()
+					break
+				end
+			end		
 		else
 			return
 		end
