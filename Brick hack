@@ -787,7 +787,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 				end
 			end 
-			if v == TBL3 then
+			if v == TBL4 then
 				if Henabled then
 					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
 				else
