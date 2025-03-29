@@ -5,6 +5,7 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local flying = false
 local pos = 1
 local volumed = false
+local pivoted = false
 local anchor = false
 local sp = false
 local hl = false
@@ -84,7 +85,7 @@ adminFrameAnchor.Parent = screenGui
 local adminFrameUnder = Instance.new("Frame")
 adminFrameUnder.ClipsDescendants = true
 adminFrameUnder.BackgroundTransparency = 0
-adminFrameUnder.Size = UDim2.new(0, 250, 0, 330)
+adminFrameUnder.Size = UDim2.new(0, 250, 0, 370)
 adminFrameUnder.Position = UDim2.new(0, 0, 1, 0)
 adminFrameUnder.BackgroundColor3 = Color3.fromRGB(0, 101, 121)
 adminFrameUnder.Parent = adminFrameAnchor
@@ -103,7 +104,7 @@ adminFrameOn.Parent = adminFrameUnder
 
 local adminFrame = Instance.new("Frame")
 adminFrame.BackgroundTransparency = 1
-adminFrame.Size = UDim2.new(0, 250, 0, 330)
+adminFrame.Size = UDim2.new(0, 250, 0, 370)
 adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
 adminFrame.Parent = adminFrameAnchor
@@ -176,6 +177,15 @@ sampleButton6.Text = "Fly up"
 sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
+
+local pivB = Instance.new("TextButton")
+pivB.Size = UDim2.new(0.8, 0, 0, 50)
+pivB.Position = UDim2.new(0.1, 0, 0, 360)
+pivB.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+pivB.Text = "change noclip mode"
+pivB.TextScaled = true
+pivB.TextColor3 = Color3.fromRGB(255, 255, 255)
+pivB.Parent = adminFrame
 
 local spec = Instance.new("TextButton")
 spec.Size = UDim2.new(0.8, 0, 0, 50)
@@ -477,15 +487,16 @@ local tab2 = {
 	TB,
 	TB2,
 	DragFr,
-	TBX
+	TBX,
+	pivB
 }
 local tab3 = {
 	TBL,
 	TBL2,
 	TBL3,
 	TBL4,
-	sampleButton5
-
+	sampleButton5,
+	pivB
 }
 local tab4 = {
 	changeS,
@@ -681,7 +692,7 @@ sampleButton6.Activated:Connect(function()
 	bodyVelocity.MaxForce = Vector3.new(4000, 999999999, 4000)
 	bodyVelocity.Velocity = Vector3.new(0, 0, 0)
 	bodyVelocity.Parent = char:WaitForChild("HumanoidRootPart")
-	local direction = Vector3.new(0,100,0)
+	local direction = Vector3.new(0,100,100)
 	local camera = workspace.CurrentCamera
 	bodyVelocity.Velocity = direction * 999999
 	wait(3)
@@ -741,6 +752,10 @@ TBL4.Activated:Connect(function()
 	soundd:Play()
 	Henabled = not Henabled
 end)
+pivB.Activated:Connect(function()
+	soundd:Play()
+	pivoted = not pivoted
+end)
 --sampleButtonFRM.Activated:Connect(function()
 --sound:Stop()
 --sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
@@ -793,12 +808,20 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				else
 					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 				end
+			if v == pivB then
+				if pivoted then
+					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
+				else
+					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+				end
 			end 
 		else
 			v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 		end
 	end
-	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
+end
+
+game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
@@ -896,6 +919,11 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 				Color3.new(0.635294, 0, 1)
 			}
 			local pos = 1
+			local char = LocalPlayer.Character
+			local bodyVelocity = Instance.new("BodyVelocity")
+			bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
+			bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+			bodyVelocity.Parent = char:WaitForChild("HumanoidRootPart")
 			while wait(t) do
 				pos += 1
 				if pos > 7 then
@@ -923,14 +951,27 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 					part.Position += direction * flySpeed * t
 				end
 				workspace.CurrentCamera.CameraSubject = part
+				if pivoted == true then
+					LocalPlayer.Character:PivotTo(part:GetPivot())
+					bodyVelocity.MaxForce = Vector3.new(4000, 999999999, 4000)
+					bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+					bodyVelocity.Parent = char:WaitForChild("HumanoidRootPart")
+					local direction = Vector3.new(0,100,100)
+					local camera = workspace.CurrentCamera
+					bodyVelocity.Velocity = direction * 999999
+					LocalPlayer.Character:WaitForChild("Torso").AssemblyLinearVelocity = Vector3.new(direction * 999999)
+				end
 				if Henabled == false then
 					LocalPlayer.Character.HumanoidRootPart.Anchored = false
 					LocalPlayer.Character:PivotTo(part:GetPivot())
 					workspace.CurrentCamera.CameraSubject = LocalPlayer.Character.Humanoid
 					part:Destroy()
+					bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
+					bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+					LocalPlayer.Character:WaitForChild("HumanoidRootPart").AssemblyLinearVelocity = Vector3.new(0,0,0)
 					break
 				end
-			end		
+			end
 		else
 			return
 		end
