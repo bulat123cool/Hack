@@ -963,6 +963,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 				end
 				if Henabled == false then
 					LocalPlayer.Character.HumanoidRootPart.Anchored = false
+					LocalPlayer.Character.Torso.Anchored = false
 					LocalPlayer.Character:PivotTo(part:GetPivot())
 					workspace.CurrentCamera.CameraSubject = LocalPlayer.Character.Humanoid
 					part:Destroy()
