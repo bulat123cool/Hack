@@ -931,7 +931,7 @@ UserInputService.InputBegan:Connect(function(key, gameProcessedEvent)
 				end
 				local c = rainbowColors[pos]
 				part.Color = c
-				LocalPlayer.Character.HumanoidRootPart.Anchored = true
+				--LocalPlayer.Character.HumanoidRootPart.Anchored = true
 				direction = Vector3.new()
 				if UserInputService:IsKeyDown(Enum.KeyCode.W) then
 					direction = direction + workspace.CurrentCamera.CFrame.LookVector
