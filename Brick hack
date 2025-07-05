@@ -178,6 +178,15 @@ sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
 
+local sampleButton7 = Instance.new("TextButton")
+sampleButton7.Size = UDim2.new(0.8, 0, 0, 50)
+sampleButton7.Position = UDim2.new(0.1, 0, 0, 360)
+sampleButton7.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+sampleButton7.Text = "Change guinabled"
+sampleButton7.TextScaled = true
+sampleButton7.TextColor3 = Color3.fromRGB(255, 255, 255)
+sampleButton7.Parent = adminFrame
+
 local pivB = Instance.new("TextButton")
 pivB.Size = UDim2.new(0.8, 0, 0, 50)
 pivB.Position = UDim2.new(0.1, 0, 0, 360)
@@ -513,7 +522,8 @@ local tab5 = {
 local tab6 = {
 	spec,
 	highHim,
-	TB2
+	TB2,
+	sampleButton7
 }
 -----------------------------------------------
 
@@ -756,6 +766,20 @@ pivB.Activated:Connect(function()
 	soundd:Play()
 	pivoted = not pivoted
 end)
+sampleButton7.Activated:Connect(function()
+	local t = TB2.Text
+	for i,v in game.Players.LocalPlayer.PlayerGui:GetDescendants() do
+		if string.match(string.lower(v.Name),string.lower(t)) then
+			if v:IsA("ScreenGui") then
+				v.Enabled = not v.Enabled
+			else
+				task.spawn(function()
+					v.Visible = not v.Visible
+				end)
+			end
+		end
+	end
+end)
 --sampleButtonFRM.Activated:Connect(function()
 --sound:Stop()
 --sound.SoundId = "rbxassetid://"..tostring(music_list[pos])
@@ -808,20 +832,20 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				else
 					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
 				end
-			if v == pivB then
-				if pivoted then
-					v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
-				else
-					v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-				end
-			end 
-		else
-			v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+				if v == pivB then
+					if pivoted then
+						v.BackgroundColor3 = Color3.fromRGB(134, 134, 134)
+					else
+						v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+					end
+				end 
+			else
+				v.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+			end
 		end
 	end
-end
 
-game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
+	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
