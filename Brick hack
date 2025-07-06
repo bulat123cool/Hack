@@ -109,6 +109,13 @@ adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
 adminFrame.Parent = adminFrameAnchor
 
+local adminFScrroll = Instance.new("ScrollingFrame")
+adminFrame.BackgroundTransparency = 1
+adminFrame.Size = UDim2.new(0, 250, 0, 370)
+adminFrame.Position = UDim2.new(0, 0, 1, 0)
+adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
+adminFrame.Parent = adminFrame
+
 
 local UiDr = Instance.new("UIDragDetector")
 UiDr.Parent = adminFrameAnchor
@@ -177,15 +184,6 @@ sampleButton6.Text = "Fly up"
 sampleButton6.TextScaled = true
 sampleButton6.TextColor3 = Color3.fromRGB(255, 255, 255)
 sampleButton6.Parent = adminFrame
-
-local sampleButton7 = Instance.new("TextButton")
-sampleButton7.Size = UDim2.new(0.8, 0, 0, 50)
-sampleButton7.Position = UDim2.new(0.1, 0, 0, 360)
-sampleButton7.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-sampleButton7.Text = "Change guinabled"
-sampleButton7.TextScaled = true
-sampleButton7.TextColor3 = Color3.fromRGB(255, 255, 255)
-sampleButton7.Parent = adminFrame
 
 local pivB = Instance.new("TextButton")
 pivB.Size = UDim2.new(0.8, 0, 0, 50)
@@ -420,7 +418,7 @@ TB.Text = ""
 TB.PlaceholderText = "Enter fly speed"
 TB.TextScaled = true
 TB.TextColor3 = Color3.fromRGB(255, 255, 255)
-TB.Parent = adminFrame
+TB.Parent = adminFScrroll
 
 local TB2 = Instance.new("TextBox")
 TB2.Size = UDim2.new(0.8, 0, 0, 50)
@@ -430,7 +428,7 @@ TB2.Text = ""
 TB2.PlaceholderText = "Enter nickname"
 TB2.TextScaled = true
 TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TB2.Parent = adminFrame
+TB2.Parent = adminFScrroll
 
 local TBL = Instance.new("TextButton")
 TBL.Size = UDim2.new(0.2, 0, 0, 50)
@@ -439,7 +437,7 @@ TBL.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL.Text = "Press J to tp to player"
 TBL.TextScaled = true
 TBL.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL.Parent = adminFrame
+TBL.Parent = adminFScrroll
 
 Jenabled = true
 
@@ -450,7 +448,7 @@ TBL2.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL2.Text = "Press C to tp"
 TBL2.TextScaled = true
 TBL2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL2.Parent = adminFrame
+TBL2.Parent = adminFScrroll
 
 Cenabled = true
 
@@ -461,7 +459,7 @@ TBL3.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL3.Text = "Press T to do stuff"
 TBL3.TextScaled = true
 TBL3.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL3.Parent = adminFrame
+TBL3.Parent = adminFScrroll
 
 local TBL4 = Instance.new("TextButton")
 TBL4.Size = UDim2.new(0.8, 0, 0, 50)
@@ -470,7 +468,7 @@ TBL4.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL4.Text = "Press H to do noclip"
 TBL4.TextScaled = true
 TBL4.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL4.Parent = adminFrame
+TBL4.Parent = adminFScrroll
 
 
 -----------------------------------------------
@@ -765,20 +763,6 @@ end)
 pivB.Activated:Connect(function()
 	soundd:Play()
 	pivoted = not pivoted
-end)
-sampleButton7.Activated:Connect(function()
-	local t = TB2.Text
-	for i,v in game.Players.LocalPlayer.PlayerGui:GetDescendants() do
-		if string.match(string.lower(v.Name),string.lower(t)) then
-			if v:IsA("ScreenGui") then
-				v.Enabled = not v.Enabled
-			else
-				task.spawn(function()
-					v.Visible = not v.Visible
-				end)
-			end
-		end
-	end
 end)
 --sampleButtonFRM.Activated:Connect(function()
 --sound:Stop()
