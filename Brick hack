@@ -109,14 +109,6 @@ adminFrame.Position = UDim2.new(0, 0, 1, 0)
 adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
 adminFrame.Parent = adminFrameAnchor
 
-local adminFScrroll = Instance.new("ScrollingFrame")
-adminFrame.BackgroundTransparency = 1
-adminFrame.Size = UDim2.new(0, 250, 0, 370)
-adminFrame.Position = UDim2.new(0, 0, 1, 0)
-adminFrame.BackgroundColor3 = Color3.fromRGB(0, 65, 109)
-adminFrame.Parent = adminFrame
-
-
 local UiDr = Instance.new("UIDragDetector")
 UiDr.Parent = adminFrameAnchor
 
