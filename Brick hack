@@ -410,7 +410,7 @@ TB.Text = ""
 TB.PlaceholderText = "Enter fly speed"
 TB.TextScaled = true
 TB.TextColor3 = Color3.fromRGB(255, 255, 255)
-TB.Parent = adminFScrroll
+TB.Parent = adminFrame
 
 local TB2 = Instance.new("TextBox")
 TB2.Size = UDim2.new(0.8, 0, 0, 50)
@@ -420,7 +420,7 @@ TB2.Text = ""
 TB2.PlaceholderText = "Enter nickname"
 TB2.TextScaled = true
 TB2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TB2.Parent = adminFScrroll
+TB2.Parent = adminFrame
 
 local TBL = Instance.new("TextButton")
 TBL.Size = UDim2.new(0.2, 0, 0, 50)
@@ -429,7 +429,7 @@ TBL.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL.Text = "Press J to tp to player"
 TBL.TextScaled = true
 TBL.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL.Parent = adminFScrroll
+TBL.Parent = adminFrame
 
 Jenabled = true
 
@@ -440,7 +440,7 @@ TBL2.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL2.Text = "Press C to tp"
 TBL2.TextScaled = true
 TBL2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL2.Parent = adminFScrroll
+TBL2.Parent = adminFrame
 
 Cenabled = true
 
@@ -451,7 +451,7 @@ TBL3.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL3.Text = "Press T to do stuff"
 TBL3.TextScaled = true
 TBL3.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL3.Parent = adminFScrroll
+TBL3.Parent = adminFrame
 
 local TBL4 = Instance.new("TextButton")
 TBL4.Size = UDim2.new(0.8, 0, 0, 50)
@@ -460,7 +460,7 @@ TBL4.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 TBL4.Text = "Press H to do noclip"
 TBL4.TextScaled = true
 TBL4.TextColor3 = Color3.fromRGB(255, 255, 255)
-TBL4.Parent = adminFScrroll
+TBL4.Parent = adminFrame
 
 
 -----------------------------------------------
@@ -513,7 +513,6 @@ local tab6 = {
 	spec,
 	highHim,
 	TB2,
-	sampleButton7
 }
 -----------------------------------------------
 
