@@ -461,8 +461,43 @@ TBL4.Text = "Press H to do noclip"
 TBL4.TextScaled = true
 TBL4.TextColor3 = Color3.fromRGB(255, 255, 255)
 TBL4.Parent = adminFrame
+-----------------------------------------------
+-----------------------------------------------
 
+-----------------------------------------------
 
+-----------------------------------------------
+
+-----------------------------------------------
+-----------------------------------------------
+
+-----------------------------------------------
+
+local SuperTH = Instance.new("TextButton")
+TBL4.Size = UDim2.new(0.8, 0, 0, 50)
+TBL4.Position = UDim2.new(0.1, 0, 0, 420)
+TBL4.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
+TBL4.Text = "SB special hitboxes!"
+TBL4.TextScaled = true
+TBL4.TextColor3 = Color3.fromRGB(255, 255, 255)
+TBL4.Parent = adminFrame
+
+SuperTH.Activated:Connect(function()
+	task.spawn(function()
+		local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
+		--for i,v in tool:GetDescendants() do
+		--	if v:IsA("BasePart") then
+		--		local m = 5
+		--		v.Size = Vector3.new(v.Size.X*5,v.Size.Y*5,v.Size.Z*5)
+		--	end
+		--	if v:IsA("SpecialMesh") then
+		--		local m = 5
+		--		v.Scale = Vector3.new(v.Scale.X*5,v.Scale.Y*5,v.Scale.Z*5)
+		--	end
+		--end
+		--tool:ScaleTo(5)
+	end)
+end)
 -----------------------------------------------
 -----------------------------------------------
 
@@ -481,6 +516,7 @@ local tab1 = {
 	sampleButton3,	
 	sampleButton4,
 	sampleButton5,
+	SuperTH
 }
 local tab2 = {
 	TB,
@@ -513,6 +549,7 @@ local tab6 = {
 	spec,
 	highHim,
 	TB2,
+	SuperTH
 }
 -----------------------------------------------
 
@@ -822,6 +859,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
+		LocalPlayer.Character.Humanoid.EvaluateStateMachine = false
+		LocalPlayer.Character.Humanoid.PlatformStand = true
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
 		local direction = Vector3.new()
@@ -843,6 +882,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		else
 			LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
 		end
+		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
+	else
+		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
+		LocalPlayer.Character.Humanoid.PlatformStand = false
 	end
 end)
 --quitS.Activated:Connect(function()
