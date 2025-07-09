@@ -860,8 +860,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
 		local hum:Humanoid = LocalPlayer.Character.Humanoid
-		--hum:ChangeState(Enum.HumanoidStateType.GettingUp)
-		hum.EvaluateStateMachine = false
+		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
+		--hum.EvaluateStateMachine = false
 		--hum.PlatformStand = true
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
