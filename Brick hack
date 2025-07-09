@@ -13,7 +13,7 @@ local en = true
 local anim1
 local anim2
 local storeEn = en
-local flySpeed = 20
+local flySpeed = 50
 local storSP
 local storJP
 LocalPlayer.CharacterAdded:Connect(function()
@@ -885,7 +885,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		end
 		plus = direction * flySpeed
 		--plus *= 0.1
-		plus *= 2.5
+		--plus *= 2.5
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
 		--local ray = workspace:Raycast(LocalPlayer.Character.HumanoidRootPart.Position, LocalPlayer.Character.HumanoidRootPart.Position+plus*0.12)
 		--if ray then
