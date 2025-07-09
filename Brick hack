@@ -882,12 +882,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		local plus = 0
 		if tonumber(TB.Text) then
 			flySpeed = tonumber(TB.Text)
-			plus = direction * tonumber(TB.Text)
-			--LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
-		else
-			plus = direction * flySpeed
-			--LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
 		end
+		plus = direction * flySpeed
 		--plus *= 0.1
 		plus *= 2.5
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
