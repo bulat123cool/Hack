@@ -862,7 +862,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		local hum:Humanoid = LocalPlayer.Character.Humanoid
 		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
 		hum.EvaluateStateMachine = false
-		hum.PlatformStand = true
+		--hum.PlatformStand = true
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
 		local direction = Vector3.new()
