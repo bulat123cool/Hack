@@ -861,8 +861,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	if flying then
 		local hum:Humanoid = LocalPlayer.Character.Humanoid
 		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
-		--hum.EvaluateStateMachine = false
-		--hum.PlatformStand = true
+		hum.EvaluateStateMachine = false
+		hum.PlatformStand = true
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
 		local direction = Vector3.new()
@@ -883,17 +883,17 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if tonumber(TB.Text) then
 			flySpeed = tonumber(TB.Text)
 		end
-		plus = direction * flySpeed
+		--plus = direction * flySpeed
 		--plus *= 0.1
 		--plus *= 2.5
-		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
+		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
 		--local ray = workspace:Raycast(LocalPlayer.Character.HumanoidRootPart.Position, LocalPlayer.Character.HumanoidRootPart.Position+plus*0.12)
 		--if ray then
 		--	plus = direction * ray.Distance
 		--	print("part")
 		--end
 		--LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position+plus,LocalPlayer.Character.HumanoidRootPart.Position+plus+camera.CFrame.LookVector))
-		LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector))
+		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
 		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
