@@ -13,7 +13,7 @@ local en = true
 local anim1
 local anim2
 local storeEn = en
-local flySpeed = 50
+local flySpeed = 20
 local storSP
 local storJP
 LocalPlayer.CharacterAdded:Connect(function()
@@ -859,8 +859,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
 	game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
 	if flying then
-		LocalPlayer.Character.Humanoid.EvaluateStateMachine = false
-		LocalPlayer.Character.Humanoid.PlatformStand = true
+		local hum:Humanoid = LocalPlayer.Character.Humanoid
+		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
+		hum.EvaluateStateMachine = false
+		hum.PlatformStand = true
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
 		local camera = workspace.CurrentCamera
 		local direction = Vector3.new()
@@ -877,12 +879,26 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if UserInputService:IsKeyDown(Enum.KeyCode.D) then
 			direction = direction + camera.CFrame.RightVector
 		end
+		local plus = 0
 		if tonumber(TB.Text) then
-			LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * tonumber(TB.Text)
+			flySpeed = tonumber(TB.Text)
+			plus = direction * tonumber(TB.Text)
+			--LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
 		else
-			LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
+			plus = direction * flySpeed
+			--LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
 		end
-		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
+		--plus *= 0.1
+		plus *= 2.5
+		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = plus
+		--local ray = workspace:Raycast(LocalPlayer.Character.HumanoidRootPart.Position, LocalPlayer.Character.HumanoidRootPart.Position+plus*0.12)
+		--if ray then
+		--	plus = direction * ray.Distance
+		--	print("part")
+		--end
+		--LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position+plus,LocalPlayer.Character.HumanoidRootPart.Position+plus+camera.CFrame.LookVector))
+		LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector))
+		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
 		LocalPlayer.Character.Humanoid.PlatformStand = false
