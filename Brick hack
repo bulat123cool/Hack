@@ -696,11 +696,9 @@ sampleButton4.Activated:Connect(function()
 	if not hl then
 		
 		for i,v:Model in pairs(highlighted) do
-			task.spawn(function()
-				if v:FindFirstChildOfClass("Highlight") then
-					v:FindFirstChildOfClass("Highlight"):Destroy()
-				end
-			end)
+			if v:FindFirstChildOfClass("Highlight") then
+				v:FindFirstChildOfClass("Highlight"):Destroy()
+			end
 		end
 	else
 		for i,v in pairs(game.Players:GetPlayers()) do
