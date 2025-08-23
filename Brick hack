@@ -689,25 +689,42 @@ sampleButton3.Activated:Connect(function()
 		sampleButton3.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
 	end
 end)
+local highlighted = {}
 sampleButton4.Activated:Connect(function()
 	soundd:Play()
-	local char = LocalPlayer.Character
 	hl = not hl
-	if hl then
-		sampleButton4.BackgroundColor3 = Color3.new(0.282353, 1, 0.0627451)
+	if not hl then
+		
+		for i,v:Model in pairs(highlighted) do
+			task.spawn(function()
+				if v:FindFirstChildOfClass("Highlight") then
+					v:FindFirstChildOfClass("Highlight"):Destroy()
+				end
+			end)
+		end
+	else
 		for i,v in pairs(game.Players:GetPlayers()) do
+			table.insert(highlighted,v.Character)
 			local HL = Instance.new("Highlight")
 			HL.Parent = v.Character
 			HL.FillColor = Color3.new(0, 0.6, 1)
 		end
-	else
-		sampleButton4.BackgroundColor3 = Color3.new(1, 0, 0.0156863)
-		for i,v in pairs(game.Players:GetPlayers()) do
-			for i,b in pairs(v.Character:GetChildren()) do
-				if b:IsA("Highlight")  then
-					b:Destroy()
-				end
-			end
+	end
+end)
+workspace.ChildAdded:Connect(function(ch)
+	if hl then
+		if not ch:IsA("Model") then return end
+		if not ch:FindFirstChildOfClass("Humanoid") then return end
+		table.insert(highlighted,ch)
+		local HL = Instance.new("Highlight")
+		HL.Parent = ch
+		HL.FillColor = Color3.new(0, 0.6, 1)
+	end
+end)
+workspace.ChildRemoved:Connect(function(ch)
+	for i,v in pairs(highlighted) do
+		if v == ch then
+			table.remove(highlighted,i)
 		end
 	end
 end)
