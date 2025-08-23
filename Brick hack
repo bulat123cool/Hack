@@ -883,6 +883,12 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if tonumber(TB.Text) then
 			flySpeed = tonumber(TB.Text)
 		end
+		local char = LocalPlayer.Character
+		for i,v in pairs(char:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.Massless = true
+			end
+		end
 		--plus = direction * flySpeed
 		--plus *= 0.1
 		--plus *= 2.5
@@ -896,6 +902,12 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
 		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
+		local char = LocalPlayer.Character
+		for i,v in pairs(char:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.Massless = false
+			end
+		end
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
 		LocalPlayer.Character.Humanoid.PlatformStand = false
 	end
