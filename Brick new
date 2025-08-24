@@ -243,5 +243,6 @@ end)
 quit.Activated:Connect(function()
 	flying = false
 	espEn = false
+	changed = true
 	screenGui:Destroy()
 end)
