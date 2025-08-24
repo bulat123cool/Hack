@@ -89,6 +89,8 @@ flyButton.Activated:Connect(function()
 		bodyVelocity.Parent = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 	else
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity"):Destroy()
+		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
+		LocalPlayer.Character.Humanoid.PlatformStand = false
 	end
 end)
 local espAlr = {}
@@ -188,6 +190,7 @@ game["Run Service"].RenderStepped:Connect(function()
 		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
 		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
+		
 		if not changed then return end
 		local char = LocalPlayer.Character
 		for i,v in pairs(char:GetChildren()) do
@@ -195,8 +198,7 @@ game["Run Service"].RenderStepped:Connect(function()
 				v.Massless = false
 			end
 		end
-		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
-		LocalPlayer.Character.Humanoid.PlatformStand = false
+		
 	end
 end)
 
@@ -243,6 +245,5 @@ end)
 quit.Activated:Connect(function()
 	flying = false
 	espEn = false
-	changed = true
 	screenGui:Destroy()
 end)
