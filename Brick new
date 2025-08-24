@@ -22,6 +22,16 @@ scrollingFrame.Active = true
 scrollingFrame.Visible = true
 scrollingFrame.Parent = screenGui
 
+local quit = Instance.new("TextButton")
+quit.Name = "B"
+quit.Size = UDim2.new(1, -16, 0, 20)
+quit.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
+quit.Text = "quit"
+quit.TextScaled = true
+quit.TextColor3 = Color3.fromRGB(255, 255, 255)
+quit.Parent = scrollingFrame
+
+
 -- Add UIListLayout for demonstration
 local layout = Instance.new("UIListLayout")
 layout.Parent = scrollingFrame
@@ -230,3 +240,8 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
+quit.Activated:Connect(function()
+	flying = false
+	espEn = false
+	screenGui:Destroy()
+end)
