@@ -1,0 +1,232 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local UserInputService = game:GetService("UserInputService")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DraggableScrollingFrameGui"
+screenGui.Parent = PlayerGui
+screenGui.ResetOnSpawn = false
+
+-- Create ScrollingFrame
+local scrollingFrame = Instance.new("ScrollingFrame")
+scrollingFrame.Name = "DraggableScrollingFrame"
+scrollingFrame.Size = UDim2.new(0, 400, 0, 300)
+scrollingFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+scrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+scrollingFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+scrollingFrame.BorderSizePixel = 2
+scrollingFrame.ScrollBarThickness = 12
+scrollingFrame.Active = true
+scrollingFrame.Visible = true
+scrollingFrame.Parent = screenGui
+
+-- Add UIListLayout for demonstration
+local layout = Instance.new("UIListLayout")
+layout.Parent = scrollingFrame
+layout.Padding = UDim.new(0, 8)
+
+local title = Instance.new("TextLabel")
+title.Name = "A"
+title.Parent = scrollingFrame
+title.Size = UDim2.new(1, -16, 0, 50)
+title.TextScaled = true
+title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Text = "Brick hack"
+
+-- Add demo content
+local flySpeed = 50
+local flying = false
+local flyBox = Instance.new("TextBox")
+flyBox.Parent = scrollingFrame
+flyBox.Size = UDim2.new(1, -16, 0, 32)
+flyBox.PlaceholderText = "fly speed = 50"
+flyBox.Text = ""
+flyBox.TextScaled = true
+flyBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+flyBox.TextColor3 = Color3.new(1, 1, 1)
+flyBox.ClearTextOnFocus = false
+flyBox.InputEnded:Connect(function()
+	if tonumber(flyBox.Text) then
+		flySpeed = tonumber(flyBox.Text)
+		flyBox.PlaceholderText = "fly speed = "..flyBox.Text
+	end	
+end)
+local flyButton = Instance.new("TextButton")
+flyButton.Parent = scrollingFrame
+flyButton.Size = UDim2.new(1, -16, 0, 32)
+flyButton.TextScaled = true
+flyButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+flyButton.TextColor3 = Color3.new(1, 1, 1)
+task.spawn(function()
+	while true do
+		task.wait(.1)
+		if flying then
+			flyButton.Text = "flying = true"
+		else
+			flyButton.Text = "flying = false"
+		end
+	end
+end)
+flyButton.Activated:Connect(function()
+	flying = not flying
+	if flying then
+		local bodyVelocity = Instance.new("BodyVelocity")
+		bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
+		bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+		bodyVelocity.Parent = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+	else
+		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity"):Destroy()
+	end
+end)
+local espAlr = {}
+local espEn = false
+local espB = Instance.new("TextButton")
+espB.Parent = scrollingFrame
+espB.Size = UDim2.new(1, -16, 0, 32)
+espB.TextScaled = true
+espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+espB.TextColor3 = Color3.new(1, 1, 1)
+task.spawn(function()
+	while true do
+		task.wait(.1)
+		if espEn then
+			espB.Text = "espEn = true"
+		else
+			espB.Text = "espEn = false"
+		end
+	end
+end)
+espB.Activated:Connect(function()
+	espEn = not espEn
+	if not espEn then
+
+		for i,v:Model in pairs(espAlr) do
+			if v:FindFirstChildOfClass("Highlight") then
+				v:FindFirstChildOfClass("Highlight"):Destroy()
+			end
+		end
+	else
+		for i,v in pairs(game.Players:GetPlayers()) do
+			table.insert(espAlr,v.Character)
+			local HL = Instance.new("Highlight")
+			HL.Parent = v.Character
+			HL.FillColor = Color3.new(0, 0.6, 1)
+		end
+	end
+end)
+workspace.ChildAdded:Connect(function(ch)
+	if espEn then
+		if not ch:IsA("Model") then return end
+		if not ch:FindFirstChildOfClass("Humanoid") then return end
+		table.insert(espAlr,ch)
+		local HL = Instance.new("Highlight")
+		HL.Parent = ch
+		HL.FillColor = Color3.new(0, 0.6, 1)
+	end
+end)
+workspace.ChildRemoved:Connect(function(ch)
+	for i,v in pairs(espAlr) do
+		if v == ch then
+			table.remove(espAlr,i)
+		end
+	end
+end)
+local changed = false
+game["Run Service"].RenderStepped:Connect(function()
+	if flying then
+		changed = true
+		local hum:Humanoid = LocalPlayer.Character.Humanoid
+		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
+		hum.EvaluateStateMachine = false
+		hum.PlatformStand = true
+		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
+		local camera = workspace.CurrentCamera
+		local direction = Vector3.new()
+
+		if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+			direction = direction + camera.CFrame.LookVector
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+			direction = direction - camera.CFrame.LookVector
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+			direction = direction - camera.CFrame.RightVector
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+			direction = direction + camera.CFrame.RightVector
+		end
+		local plus = 0
+		local char = LocalPlayer.Character
+		for i,v in pairs(char:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.Massless = true
+			end
+		end
+		--plus = direction * flySpeed
+		--plus *= 0.1
+		--plus *= 2.5
+		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
+		--local ray = workspace:Raycast(LocalPlayer.Character.HumanoidRootPart.Position, LocalPlayer.Character.HumanoidRootPart.Position+plus*0.12)
+		--if ray then
+		--	plus = direction * ray.Distance
+		--	print("part")
+		--end
+		--LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position+plus,LocalPlayer.Character.HumanoidRootPart.Position+plus+camera.CFrame.LookVector))
+		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
+		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
+	else
+		if not changed then return end
+		local char = LocalPlayer.Character
+		for i,v in pairs(char:GetChildren()) do
+			if v:IsA("BasePart") then
+				v.Massless = false
+			end
+		end
+		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
+		LocalPlayer.Character.Humanoid.PlatformStand = false
+	end
+end)
+
+-- Function to update CanvasSize to match content
+local function updateCanvasSize()
+    scrollingFrame.CanvasSize = UDim2.new(0, scrollingFrame.AbsoluteSize.X, 0, layout.AbsoluteContentSize.Y)
+end
+
+-- Connect to UIListLayout changes
+layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvasSize)
+-- Initial update
+updateCanvasSize()
+
+-- Drag logic
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+scrollingFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = scrollingFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        scrollingFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
