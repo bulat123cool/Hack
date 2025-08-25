@@ -5,14 +5,14 @@ local UserInputService = game:GetService("UserInputService")
 
 -- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "DraggableScrollingFrameGui"
+screenGui.Name = "ScreenGui"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
 
 -- Create ScrollingFrame
 local scrollingFrame = Instance.new("ScrollingFrame")
-scrollingFrame.Name = "DraggableScrollingFrame"
-scrollingFrame.Size = UDim2.new(0, 400, 0, 300)
+scrollingFrame.Name = "ScrollingFrame"
+scrollingFrame.Size = UDim2.new(0, 250, 0, 250)
 scrollingFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 scrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 scrollingFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -23,10 +23,10 @@ scrollingFrame.Visible = true
 scrollingFrame.Parent = screenGui
 
 local quit = Instance.new("TextButton")
-quit.Name = "B"
-quit.Size = UDim2.new(1, -16, 0, 20)
-quit.BackgroundColor3 = Color3.fromRGB(198, 0, 3)
-quit.Text = "quit"
+quit.Name = "b"
+quit.Size = UDim2.new(1, 0, 0, 20)
+quit.BackgroundColor3 = Color3.fromRGB(255, 139, 141)
+quit.Text = "Quit"
 quit.TextScaled = true
 quit.TextColor3 = Color3.fromRGB(255, 255, 255)
 quit.Parent = scrollingFrame
@@ -35,23 +35,35 @@ quit.Parent = scrollingFrame
 -- Add UIListLayout for demonstration
 local layout = Instance.new("UIListLayout")
 layout.Parent = scrollingFrame
-layout.Padding = UDim.new(0, 8)
+layout.Padding = UDim.new(0, 13)
 
 local title = Instance.new("TextLabel")
-title.Name = "A"
+title.Name = "a"
 title.Parent = scrollingFrame
-title.Size = UDim2.new(1, -16, 0, 50)
+title.Size = UDim2.new(1, 0, 0, 50)
 title.TextScaled = true
 title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Text = "Brick hack"
+local grad = Instance.new("UIGradient")
+grad.Parent = title
+grad.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.new(0.2, 0, 1)),
+	ColorSequenceKeypoint.new(1, Color3.new(0.74902, 0, 1))
+})
+task.spawn(function()
+	while wait(.1) do
+		grad.Rotation += 2
+	end
+end)
 
 -- Add demo content
 local flySpeed = 50
 local flying = false
 local flyBox = Instance.new("TextBox")
+flyBox.Name = "c"
 flyBox.Parent = scrollingFrame
-flyBox.Size = UDim2.new(1, -16, 0, 32)
+flyBox.Size = UDim2.new(1, 0, 0, 32)
 flyBox.PlaceholderText = "fly speed = 50"
 flyBox.Text = ""
 flyBox.TextScaled = true
@@ -66,7 +78,8 @@ flyBox.InputEnded:Connect(function()
 end)
 local flyButton = Instance.new("TextButton")
 flyButton.Parent = scrollingFrame
-flyButton.Size = UDim2.new(1, -16, 0, 32)
+flyButton.Name = "d"
+flyButton.Size = UDim2.new(1, 0, 0, 32)
 flyButton.TextScaled = true
 flyButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flyButton.TextColor3 = Color3.new(1, 1, 1)
@@ -97,8 +110,9 @@ local espAlr = {}
 local espEn = false
 local espB = Instance.new("TextButton")
 espB.Parent = scrollingFrame
-espB.Size = UDim2.new(1, -16, 0, 32)
+espB.Size = UDim2.new(1, 0, 0, 32)
 espB.TextScaled = true
+espB.Name = "e"
 espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
 task.spawn(function()
@@ -111,6 +125,61 @@ task.spawn(function()
 		end
 	end
 end)
+----------------------------------------------------------------
+local storeSpeed = 0
+local setSpeed = 100
+local set = false
+local spBox = Instance.new("TextBox")
+spBox.Name = "f"
+spBox.Parent = scrollingFrame
+spBox.Size = UDim2.new(1, 0, 0, 32)
+spBox.PlaceholderText = "run speed = 100"
+spBox.Text = ""
+spBox.TextScaled = true
+spBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+spBox.TextColor3 = Color3.new(1, 1, 1)
+spBox.ClearTextOnFocus = false
+spBox.InputEnded:Connect(function()
+	if tonumber(spBox.Text) then
+		setSpeed = tonumber(spBox.Text)
+		spBox.PlaceholderText = "run speed = "..spBox.Text
+	end	
+end)
+local spButton = Instance.new("TextButton")
+spButton.Name = "g"
+spButton.Parent = scrollingFrame
+spButton.Size = UDim2.new(1, 0, 0, 32)
+spButton.TextScaled = true
+spButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+spButton.TextColor3 = Color3.new(1, 1, 1)
+task.spawn(function()
+	while true do
+		task.wait(.1)
+		if set then
+			spButton.Text = "running = true"
+		else
+			spButton.Text = "running = false"
+		end
+	end
+end)
+spButton.Activated:Connect(function()
+	set = not set
+	if set then
+		storeSpeed = LocalPlayer.Character.Humanoid.WalkSpeed
+	else
+		LocalPlayer.Character.Humanoid.WalkSpeed = storeSpeed
+	end
+end)
+task.spawn(function()
+	while true do
+		task.wait(.1)
+		if set then
+			task.wait(.1)
+			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
+		end
+	end
+end)
+----------------------------------------------------------------
 espB.Activated:Connect(function()
 	espEn = not espEn
 	if not espEn then
@@ -204,7 +273,7 @@ end)
 
 -- Function to update CanvasSize to match content
 local function updateCanvasSize()
-    scrollingFrame.CanvasSize = UDim2.new(0, scrollingFrame.AbsoluteSize.X, 0, layout.AbsoluteContentSize.Y)
+    scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 end
 
 -- Connect to UIListLayout changes
