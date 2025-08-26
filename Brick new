@@ -60,11 +60,6 @@ grad.Color = ColorSequence.new({
 	ColorSequenceKeypoint.new(0, Color3.new(0.2, 0, 1)),
 	ColorSequenceKeypoint.new(1, Color3.new(0.74902, 0, 1))
 })
-task.spawn(function()
-	while wait(.1) do
-		grad.Rotation += 2
-	end
-end)
 
 -- Add demo content
 local flySpeed = 50
@@ -94,16 +89,6 @@ flyButton.TextScaled = true
 flyButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flyButton.TextColor3 = Color3.new(1, 1, 1)
 flyButton.BackgroundTransparency = 0.8
-task.spawn(function()
-	while true do
-		task.wait(.1)
-		if flying then
-			flyButton.Text = "flying = true"
-		else
-			flyButton.Text = "flying = false"
-		end
-	end
-end)
 flyButton.Activated:Connect(function()
 	flying = not flying
 	if flying then
@@ -115,26 +100,6 @@ flyButton.Activated:Connect(function()
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity"):Destroy()
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
 		LocalPlayer.Character.Humanoid.PlatformStand = false
-	end
-end)
-local espAlr = {}
-local espEn = false
-local espB = Instance.new("TextButton")
-espB.Parent = scrollingFrame
-espB.Size = UDim2.new(1, 0, 0, 32)
-espB.TextScaled = true
-espB.Name = "e"
-espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-espB.TextColor3 = Color3.new(1, 1, 1)
-espB.BackgroundTransparency = 0.8
-task.spawn(function()
-	while true do
-		task.wait(.1)
-		if espEn then
-			espB.Text = "espEn = true"
-		else
-			espB.Text = "espEn = false"
-		end
 	end
 end)
 ----------------------------------------------------------------
@@ -166,16 +131,6 @@ spButton.TextScaled = true
 spButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 spButton.TextColor3 = Color3.new(1, 1, 1)
 spButton.BackgroundTransparency = 0.8
-task.spawn(function()
-	while true do
-		task.wait(.1)
-		if set then
-			spButton.Text = "running = true"
-		else
-			spButton.Text = "running = false"
-		end
-	end
-end)
 spButton.Activated:Connect(function()
 	set = not set
 	if set then
@@ -184,51 +139,64 @@ spButton.Activated:Connect(function()
 		LocalPlayer.Character.Humanoid.WalkSpeed = storeSpeed
 	end
 end)
+----------------------------------------------------------------
+local espEn = false
+local espB = Instance.new("TextButton")
+espB.Parent = scrollingFrame
+espB.Size = UDim2.new(1, 0, 0, 32)
+espB.TextScaled = true
+espB.Name = "e"
+espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+espB.TextColor3 = Color3.new(1, 1, 1)
+espB.BackgroundTransparency = 0.8
+local players = {}
+for i,v in pairs(game.Players:GetChildren()) do
+	if v:IsA("Player") then
+		table.insert(players,v)
+		print(players)
+	end
+end
+game.Players.PlayerAdded:Connect(function(plr)
+	table.insert(players,plr)
+	print(players)
+end)
+game.Players.PlayerAdded:Connect(function(plr)
+	for i,v in pairs(players) do
+		if v == plr then
+			table.remove(players,i)
+			print(players)
+		end
+	end
+end)
 task.spawn(function()
 	while true do
 		task.wait(.1)
+		grad.Rotation += 2
+		if flying then
+			flyButton.Text = "flying = true"
+		else
+			flyButton.Text = "flying = false"
+		end
+		if set then
+			spButton.Text = "running = true"
+		else
+			spButton.Text = "running = false"
+		end
+		if espEn then
+			espB.Text = "espEn = true"
+		else
+			espB.Text = "espEn = false"
+		end
 		if set then
 			task.wait(.1)
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
 	end
 end)
-----------------------------------------------------------------
 espB.Activated:Connect(function()
 	espEn = not espEn
-	if not espEn then
-
-		for i,v:Model in pairs(espAlr) do
-			if v:FindFirstChildOfClass("Highlight") then
-				v:FindFirstChildOfClass("Highlight"):Destroy()
-			end
-		end
-	else
-		for i,v in pairs(game.Players:GetPlayers()) do
-			table.insert(espAlr,v.Character)
-			local HL = Instance.new("Highlight")
-			HL.Parent = v.Character
-			HL.FillColor = Color3.new(0, 0.6, 1)
-		end
-	end
 end)
-workspace.ChildAdded:Connect(function(ch)
-	if espEn then
-		if not ch:IsA("Model") then return end
-		if not ch:FindFirstChildOfClass("Humanoid") then return end
-		table.insert(espAlr,ch)
-		local HL = Instance.new("Highlight")
-		HL.Parent = ch
-		HL.FillColor = Color3.new(0, 0.6, 1)
-	end
-end)
-workspace.ChildRemoved:Connect(function(ch)
-	for i,v in pairs(espAlr) do
-		if v == ch then
-			table.remove(espAlr,i)
-		end
-	end
-end)
+----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
 	if flying then
@@ -282,6 +250,49 @@ game["Run Service"].RenderStepped:Connect(function()
 			end
 		end
 		
+	end
+end)
+game["Run Service"].PreRender:Connect(function()
+	if espEn then
+		for i,v in pairs(players) do
+			local char = nil
+			for b,g in pairs(workspace:GetChildren()) do
+				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
+					char = g
+				end
+			end
+			if not char then return end
+			for a,c in char:GetDescendants() do
+				if c:IsA("Highlight") then
+					c:Destroy()
+				end
+			end
+			local char = nil
+			for b,g in pairs(workspace:GetChildren()) do
+				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
+					char = g
+				end
+			end
+			if not char then return end
+			local HL = Instance.new("Highlight")
+			HL.Parent = char
+			HL.FillColor = Color3.new(0, 0.6, 1)
+		end
+	else
+		for i,v in pairs(players) do
+			local char = nil
+			for b,g in pairs(workspace:GetChildren()) do
+				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
+					char = g
+				end
+			end
+			if not char then return end
+			for a,c in char:GetDescendants() do
+				if c:IsA("Highlight") then
+					c:Destroy()
+				end
+			end
+		end
 	end
 end)
 
