@@ -12,6 +12,7 @@ screenGui.ResetOnSpawn = false
 -- Create ScrollingFrame
 local scrollingFrame = Instance.new("ScrollingFrame")
 scrollingFrame.Name = "ScrollingFrame"
+scrollingFrame.BackgroundColor3 = Color3.new(1, 1, 1)
 scrollingFrame.Size = UDim2.new(0, 250, 0, 250)
 scrollingFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 scrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -22,10 +23,17 @@ scrollingFrame.Active = true
 scrollingFrame.Visible = true
 scrollingFrame.Parent = screenGui
 
+local grad1 = Instance.new("UIGradient")
+grad1.Parent = scrollingFrame
+grad1.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.new(0, 0.0666667, 1)),
+	ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0.815686))
+})
+
 local quit = Instance.new("TextButton")
 quit.Name = "b"
 quit.Size = UDim2.new(1, 0, 0, 20)
-quit.BackgroundColor3 = Color3.fromRGB(255, 139, 141)
+quit.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
 quit.Text = "Quit"
 quit.TextScaled = true
 quit.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -45,6 +53,7 @@ title.TextScaled = true
 title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Text = "Brick hack"
+title.BackgroundTransparency = 0.8
 local grad = Instance.new("UIGradient")
 grad.Parent = title
 grad.Color = ColorSequence.new({
@@ -70,6 +79,7 @@ flyBox.TextScaled = true
 flyBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flyBox.TextColor3 = Color3.new(1, 1, 1)
 flyBox.ClearTextOnFocus = false
+flyBox.BackgroundTransparency = 0.8
 flyBox.InputEnded:Connect(function()
 	if tonumber(flyBox.Text) then
 		flySpeed = tonumber(flyBox.Text)
@@ -83,6 +93,7 @@ flyButton.Size = UDim2.new(1, 0, 0, 32)
 flyButton.TextScaled = true
 flyButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flyButton.TextColor3 = Color3.new(1, 1, 1)
+flyButton.BackgroundTransparency = 0.8
 task.spawn(function()
 	while true do
 		task.wait(.1)
@@ -115,6 +126,7 @@ espB.TextScaled = true
 espB.Name = "e"
 espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
+espB.BackgroundTransparency = 0.8
 task.spawn(function()
 	while true do
 		task.wait(.1)
@@ -139,6 +151,7 @@ spBox.TextScaled = true
 spBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 spBox.TextColor3 = Color3.new(1, 1, 1)
 spBox.ClearTextOnFocus = false
+spBox.BackgroundTransparency = 0.8
 spBox.InputEnded:Connect(function()
 	if tonumber(spBox.Text) then
 		setSpeed = tonumber(spBox.Text)
@@ -152,6 +165,7 @@ spButton.Size = UDim2.new(1, 0, 0, 32)
 spButton.TextScaled = true
 spButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 spButton.TextColor3 = Color3.new(1, 1, 1)
+spButton.BackgroundTransparency = 0.8
 task.spawn(function()
 	while true do
 		task.wait(.1)
