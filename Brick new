@@ -177,6 +177,7 @@ game.Players.PlayerRemoving:Connect(function(plr)
 	end
 end)
 for i,v in pairs(players) do
+	table.insert(characters,v.Character)
 	v.CharacterAdded:Connect(function(char)
 		table.insert(characters,char)
 	end)
