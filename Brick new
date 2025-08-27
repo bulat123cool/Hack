@@ -150,24 +150,44 @@ espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
 espB.BackgroundTransparency = 0.8
 local players = {}
+local characters = {}
 for i,v in pairs(game.Players:GetChildren()) do
 	if v:IsA("Player") then
 		table.insert(players,v)
-		print(players)
 	end
 end
 game.Players.PlayerAdded:Connect(function(plr)
 	table.insert(players,plr)
-	print(players)
+	plr.CharacterAdded:Connect(function(char)
+		table.insert(characters,char)
+	end)
+	plr.CharacterRemoving:Connect(function(char)
+		for b,g in pairs(char) do
+			if g == char then
+				table.remove(characters,b)
+			end
+		end
+	end)
 end)
-game.Players.PlayerAdded:Connect(function(plr)
+game.Players.PlayerRemoving:Connect(function(plr)
 	for i,v in pairs(players) do
 		if v == plr then
 			table.remove(players,i)
-			print(players)
 		end
 	end
 end)
+for i,v in pairs(players) do
+	v.CharacterAdded:Connect(function(char)
+		table.insert(characters,char)
+	end)
+	v.CharacterRemoving:Connect(function(char)
+		for b,g in pairs(characters) do
+			if g == char then
+				table.remove(characters,b)
+			end
+		end
+	end)
+end
 task.spawn(function()
 	while true do
 		task.wait(.1)
@@ -254,39 +274,18 @@ game["Run Service"].RenderStepped:Connect(function()
 end)
 game["Run Service"].PreRender:Connect(function()
 	if espEn then
-		for i,v in pairs(players) do
-			local char = nil
-			for b,g in pairs(workspace:GetChildren()) do
-				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
-					char = g
-				end
-			end
-			if not char then return end
+		for i,char in pairs(characters) do
 			for a,c in char:GetDescendants() do
 				if c:IsA("Highlight") then
 					c:Destroy()
 				end
 			end
-			local char = nil
-			for b,g in pairs(workspace:GetChildren()) do
-				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
-					char = g
-				end
-			end
-			if not char then return end
 			local HL = Instance.new("Highlight")
 			HL.Parent = char
 			HL.FillColor = Color3.new(0, 0.6, 1)
 		end
 	else
-		for i,v in pairs(players) do
-			local char = nil
-			for b,g in pairs(workspace:GetChildren()) do
-				if g:IsA("Model") and g:FindFirstChild("Humanoid") and g.Name == v.Name then
-					char = g
-				end
-			end
-			if not char then return end
+		for i,char in pairs(characters) do
 			for a,c in char:GetDescendants() do
 				if c:IsA("Highlight") then
 					c:Destroy()
