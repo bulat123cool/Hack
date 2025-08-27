@@ -375,4 +375,6 @@ quit.Activated:Connect(function()
 	flying = false
 	espEn = false
 	screenGui:Destroy()
+	wait(1)
+	script:Destroy()
 end)
