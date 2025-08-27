@@ -275,6 +275,38 @@ game["Run Service"].RenderStepped:Connect(function()
 		
 	end
 end)
+game["Run Service"].RenderStepped:Connect(function()
+	if espEn then
+		for i,plr in pairs(players) do
+			local dead = false
+			local char = plr.Character
+			for a,c in char:GetDescendants() do
+				if c:IsA("Highlight") then
+					c:Destroy()
+					wait()
+				end
+			end
+			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
+				print("dead")
+				dead = true
+			end
+			if dead then return end
+			local HL = Instance.new("Highlight")
+			HL.Parent = char
+			HL.FillColor = Color3.new(0, 0.6, 1)
+		end
+	else
+		for i,plr in pairs(players) do
+			local char = plr.Character
+			for a,c in char:GetDescendants() do
+				if c:IsA("Highlight") then
+					c:Destroy()
+					wait()
+				end
+			end
+		end
+	end
+end)
 
 -- Function to update CanvasSize to match content
 local function updateCanvasSize()
@@ -315,33 +347,9 @@ UserInputService.InputChanged:Connect(function(input)
         )
     end
 end)
+
 quit.Activated:Connect(function()
 	flying = false
 	espEn = false
 	screenGui:Destroy()
 end)
-while wait(0.1) do
-		for i,plr in pairs(players) do
-		local char = plr.Character
-		if not char:FindFirstChildOfClass("Humanoid") then return end
-		for a,c in char:GetDescendants() do
-			if c:IsA("Highlight") then
-				c:Destroy()
-			end
-		end
-	end
-	if espEn then
-		for i,plr in pairs(players) do
-			local dead = false
-			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
-				print("dead")
-				dead = true
-			end
-			if dead then return end
-			local char = plr.Character
-			local HL = Instance.new("Highlight")
-			HL.Parent = char
-			HL.FillColor = Color3.new(0, 0.6, 1)
-		end
-	end
-end
