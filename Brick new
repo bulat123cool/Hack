@@ -149,8 +149,11 @@ espB.Name = "e"
 espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
 espB.BackgroundTransparency = 0.8
+-----------------------------------------------------------------------
 local players = {}
 local characters = {}
+local died = {}
+-----------------------------------------------------------------------
 for i,v in pairs(game.Players:GetChildren()) do
 	if v:IsA("Player") then
 		table.insert(players,v)
@@ -211,12 +214,28 @@ task.spawn(function()
 			task.wait(.1)
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
+		for i,plr in pairs(players) do
+			plr.CharacterAdded:Connect(function(char)
+				for b,g in pairs(died) do
+					if g == char then
+						print("removed")
+						table.remove(died,b)
+					end
+				end
+			end)
+			task.spawn(function()
+				local char = plr.Character
+				char:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+					print("death")
+					table.insert(died,char)
+				end)
+			end)
+		end
 	end
 end)
 espB.Activated:Connect(function()
 	espEn = not espEn
 end)
-local died = {}
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
@@ -278,9 +297,6 @@ game["Run Service"].PreRender:Connect(function()
 		for i,plr in pairs(players) do
 			task.spawn(function()
 				local char = plr.Character
-				char.Humanoid.Died:Connect(function()
-					table.insert(died,char)
-				end)
 				for a,c in char:GetDescendants() do
 					if c:IsA("Highlight") then
 						c:Destroy()
@@ -289,17 +305,19 @@ game["Run Service"].PreRender:Connect(function()
 				
 			end)
 		end
+		if #died < 1 then return end
 		for i,char in pairs(died) do
 			task.spawn(function()
 				for a,c in char:GetDescendants() do
 					if c:IsA("Highlight") then
 						c:Destroy()
 					end
-					for b,g in pairs(died) do
-						if g == char then
-							table.remove(died,b)
-						end
-					end
+					--for b,g in pairs(died) do
+					--	if g == char then
+					--		wait(.2)
+					--		table.remove(died,b)
+					--	end
+					--end
 				end
 			end)
 		end
@@ -307,6 +325,13 @@ game["Run Service"].PreRender:Connect(function()
 	if espEn then
 		for i,plr in pairs(players) do
 			task.spawn(function()
+				local dead = false
+				for b,g in pairs(died) do
+					if g == plr.Character then
+						dead = true
+					end
+				end
+				if dead then return end
 				local char = plr.Character
 				local HL = Instance.new("Highlight")
 				HL.Parent = char
