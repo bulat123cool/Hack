@@ -200,7 +200,6 @@ espB.Activated:Connect(function()
 			HL.Name = "goyda"
 			HL.Parent = char
 			HL.FillColor = Color3.new(0, 0.6, 1)
-			wait(.1)
 		end
 	else
 		for i,plr in pairs(players) do
