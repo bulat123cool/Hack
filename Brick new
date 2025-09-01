@@ -177,15 +177,39 @@ task.spawn(function()
 end)
 espB.Activated:Connect(function()
 	espEn = not espEn
-	if not espEn then
-		local players = game.Players:GetPlayers()
+	local players = game.Players:GetPlayers()
+	if espEn then
+		for i,plr in pairs(players) do
+			local dead = false
+			local char = plr.Character
+			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
+				print("dead")
+				task.spawn(function()
+					for a,c in char:GetDescendants() do
+						if c:IsA("Highlight") then
+							wait(.1)
+							game.Debris:AddItem(c,0)
+						end
+					end
+				end)
+				dead = true
+			end
+			if dead then return end
+			if char:FindFirstChild("goyda") then return end
+			local HL = Instance.new("Highlight")
+			HL.Name = "goyda"
+			HL.Parent = char
+			HL.FillColor = Color3.new(0, 0.6, 1)
+			wait(.1)
+		end
+	else
 		for i,plr in pairs(players) do
 			local char = plr.Character
 			task.spawn(function()
 				for a,c in char:GetDescendants() do
 					if c:IsA("Highlight") then
 						c:Destroy()
-						wait()
+						wait(.1)
 					end
 				end
 			end)
@@ -246,32 +270,6 @@ game["Run Service"].RenderStepped:Connect(function()
 			end
 		end
 		
-	end
-end)
-game["Run Service"].PreRender:Connect(function()
-	local players = game.Players:GetPlayers()
-	if espEn then
-		for i,plr in pairs(players) do
-			local dead = false
-			local char = plr.Character
-			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
-				print("dead")
-				task.spawn(function()
-					for a,c in char:GetDescendants() do
-						if c:IsA("Highlight") then
-							game.Debris:AddItem(c,0)
-						end
-					end
-				end)
-				dead = true
-			end
-			if dead then return end
-			if char:FindFirstChild("goyda") then return end
-			local HL = Instance.new("Highlight")
-			HL.Name = "goyda"
-			HL.Parent = char
-			HL.FillColor = Color3.new(0, 0.6, 1)
-		end
 	end
 end)
 
