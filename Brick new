@@ -187,7 +187,7 @@ espB.Activated:Connect(function()
 				task.spawn(function()
 					for a,c in char:GetDescendants() do
 						if c:IsA("Highlight") then
-							wait(.1)
+							wait()
 							game.Debris:AddItem(c,0)
 						end
 					end
