@@ -8,6 +8,10 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ScreenGui"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
+screenGui.DisplayOrder= 10
+screenGui.AutoLocalize = true
+screenGui.IgnoreGuiInset = true
+screenGui.ClipToDeviceSafeArea = true
 
 -- Create ScrollingFrame
 local scrollingFrame = Instance.new("ScrollingFrame")
@@ -187,7 +191,7 @@ espB.Activated:Connect(function()
 				task.spawn(function()
 					for a,c in char:GetDescendants() do
 						if c:IsA("Highlight") then
-							wait()
+							wait(.1)
 							game.Debris:AddItem(c,0)
 						end
 					end
@@ -200,6 +204,7 @@ espB.Activated:Connect(function()
 			HL.Name = "goyda"
 			HL.Parent = char
 			HL.FillColor = Color3.new(0, 0.6, 1)
+			wait(.1)
 		end
 	else
 		for i,plr in pairs(players) do
