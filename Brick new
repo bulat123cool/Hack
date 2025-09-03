@@ -305,13 +305,6 @@ game["Run Service"].PreRender:Connect(function()
 	if espEn then
 		for i,plr in pairs(players) do
 			local char = plr.Character
-			local f = false
-			for i,v in pairs(dontHigh) do
-				if v == v then
-					f = true
-				end
-			end
-			if f then return end
 			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
 				if char:FindFirstChild("goyda") then return end
 				local HL = Instance.new("Highlight")
