@@ -276,21 +276,42 @@ game["Run Service"].RenderStepped:Connect(function()
 		
 	end
 end)
-
+local dontHigh = {LocalPlayer.Character}
 game["Run Service"].PreRender:Connect(function()
 	local players = game:GetService("Players"):GetPlayers()
+	for i,v in pairs(workspace:GetChildren()) do
+		if v:FindFirstChild("Humanoid") then
+			if v:FindFirstChild("Humanoid").Health <= 0 then
+				task.spawn(function()
+					v:FindFirstChild("goyda"):Destroy()
+					local f = false
+					for i,v in pairs(dontHigh) do
+						if v == v then
+							f = true
+						end
+					end
+					if f then return end
+					table.insert(dontHigh, v)
+					task.wait(game.Players.RespawnTime)
+					for i,v in pairs(dontHigh) do
+						if v == v then
+							table.remove(dontHigh, i)
+						end
+					end
+				end)
+			end
+		end
+	end
 	if espEn then
 		for i,plr in pairs(players) do
-			local dead = false
-			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
-				dead = true
-				local aura = plr.Character:FindFirstChild("goyda")
-				if aura then
-					aura:Destroy()
+			local char = plr.Character
+			local f = false
+			for i,v in pairs(dontHigh) do
+				if v == v then
+					f = true
 				end
 			end
-			if dead then return end
-			local char = plr.Character
+			if f then return end
 			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
 				if char:FindFirstChild("goyda") then return end
 				local HL = Instance.new("Highlight")
@@ -301,9 +322,8 @@ game["Run Service"].PreRender:Connect(function()
 		end
 	else
 		for i,plr in pairs(players) do
-			local aura = plr.Character:FindFirstChild("goyda")
-			if aura then
-				aura:Destroy()
+			if plr.Character:FindFirstChild("goyda") then
+				plr.Character:FindFirstChild("goyda"):Destroy()
 			end
 		end
 	end
