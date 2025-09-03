@@ -8,7 +8,7 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ScreenGui"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
-screenGui.DisplayOrder= 1000000
+screenGui.DisplayOrder= 10
 screenGui.AutoLocalize = true
 screenGui.IgnoreGuiInset = true
 screenGui.ClipToDeviceSafeArea = true
@@ -181,44 +181,44 @@ task.spawn(function()
 end)
 espB.Activated:Connect(function()
 	espEn = not espEn
-	local players = game.Players:GetPlayers()
-	if espEn then
-		for i,plr in pairs(players) do
-			local dead = false
-			local char = plr.Character
-			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
-				print("dead")
-				task.spawn(function()
-					for a,c in char:GetDescendants() do
-						if c:IsA("Highlight") then
-							wait(.1)
-							game.Debris:AddItem(c,0)
-						end
-					end
-				end)
-				dead = true
-			end
-			if dead then return end
-			if char:FindFirstChild("goyda") then return end
-			local HL = Instance.new("Highlight")
-			HL.Name = "goyda"
-			HL.Parent = char
-			HL.FillColor = Color3.new(0, 0.6, 1)
-			wait(.1)
-		end
-	else
-		for i,plr in pairs(players) do
-			local char = plr.Character
-			task.spawn(function()
-				for a,c in char:GetDescendants() do
-					if c:IsA("Highlight") then
-						c:Destroy()
-						wait(.1)
-					end
-				end
-			end)
-		end
-	end
+	--local players = game.Players:GetPlayers()
+	--if espEn then
+	--	for i,plr in pairs(players) do
+	--		local dead = false
+	--		local char = plr.Character
+	--		if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
+	--			print("dead")
+	--			task.spawn(function()
+	--				for a,c in char:GetDescendants() do
+	--					if c:IsA("Highlight") then
+	--						wait(.1)
+	--						game.Debris:AddItem(c,0)
+	--					end
+	--				end
+	--			end)
+	--			dead = true
+	--		end
+	--		if dead then return end
+	--		if char:FindFirstChild("goyda") then return end
+	--		local HL = Instance.new("Highlight")
+	--		HL.Name = "goyda"
+	--		HL.Parent = char
+	--		HL.FillColor = Color3.new(0, 0.6, 1)
+	--		wait(.1)
+	--	end
+	--else
+	--	for i,plr in pairs(players) do
+	--		local char = plr.Character
+	--		task.spawn(function()
+	--			for a,c in char:GetDescendants() do
+	--				if c:IsA("Highlight") then
+	--					c:Destroy()
+	--					wait(.1)
+	--				end
+	--			end
+	--		end)
+	--	end
+	--end
 end)
 ----------------------------------------
 local changed = false
@@ -274,6 +274,38 @@ game["Run Service"].RenderStepped:Connect(function()
 			end
 		end
 		
+	end
+end)
+
+game["Run Service"].PreRender:Connect(function()
+	local players = game:GetService("Players"):GetPlayers()
+	if espEn then
+		for i,plr in pairs(players) do
+			local dead = false
+			if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
+				dead = true
+				local aura = plr.Character:FindFirstChild("goyda")
+				if aura then
+					aura:Destroy()
+				end
+			end
+			if dead then return end
+			local char = plr.Character
+			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
+				if char:FindFirstChild("goyda") then return end
+				local HL = Instance.new("Highlight")
+				HL.Name = "goyda"
+				HL.Parent = char
+				HL.FillColor = Color3.new(0, 0.6, 1)
+			end
+		end
+	else
+		for i,plr in pairs(players) do
+			local aura = plr.Character:FindFirstChild("goyda")
+			if aura then
+				aura:Destroy()
+			end
+		end
 	end
 end)
 
