@@ -5,7 +5,7 @@ local UserInputService = game:GetService("UserInputService")
 
 -- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "ScreenGui"
+screenGui.Name = "Yea am pro"
 screenGui.Parent = PlayerGui
 screenGui.ResetOnSpawn = false
 screenGui.DisplayOrder= 10
