@@ -156,6 +156,8 @@ espB.BackgroundTransparency = 0.8
 -----------------------------------------------------------------------
 task.spawn(function()
 	while true do
+		screenGui.Enabled = true
+		scrollingFrame.Visible = true
 		task.wait(.1)
 		grad.Rotation += 2
 		if flying then
