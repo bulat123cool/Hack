@@ -199,6 +199,11 @@ task.spawn(function()
 		else
 			flyButton.Text = "flying = false"
 		end
+		if RunMode then
+			spButtonM.Text = "RunModeChanged = true"
+		else
+			spButtonM.Text = "RunModeChanged = false"
+		end
 		if set then
 			spButton.Text = "running = true"
 		else
@@ -358,17 +363,13 @@ game["Run Service"].PreRender:Connect(function()
 	end
 end)
 
--- Function to update CanvasSize to match content
 local function updateCanvasSize()
 	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 end
 
--- Connect to UIListLayout changes
 layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvasSize)
--- Initial update
 updateCanvasSize()
 
--- Drag logic
 local dragging = false
 local dragStart = nil
 local startPos = nil
@@ -404,4 +405,3 @@ quit.Activated:Connect(function()
 	screenGui:Destroy()
 end)
 
---game:GetService("UserInputService")
