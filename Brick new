@@ -170,12 +170,12 @@ end)
 
 task.spawn(function()
 	while true do
-		if RunMode == false then
+		if RunMode == false and set then
 			local player = game.Players.LocalPlayer
 			local camera = game.Workspace.CurrentCamera
 			local character = player.Character or player.CharacterAdded:Wait()
 			local humanoid = character:WaitForChild("Humanoid")
-			
+
 			-- Function to determine movement direction
 			local function getMovementDirection()
 				local moveDirection = humanoid.MoveDirection
@@ -184,7 +184,7 @@ task.spawn(function()
 			end
 			local dir = getMovementDirection()
 			--print(dir)
-			dir *= character.Humanoid.WalkSpeed*Runs
+			dir *= character.Humanoid.WalkSpeed*setSpeed/16
 			local rootPart:Part = character:FindFirstChild("HumanoidRootPart")
 			if not rootPart then return end
 			--local previousVEl =
@@ -301,7 +301,7 @@ game["Run Service"].RenderStepped:Connect(function()
 		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
 		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
-		
+
 		if not changed then return end
 		local char = LocalPlayer.Character
 		for i,v in pairs(char:GetChildren()) do
@@ -309,7 +309,7 @@ game["Run Service"].RenderStepped:Connect(function()
 				v.Massless = false
 			end
 		end
-		
+
 	end
 end)
 local dontHigh = {}
@@ -360,7 +360,7 @@ end)
 
 -- Function to update CanvasSize to match content
 local function updateCanvasSize()
-    scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 end
 
 -- Connect to UIListLayout changes
@@ -374,28 +374,28 @@ local dragStart = nil
 local startPos = nil
 
 scrollingFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-        dragging = true
-        dragStart = input.Position
-        startPos = scrollingFrame.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = scrollingFrame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
 end)
 
 UserInputService.InputChanged:Connect(function(input)
-    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-        local delta = input.Position - dragStart
-        scrollingFrame.Position = UDim2.new(
-            startPos.X.Scale,
-            startPos.X.Offset + delta.X,
-            startPos.Y.Scale,
-            startPos.Y.Offset + delta.Y
-        )
-    end
+	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+		local delta = input.Position - dragStart
+		scrollingFrame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
 end)
 
 quit.Activated:Connect(function()
