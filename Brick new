@@ -153,9 +153,43 @@ espB.Name = "e"
 espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
 espB.BackgroundTransparency = 0.8
+
+local RunMode = true
+local spButtonM = Instance.new("TextButton")
+spButtonM.Name = "g"
+spButtonM.Parent = scrollingFrame
+spButtonM.Size = UDim2.new(1, 0, 0, 32)
+spButtonM.TextScaled = true
+spButtonM.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+spButtonM.TextColor3 = Color3.new(1, 1, 1)
+spButtonM.BackgroundTransparency = 0.8
+spButtonM.Activated:Connect(function()
+	RunMode = not RunMode
+end)
 -----------------------------------------------------------------------
+
 task.spawn(function()
 	while true do
+		if RunMode == false then
+			local player = game.Players.LocalPlayer
+			local camera = game.Workspace.CurrentCamera
+			local character = player.Character or player.CharacterAdded:Wait()
+			local humanoid = character:WaitForChild("Humanoid")
+			
+			-- Function to determine movement direction
+			local function getMovementDirection()
+				local moveDirection = humanoid.MoveDirection
+				--print(moveDirection)
+				return moveDirection.Magnitude > 0 and moveDirection.Unit or Vector3.new(0, 0, 0)
+			end
+			local dir = getMovementDirection()
+			--print(dir)
+			dir *= character.Humanoid.WalkSpeed*Runs
+			local rootPart:Part = character:FindFirstChild("HumanoidRootPart")
+			if not rootPart then return end
+			--local previousVEl =
+			rootPart.AssemblyLinearVelocity = Vector3.new(dir.X,rootPart.AssemblyLinearVelocity.Y,dir.Z)
+		end
 		screenGui.Enabled = true
 		scrollingFrame.Visible = true
 		task.wait(.1)
@@ -369,3 +403,5 @@ quit.Activated:Connect(function()
 	espEn = false
 	screenGui:Destroy()
 end)
+
+--game:GetService("UserInputService")
