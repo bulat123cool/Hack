@@ -153,43 +153,28 @@ espB.Name = "e"
 espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 espB.TextColor3 = Color3.new(1, 1, 1)
 espB.BackgroundTransparency = 0.8
-
-local RunMode = true
-local spButtonM = Instance.new("TextButton")
-spButtonM.Name = "g"
-spButtonM.Parent = scrollingFrame
-spButtonM.Size = UDim2.new(1, 0, 0, 32)
-spButtonM.TextScaled = true
-spButtonM.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-spButtonM.TextColor3 = Color3.new(1, 1, 1)
-spButtonM.BackgroundTransparency = 0.8
-spButtonM.Activated:Connect(function()
-	RunMode = not RunMode
+local players = game:GetService("Players"):GetPlayers()
+game.Players.PlayerAdded:Connect(function(plr)
+	table.insert(players, plr)
+	print("added"..plr.Name)
+end)
+local viewportFrame = Instance.new("ViewportFrame")
+viewportFrame.Name = "ESP"
+viewportFrame.Size = UDim2.new(1, 0, 1, 0)
+viewportFrame.BackgroundTransparency = 1
+viewportFrame.LightDirection = Vector3.new(0, 0, 0)
+viewportFrame.LightColor = Color3.fromRGB(255, 255, 255)
+viewportFrame.Ambient = Color3.fromRGB(255, 255, 255)
+viewportFrame.CurrentCamera = game.Workspace.CurrentCamera
+viewportFrame.Parent = screenGui
+viewportFrame.ZIndex=0
+espB.Activated:Connect(function()
+	espEn = not espEn
 end)
 -----------------------------------------------------------------------
 
 task.spawn(function()
 	while true do
-		if RunMode == false and set then
-			local player = game.Players.LocalPlayer
-			local camera = game.Workspace.CurrentCamera
-			local character = player.Character or player.CharacterAdded:Wait()
-			local humanoid = character:WaitForChild("Humanoid")
-
-			-- Function to determine movement direction
-			local function getMovementDirection()
-				local moveDirection = humanoid.MoveDirection
-				--print(moveDirection)
-				return moveDirection.Magnitude > 0 and moveDirection.Unit or Vector3.new(0, 0, 0)
-			end
-			local dir = getMovementDirection()
-			--print(dir)
-			dir *= character.Humanoid.WalkSpeed*setSpeed/16
-			local rootPart:Part = character:FindFirstChild("HumanoidRootPart")
-			if not rootPart then return end
-			--local previousVEl =
-			rootPart.AssemblyLinearVelocity = Vector3.new(dir.X,rootPart.AssemblyLinearVelocity.Y,dir.Z)
-		end
 		screenGui.Enabled = true
 		scrollingFrame.Visible = true
 		task.wait(.1)
@@ -199,11 +184,6 @@ task.spawn(function()
 		else
 			flyButton.Text = "flying = false"
 		end
-		if RunMode then
-			spButtonM.Text = "RunModeChanged = true"
-		else
-			spButtonM.Text = "RunModeChanged = false"
-		end
 		if set then
 			spButton.Text = "running = true"
 		else
@@ -211,6 +191,15 @@ task.spawn(function()
 		end
 		if espEn then
 			espB.Text = "espEn = true"
+			for i, plr in pairs(players) do
+				local model = plr.Character
+				model.Archivable = true
+				if model then
+					local clone = model:Clone()
+					clone.Parent = viewportFrame
+					game.Debris:AddItem(clone,0.1)
+				end
+			end
 		else
 			espB.Text = "espEn = false"
 		end
@@ -220,47 +209,7 @@ task.spawn(function()
 		end
 	end
 end)
-espB.Activated:Connect(function()
-	espEn = not espEn
-	--local players = game.Players:GetPlayers()
-	--if espEn then
-	--	for i,plr in pairs(players) do
-	--		local dead = false
-	--		local char = plr.Character
-	--		if plr.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then
-	--			print("dead")
-	--			task.spawn(function()
-	--				for a,c in char:GetDescendants() do
-	--					if c:IsA("Highlight") then
-	--						wait(.1)
-	--						game.Debris:AddItem(c,0)
-	--					end
-	--				end
-	--			end)
-	--			dead = true
-	--		end
-	--		if dead then return end
-	--		if char:FindFirstChild("goyda") then return end
-	--		local HL = Instance.new("Highlight")
-	--		HL.Name = "goyda"
-	--		HL.Parent = char
-	--		HL.FillColor = Color3.new(0, 0.6, 1)
-	--		wait(.1)
-	--	end
-	--else
-	--	for i,plr in pairs(players) do
-	--		local char = plr.Character
-	--		task.spawn(function()
-	--			for a,c in char:GetDescendants() do
-	--				if c:IsA("Highlight") then
-	--					c:Destroy()
-	--					wait(.1)
-	--				end
-	--			end
-	--		end)
-	--	end
-	--end
-end)
+
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
@@ -318,50 +267,29 @@ game["Run Service"].RenderStepped:Connect(function()
 	end
 end)
 local dontHigh = {}
-game["Run Service"].PreRender:Connect(function()
-	local players = game:GetService("Players"):GetPlayers()
-	--for i,v in pairs(workspace:GetChildren()) do
-	--	if v:FindFirstChild("Humanoid") then
-	--		if v:FindFirstChild("Humanoid").Health <= 0 then
-	--			task.spawn(function()
-	--				v:FindFirstChild("goyda"):Destroy()
-	--				local f = false
-	--				for i,v in pairs(dontHigh) do
-	--					if v == v then
-	--						f = true
-	--					end
-	--				end
-	--				if f then return end
-	--				table.insert(dontHigh, v)
-	--				task.wait(game.Players.RespawnTime+1)
-	--				for i,v in pairs(dontHigh) do
-	--					if v == v then
-	--						table.remove(dontHigh, i)
-	--					end
-	--				end
-	--			end)
-	--		end
-	--	end
-	--end
-	if espEn then
-		for i,plr in pairs(players) do
-			local char = plr.Character
-			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
-				if char:FindFirstChild("goyda") then return end
-				local HL = Instance.new("Highlight")
-				HL.Name = "goyda"
-				HL.Parent = char
-				HL.FillColor = Color3.new(0, 0.6, 1)
-			end
-		end
-	else
-		for i,plr in pairs(players) do
-			if plr.Character:FindFirstChild("goyda") then
-				plr.Character:FindFirstChild("goyda"):Destroy()
-			end
-		end
-	end
+game.Players.PlayerAdded:Connect(function(plr)
+	print(plr.Name)
 end)
+--game["Run Service"].PreRender:Connect(function()
+--	if espEn then
+--		for i,plr in pairs(game.Players:GetPlayers()) do
+--			local char = plr.Character
+--			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
+--				if char:FindFirstChild("goyda") then return end
+--				local HL = Instance.new("Highlight")
+--				HL.Name = "goyda"
+--				HL.Parent = char
+--				HL.FillColor = Color3.new(0, 0.6, 1)
+--			end
+--		end
+--	else
+--		for i,plr in pairs(game.Players:GetPlayers()) do
+--			if plr.Character:FindFirstChild("goyda") then
+--				plr.Character:FindFirstChild("goyda"):Destroy()
+--			end
+--		end
+--	end
+--end)
 
 local function updateCanvasSize()
 	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
@@ -404,4 +332,3 @@ quit.Activated:Connect(function()
 	espEn = false
 	screenGui:Destroy()
 end)
-
