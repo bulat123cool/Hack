@@ -192,7 +192,7 @@ fogpluslighting.Activated:Connect(function()
 end)
 
 -----------------------------------------------------------------------
-
+local updt = 0.01
 task.spawn(function()
 	while true do
 		screenGui.Enabled = true
@@ -224,14 +224,14 @@ task.spawn(function()
 							clone.Parent = viewportFrame
 							clone.Color = Color3.fromRGB(255, 255, 255)
 							clone.Transparency = 0.5
-							game.Debris:AddItem(clone,0.01)
+							game.Debris:AddItem(clone,updt)
 						else
 							local part = Instance.new("Highlight")
 							part.OutlineTransparency = 1
 							part.FillTransparency = 0.5
 							part.FillColor = Color3.fromRGB(255, 255, 255)
 							part.Parent = model
-							game.Debris:AddItem(part,0.3)
+							game.Debris:AddItem(part,updt)
 						end
 					end
 				end
@@ -243,7 +243,7 @@ task.spawn(function()
 		if set then
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
-		task.wait(.01)
+		task.wait(updt)
 	end
 end)
 
