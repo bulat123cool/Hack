@@ -192,7 +192,8 @@ fogpluslighting.Activated:Connect(function()
 end)
 
 -----------------------------------------------------------------------
-local updt = 0.01
+local updt = 0.1
+local updt2 = 0.01
 task.spawn(function()
 	while true do
 		screenGui.Enabled = true
@@ -211,7 +212,7 @@ task.spawn(function()
 		end
 		if espEn then
 			espB.Text = "espEn = true"
-			
+
 		else
 			espB.Text = "espEn = false"
 		end
@@ -226,27 +227,29 @@ end)
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
-	for i, plr in pairs(players) do
-		if plr ~= LocalPlayer then
-			local model = plr.Character
-			model.Archivable = true
-			if model then
-				local limbs = {"Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Torso"}
-				for i, limb in pairs(limbs) do
-					if model:FindFirstChild(limb) then
-						local part = model:FindFirstChild(limb)
-						local clone = part:Clone()
-						clone.Parent = viewportFrame
-						clone.Color = Color3.fromRGB(255, 255, 255)
-						clone.Transparency = 0.5
-						game.Debris:AddItem(clone,updt)
-					else
-						local part = Instance.new("Highlight")
-						part.OutlineTransparency = 1
-						part.FillTransparency = 0.5
-						part.FillColor = Color3.fromRGB(255, 255, 255)
-						part.Parent = model
-						game.Debris:AddItem(part,updt)
+	if espEn then
+		for i, plr in pairs(players) do
+			if plr ~= LocalPlayer then
+				local model = plr.Character
+				model.Archivable = true
+				if model then
+					local limbs = {"Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Torso"}
+					for i, limb in pairs(limbs) do
+						if model:FindFirstChild(limb) then
+							local part = model:FindFirstChild(limb)
+							local clone = part:Clone()
+							clone.Parent = viewportFrame
+							clone.Color = Color3.fromRGB(255, 255, 255)
+							clone.Transparency = 0.5
+							game.Debris:AddItem(clone,updt2)
+						else
+							local part = Instance.new("Highlight")
+							part.OutlineTransparency = 1
+							part.FillTransparency = 0.5
+							part.FillColor = Color3.fromRGB(255, 255, 255)
+							part.Parent = model
+							game.Debris:AddItem(part,updt2)
+						end
 					end
 				end
 			end
