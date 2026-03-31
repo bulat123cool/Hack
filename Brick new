@@ -242,6 +242,9 @@ game["Run Service"].PreRender:Connect(function()
 							game.Debris:AddItem(clone,0.01)
 						else
 							local part = Instance.new("Highlight")
+							part.OutlineTransparency = 1
+							part.FillTransparency = 0.5
+							part.FillColor = Color3.fromRGB(255, 255, 255)
 							part.Parent = model
 							game.Debris:AddItem(part,0.01)
 						end
