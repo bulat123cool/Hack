@@ -238,6 +238,7 @@ game["Run Service"].PreRender:Connect(function()
 							local clone = part:Clone()
 							clone.Parent = viewportFrame
 							clone.Color = Color3.fromRGB(255, 255, 255)
+							clone.Transparency = 0.5
 							game.Debris:AddItem(clone,0.01)
 						end
 					end
