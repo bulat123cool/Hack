@@ -211,17 +211,6 @@ task.spawn(function()
 		end
 		if espEn then
 			espB.Text = "espEn = true"
-			for i, plr in pairs(players) do
-				if plr ~= LocalPlayer then
-					local model = plr.Character
-					model.Archivable = true
-					if model then
-						local clone = model:Clone()
-						clone.Parent = viewportFrame
-						game.Debris:AddItem(clone,0.03)
-					end
-				end
-			end
 		else
 			espB.Text = "espEn = false"
 		end
@@ -232,8 +221,24 @@ task.spawn(function()
 	end
 end)
 
+
 ----------------------------------------
 local changed = false
+game["Run Service"].PreRender:Connect(function()
+	if espEn then
+		for i, plr in pairs(players) do
+			if plr ~= LocalPlayer then
+				local model = plr.Character
+				model.Archivable = true
+				if model then
+					local clone = model:Clone()
+					clone.Parent = viewportFrame
+					game.Debris:AddItem(clone,0.03)
+				end
+			end
+		end
+	end
+end)
 game["Run Service"].RenderStepped:Connect(function()
 	if flying then
 		changed = true
