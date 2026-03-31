@@ -233,7 +233,7 @@ game["Run Service"].PreRender:Connect(function()
 				if model then
 					local clone = model:Clone()
 					clone.Parent = viewportFrame
-					game.Debris:AddItem(clone,0.03)
+					game.Debris:AddItem(clone,0.01)
 				end
 			end
 		end
