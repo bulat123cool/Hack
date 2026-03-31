@@ -240,6 +240,12 @@ game["Run Service"].PreRender:Connect(function()
 							clone.Color = Color3.fromRGB(255, 255, 255)
 							clone.Transparency = 0.5
 							game.Debris:AddItem(clone,0.01)
+						else
+							local part = Instance.new("Part")
+							part.Size = Vector3.new(3, 3, 3)
+							part.CFrame = plr.Character:GetPivot()
+							game.Debris:AddItem(part,0.01)
+							continue
 						end
 					end
 				end
