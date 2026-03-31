@@ -243,7 +243,7 @@ task.spawn(function()
 		if set then
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
-		task.wait(.03)
+		task.wait(.01)
 	end
 end)
 
