@@ -232,6 +232,11 @@ game["Run Service"].PreRender:Connect(function()
 				model.Archivable = true
 				if model then
 					local clone = model:Clone()
+					for i,v in pairs(clone:GetDescendants()) do
+						if v:IsA("Accessory") then
+							v:Destroy()
+						end
+					end
 					clone.Parent = viewportFrame
 					game.Debris:AddItem(clone,0.01)
 				end
