@@ -211,22 +211,7 @@ task.spawn(function()
 		end
 		if espEn then
 			espB.Text = "espEn = true"
-		else
-			espB.Text = "espEn = false"
-		end
-		if set then
-			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
-		end
-		task.wait(.1)
-	end
-end)
-
-
-----------------------------------------
-local changed = false
-game["Run Service"].PreRender:Connect(function()
-	if espEn then
-		for i, plr in pairs(players) do
+			for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
 				local model = plr.Character
 				model.Archivable = true
@@ -252,8 +237,19 @@ game["Run Service"].PreRender:Connect(function()
 				end
 			end
 		end
+		else
+			espB.Text = "espEn = false"
+		end
+		if set then
+			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
+		end
+		task.wait(.1)
 	end
 end)
+
+
+----------------------------------------
+local changed = false
 game["Run Service"].RenderStepped:Connect(function()
 	if flying then
 		changed = true
