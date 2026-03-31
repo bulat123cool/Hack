@@ -231,7 +231,7 @@ task.spawn(function()
 							part.FillTransparency = 0.5
 							part.FillColor = Color3.fromRGB(255, 255, 255)
 							part.Parent = model
-							game.Debris:AddItem(part,0.01)
+							game.Debris:AddItem(part,0.3)
 						end
 					end
 				end
