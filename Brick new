@@ -182,7 +182,7 @@ fogpluslighting.Name = "h"
 fogpluslighting.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 fogpluslighting.TextColor3 = Color3.new(1, 1, 1)
 fogpluslighting.BackgroundTransparency = 0.8
-fogpluslighting.Text = "disable fog and fullbright"
+fogpluslighting.Text = "antifog and fullbright"
 fogpluslighting.Activated:Connect(function()
 	game.Lighting.FogEnd = 100000
 	game.Lighting.FogStart = 0
