@@ -244,6 +244,7 @@ game["Run Service"].PreRender:Connect(function()
 							local part = Instance.new("Part")
 							part.Size = Vector3.new(3, 3, 3)
 							part.CFrame = model.HumanoidRootPart.CFrame
+							part.Parent = viewportFrame
 							game.Debris:AddItem(part,0.01)
 							continue
 						end
