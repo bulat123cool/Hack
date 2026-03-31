@@ -174,6 +174,23 @@ viewportFrame.ZIndex=0
 espB.Activated:Connect(function()
 	espEn = not espEn
 end)
+local fogpluslighting = Instance.new("TextButton")
+fogpluslighting.Parent = scrollingFrame
+fogpluslighting.Size = UDim2.new(1, 0, 0, 32)
+fogpluslighting.TextScaled = true
+fogpluslighting.Name = "h"
+fogpluslighting.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+fogpluslighting.TextColor3 = Color3.new(1, 1, 1)
+fogpluslighting.BackgroundTransparency = 0.8
+fogpluslighting.Text = "disable fog and fullbright"
+fogpluslighting.Activated:Connect(function()
+	game.Lighting.FogEnd = 100000
+	game.Lighting.FogStart = 0
+	game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+	game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+	game.Lighting.Brightness = 3
+end)
+
 -----------------------------------------------------------------------
 
 task.spawn(function()
@@ -271,30 +288,6 @@ game["Run Service"].RenderStepped:Connect(function()
 
 	end
 end)
-local dontHigh = {}
-game.Players.PlayerAdded:Connect(function(plr)
-	print(plr.Name)
-end)
---game["Run Service"].PreRender:Connect(function()
---	if espEn then
---		for i,plr in pairs(game.Players:GetPlayers()) do
---			local char = plr.Character
---			if (LocalPlayer.Character.Head.Position - LocalPlayer.Character.Head.Position).Magnitude < 100 then
---				if char:FindFirstChild("goyda") then return end
---				local HL = Instance.new("Highlight")
---				HL.Name = "goyda"
---				HL.Parent = char
---				HL.FillColor = Color3.new(0, 0.6, 1)
---			end
---		end
---	else
---		for i,plr in pairs(game.Players:GetPlayers()) do
---			if plr.Character:FindFirstChild("goyda") then
---				plr.Character:FindFirstChild("goyda"):Destroy()
---			end
---		end
---	end
---end)
 
 local function updateCanvasSize()
 	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
