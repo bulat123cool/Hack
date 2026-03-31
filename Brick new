@@ -192,21 +192,23 @@ task.spawn(function()
 		if espEn then
 			espB.Text = "espEn = true"
 			for i, plr in pairs(players) do
-				local model = plr.Character
-				model.Archivable = true
-				if model then
-					local clone = model:Clone()
-					clone.Parent = viewportFrame
-					game.Debris:AddItem(clone,0.1)
+				if plr ~= LocalPlayer then
+					local model = plr.Character
+					model.Archivable = true
+					if model then
+						local clone = model:Clone()
+						clone.Parent = viewportFrame
+						game.Debris:AddItem(clone,0.03)
+					end
 				end
 			end
 		else
 			espB.Text = "espEn = false"
 		end
 		if set then
-			task.wait(.1)
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
+		task.wait(.1)
 	end
 end)
 
