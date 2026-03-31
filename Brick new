@@ -231,14 +231,13 @@ game["Run Service"].PreRender:Connect(function()
 				local model = plr.Character
 				model.Archivable = true
 				if model then
-					local clone = model:Clone()
-					for i,v in pairs(clone:GetDescendants()) do
-						if v:IsA("Accessory") then
-							v:Destroy()
+					local limbs = {"Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Torso"}
+					for i, limb in pairs(limbs) do
+						if model:FindFirstChild(limb) then
+							local part = model:FindFirstChild(limb)
+							part:Clone().Parent = viewportFrame
 						end
 					end
-					clone.Parent = viewportFrame
-					game.Debris:AddItem(clone,0.01)
 				end
 			end
 		end
