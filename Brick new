@@ -227,8 +227,8 @@ end)
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
+	viewportFrame:ClearAllChildren()
 	if espEn then
-		viewportFrame:ClearAllChildren()
 		for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
 				local model = plr.Character
