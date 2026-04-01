@@ -234,26 +234,12 @@ game["Run Service"].RenderStepped:Connect(function()
 				local model = plr.Character
 				model.Archivable = true
 				if model then
-					--local limbs = {"Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Torso"}
-					--for i, limb in pairs(limbs) do
-					--	if model:FindFirstChild(limb) then
-					--		local part = model:FindFirstChild(limb)
-					--		local clone = part:Clone()
-					--		clone.Parent = viewportFrame
-					--		clone.Color = Color3.fromRGB(255, 255, 255)
-					--		clone.Transparency = 0.5
-					--	else
-							local part:Highlight = Instance.new("Highlight")
-							part.OutlineTransparency = 1
-							part.FillTransparency = 0.5
-							part.FillColor = Color3.fromRGB(255, 255, 255)
-							part.Adornee = model
-							part.Parent = viewportFrame
-					--		task.wait(.1)
-					--		part:Destroy()
-					--		break
-					--	end
-					--end
+					local part:Highlight = Instance.new("Highlight")
+					part.OutlineTransparency = 1
+					part.FillTransparency = 0.5
+					part.FillColor = Color3.fromRGB(255, 255, 255)
+					part.Adornee = model
+					part.Parent = viewportFrame
 				end
 			end
 		end
@@ -287,18 +273,8 @@ game["Run Service"].RenderStepped:Connect(function()
 				v.Massless = true
 			end
 		end
-		--plus = direction * flySpeed
-		--plus *= 0.1
-		--plus *= 2.5
 		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
-		--local ray = workspace:Raycast(LocalPlayer.Character.HumanoidRootPart.Position, LocalPlayer.Character.HumanoidRootPart.Position+plus*0.12)
-		--if ray then
-		--	plus = direction * ray.Distance
-		--	print("part")
-		--end
-		--LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position+plus,LocalPlayer.Character.HumanoidRootPart.Position+plus+camera.CFrame.LookVector))
 		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
-		--LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector * 2)
 	else
 
 		if not changed then return end
