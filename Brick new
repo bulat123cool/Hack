@@ -203,11 +203,6 @@ task.spawn(function()
 			flyButton.Text = "flying = false"
 		end
 		if FandLEn then
-			game.Lighting.FogEnd = 100000
-			game.Lighting.FogStart = 0
-			game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-			game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-			game.Lighting.Brightness = 3
 			fogpluslighting.Text = "af and fb = true"
 		else
 			fogpluslighting.Text = "af and fb = false"
@@ -234,7 +229,14 @@ end)
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
-	viewportFrame:ClearAllChildren()
+	if FandLEn then
+		game.Lighting.FogEnd = 100000
+		game.Lighting.FogStart = 0
+		game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+		game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+		game.Lighting.Brightness = 3
+		viewportFrame:ClearAllChildren()
+	end
 	if espEn then
 		for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
