@@ -208,9 +208,9 @@ task.spawn(function()
 			game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
 			game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
 			game.Lighting.Brightness = 3
-			flyButton.Text = "af and fb = true"
+			fogpluslighting.Text = "af and fb = true"
 		else
-			flyButton.Text = "af and fb = false"
+			fogpluslighting.Text = "af and fb = false"
 		end
 		if set then
 			spButton.Text = "running = true"
