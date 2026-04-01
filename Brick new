@@ -228,6 +228,7 @@ end)
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
 	if espEn then
+		viewportFrame:ClearAllChildren()
 		for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
 				local model = plr.Character
@@ -241,15 +242,16 @@ game["Run Service"].RenderStepped:Connect(function()
 							clone.Parent = viewportFrame
 							clone.Color = Color3.fromRGB(255, 255, 255)
 							clone.Transparency = 0.5
-							game.Debris:AddItem(clone,updt2)
 						else
-							local part = Instance.new("Highlight")
+							local part:Highlight = Instance.new("Highlight")
 							part.OutlineTransparency = 1
 							part.FillTransparency = 0.5
 							part.FillColor = Color3.fromRGB(255, 255, 255)
-							part.Parent = model
-							task.wait(0.01)
-							part:Destroy()
+							part.Adornee = model
+							part.Parent = viewportFrame
+							--task.wait(.1)
+							--part:Destroy()
+							--break
 						end
 					end
 				end
