@@ -197,7 +197,7 @@ flycombination.Name = "i"
 flycombination.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flycombination.TextColor3 = Color3.new(0.8, 0, 1)
 flycombination.BackgroundTransparency = 0.8
-flycombination.Text = "CapsLock + E"
+flycombination.Text = "CapsLock + E to fly"
 
 
 
