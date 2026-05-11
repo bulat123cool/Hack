@@ -197,7 +197,7 @@ flycombination.Name = "i"
 flycombination.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 flycombination.TextColor3 = Color3.new(0.8, 0, 1)
 flycombination.BackgroundTransparency = 0.8
-flycombination.Text = "CapsLock + E to fly"
+flycombination.Text = "LeftShift + E to fly"
 
 
 
@@ -337,7 +337,7 @@ local tabPressed = false
 
 -- Track when Tab is pressed down
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if input.KeyCode == Enum.KeyCode.CapsLock then
+	if input.KeyCode == Enum.KeyCode.LeftShift then
 		tabPressed = true
 	end
 
@@ -359,7 +359,7 @@ end)
 
 -- Track when Tab is released
 UserInputService.InputEnded:Connect(function(input, gameProcessed)
-	if input.KeyCode == Enum.KeyCode.CapsLock then
+	if input.KeyCode == Enum.KeyCode.LeftShift then
 		tabPressed = false
 	end
 end)
