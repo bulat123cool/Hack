@@ -66,13 +66,13 @@ grad.Color = ColorSequence.new({
 })
 
 -- Add demo content
-local flySpeed = 50
+local flySpeed = 100
 local flying = false
 local flyBox = Instance.new("TextBox")
 flyBox.Name = "c"
 flyBox.Parent = scrollingFrame
 flyBox.Size = UDim2.new(1, 0, 0, 32)
-flyBox.PlaceholderText = "fly speed = 50"
+flyBox.PlaceholderText = "fly speed = 100"
 flyBox.Text = ""
 flyBox.TextScaled = true
 flyBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
@@ -108,13 +108,13 @@ flyButton.Activated:Connect(function()
 end)
 ----------------------------------------------------------------
 local storeSpeed = 0
-local setSpeed = 100
+local setSpeed = 70
 local set = false
 local spBox = Instance.new("TextBox")
 spBox.Name = "f"
 spBox.Parent = scrollingFrame
 spBox.Size = UDim2.new(1, 0, 0, 32)
-spBox.PlaceholderText = "run speed = 100"
+spBox.PlaceholderText = "run speed = 70"
 spBox.Text = ""
 spBox.TextScaled = true
 spBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
