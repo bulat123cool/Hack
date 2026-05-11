@@ -184,9 +184,22 @@ fogpluslighting.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 fogpluslighting.TextColor3 = Color3.new(1, 1, 1)
 fogpluslighting.BackgroundTransparency = 0.8
 fogpluslighting.Text = "antifog and fullbright"
+
 fogpluslighting.Activated:Connect(function()
 	FandLEn = not FandLEn
 end)
+
+local flycombination = Instance.new("TextLabel")
+flycombination.Parent = scrollingFrame
+flycombination.Size = UDim2.new(1, 0, 0, 32)
+flycombination.TextScaled = true
+flycombination.Name = "i"
+flycombination.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+flycombination.TextColor3 = Color3.new(1, 1, 1)
+flycombination.BackgroundTransparency = 0.8
+flycombination.Text = "CapsLock + E"
+
+
 
 -----------------------------------------------------------------------
 local updt = 0.1
@@ -320,8 +333,27 @@ scrollingFrame.InputBegan:Connect(function(input)
 		end)
 	end
 end)
+local tabPressed = false
 
-UserInputService.InputChanged:Connect(function(input)
+-- Track when Tab is pressed down
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.CapsLock then
+		tabPressed = true
+	end
+
+	-- Check if C is pressed while Tab is held
+	if input.KeyCode == Enum.KeyCode.E and tabPressed then
+		flying = not flying
+	end
+end)
+
+-- Track when Tab is released
+UserInputService.InputEnded:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.CapsLock then
+		tabPressed = false
+	end
+end)
+UserInputService.InputChanged:Connect(function(input,processed)
 	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 		local delta = input.Position - dragStart
 		scrollingFrame.Position = UDim2.new(
