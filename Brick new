@@ -248,8 +248,8 @@ game["Run Service"].RenderStepped:Connect(function()
 		game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
 		game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
 		game.Lighting.Brightness = 3
-		viewportFrame:ClearAllChildren()
 	end
+	viewportFrame:ClearAllChildren()
 	if espEn then
 		for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
