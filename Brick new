@@ -248,7 +248,7 @@ task.spawn(function()
 		else
 			espB.Text = "espEn = false"
 		end
-		if set then
+		if set and LocalPlayer.Character then
 			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 		end
 		task.wait(updt)
