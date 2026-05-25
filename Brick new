@@ -53,6 +53,7 @@ restart.TextColor3 = Color3.fromRGB(255, 255, 255)
 restart.Parent = scrollingFrame
 
 restart.Activated:Connect(function()
+	script.Archivable = true
 	local clone = script:Clone()
 	clone.Parent = script.Parent
 	screenGui:Destroy()
