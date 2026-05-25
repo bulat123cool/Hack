@@ -43,6 +43,22 @@ quit.TextScaled = true
 quit.TextColor3 = Color3.fromRGB(255, 255, 255)
 quit.Parent = scrollingFrame
 
+local restart = Instance.new("TextButton")
+restart.Name = "c"
+restart.Size = UDim2.new(1, 0, 0, 20)
+restart.BackgroundColor3 = Color3.fromRGB(0, 174, 255)
+restart.Text = "Restart"
+restart.TextScaled = true
+restart.TextColor3 = Color3.fromRGB(255, 255, 255)
+restart.Parent = scrollingFrame
+
+restart.Activated:Connect(function()
+	local clone = script:Clone()
+	clone.Parent = script.Parent
+	screenGui:Destroy()
+	script:Destroy()
+end)
+
 
 -- Add UIListLayout for demonstration
 local layout = Instance.new("UIListLayout")
@@ -69,7 +85,7 @@ grad.Color = ColorSequence.new({
 local flySpeed = 100
 local flying = false
 local flyBox = Instance.new("TextBox")
-flyBox.Name = "c"
+flyBox.Name = "c1"
 flyBox.Parent = scrollingFrame
 flyBox.Size = UDim2.new(1, 0, 0, 32)
 flyBox.PlaceholderText = "fly speed = 100"
