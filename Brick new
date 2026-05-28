@@ -333,7 +333,6 @@ task.spawn(function()
 		if set and game.Players.LocalPlayer.Character then
 			if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
 				if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
-					spLabel.Text = "Current Player Speed:"..game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
 					LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 				end
 			end
@@ -346,6 +345,13 @@ end)
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
+	if game.Players.LocalPlayer.Character then
+		if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+			if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+				spLabel.Text = "Speed : "..game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
+			end
+		end
+	end
 	if FandLEn then
 		game.Lighting.FogEnd = 100000
 		game.Lighting.FogStart = 0
