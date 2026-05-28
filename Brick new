@@ -332,8 +332,8 @@ task.spawn(function()
 		grad.Rotation += 2
 		if set and game.Players.LocalPlayer.Character then
 			if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-				spLabel.Text = "Current Player Speed:"..game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed
 				if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+					spLabel.Text = "Current Player Speed:"..game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
 					LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
 				end
 			end
