@@ -419,13 +419,16 @@ game["Run Service"].RenderStepped:Connect(function()
 
 	end
 end)
-
-local function updateCanvasSize()
+local function updateCanvasSize(reason)
 	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+	if reason then
+		scrollingFrame.CanvasPosition = Vector2.new(0,layout.AbsoluteContentSize.Y)
+	end
 end
-
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvasSize)
 updateCanvasSize()
+layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	updateCanvasSize("update")
+end)
 
 local dragging = false
 local dragStart = nil
