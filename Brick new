@@ -122,6 +122,11 @@ flyButton.Activated:Connect(function()
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
 		LocalPlayer.Character.Humanoid.PlatformStand = false
 	end
+	if flying then
+		flyButton.Text = "flying = true"
+	else
+		flyButton.Text = "flying = false"
+	end
 end)
 ----------------------------------------------------------------
 local storeSpeed = 0
@@ -159,6 +164,11 @@ spButton.Activated:Connect(function()
 	else
 		LocalPlayer.Character.Humanoid.WalkSpeed = storeSpeed
 	end
+	if set then
+		spButton.Text = "running = true"
+	else
+		spButton.Text = "running = false"
+	end
 end)
 ----------------------------------------------------------------
 local espEn = false
@@ -190,6 +200,12 @@ viewportFrame.Parent = screenGui
 viewportFrame.ZIndex=0
 espB.Activated:Connect(function()
 	espEn = not espEn
+	if espEn then
+		espB.Text = "espEn = true"
+
+	else
+		espB.Text = "espEn = false"
+	end
 end)
 local FandLEn = false
 local fogpluslighting = Instance.new("TextButton")
@@ -204,6 +220,11 @@ fogpluslighting.Text = "antifog and fullbright"
 
 fogpluslighting.Activated:Connect(function()
 	FandLEn = not FandLEn
+	if FandLEn then
+		fogpluslighting.Text = "af and fb = true"
+	else
+		fogpluslighting.Text = "af and fb = false"
+	end
 end)
 
 local flycombination = Instance.new("TextLabel")
@@ -216,40 +237,97 @@ flycombination.TextColor3 = Color3.new(0.8, 0, 1)
 flycombination.BackgroundTransparency = 0.8
 flycombination.Text = "LeftShift + E to fly"
 
-
+local createWaypint = Instance.new("TextButton")
+createWaypint.Parent = scrollingFrame
+createWaypint.Size = UDim2.new(1, 0, 0, 32)
+createWaypint.TextScaled = true
+createWaypint.Name = "y"
+createWaypint.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+createWaypint.TextColor3 = Color3.new(1, 1, 1)
+createWaypint.BackgroundTransparency = 0.8
+createWaypint.Text = "Create Waypoint"
+local number = 1
+createWaypint.Activated:Connect(function()
+	local position = LocalPlayer.Character:GetPivot()
+	local frame = Instance.new("Frame")
+	frame.Parent = scrollingFrame
+	frame.Size = UDim2.new(1, 0, 0, 32)
+	frame.Name = "z"..number
+	frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	frame.BackgroundTransparency = 0.8
+	local textBox = Instance.new("TextBox")
+	textBox.Text = "Checkpoint"..number
+	textBox.Parent = frame
+	textBox.Size = UDim2.new(0.5, 0, 1, 0)
+	textBox.BackgroundTransparency = 1
+	textBox.TextColor3 = Color3.new(1, 1, 1)
+	textBox.TextScaled = true
+	textBox.ClearTextOnFocus = false
+	local deleteb = Instance.new("TextButton")
+	deleteb.Parent = frame
+	deleteb.Size = UDim2.new(0.2, 0, 1, 0)
+	deleteb.Position = UDim2.new(0.5, 0, 0, 0)
+	deleteb.TextScaled = true
+	deleteb.BackgroundColor3 = Color3.fromRGB(255, 0, 187)
+	deleteb.TextColor3 = Color3.new(1, 1, 1)
+	deleteb.BackgroundTransparency = 0
+	deleteb.Text = "Del"
+	deleteb.Activated:Connect(function()
+		frame:Destroy()
+	end)
+	local tp = Instance.new("TextButton")
+	tp.Parent = frame
+	tp.Size = UDim2.new(0.2, 0, 1, 0)
+	tp.Position = UDim2.new(0.7, 0, 0, 0)
+	tp.TextScaled = true
+	tp.BackgroundColor3 = Color3.fromRGB(162, 0, 255)
+	tp.TextColor3 = Color3.new(1, 1, 1)
+	tp.BackgroundTransparency = 0
+	tp.Text = "Tp"
+	tp.Activated:Connect(function()
+		local character = LocalPlayer.Character
+		if character then
+			character:PivotTo(position)
+		end
+	end)
+	number+=1
+end)
 
 -----------------------------------------------------------------------
 local updt = 0.1
 local updt2 = 0.01
+if flying then
+	flyButton.Text = "flying = true"
+else
+	flyButton.Text = "flying = false"
+end
+if FandLEn then
+	fogpluslighting.Text = "af and fb = true"
+else
+	fogpluslighting.Text = "af and fb = false"
+end
+if set then
+	spButton.Text = "running = true"
+else
+	spButton.Text = "running = false"
+end
+if espEn then
+	espB.Text = "espEn = true"
+else
+	espB.Text = "espEn = false"
+end
 task.spawn(function()
 	while true do
 		screenGui.Enabled = true
 		scrollingFrame.Visible = true
 		task.wait(.1)
 		grad.Rotation += 2
-		if flying then
-			flyButton.Text = "flying = true"
-		else
-			flyButton.Text = "flying = false"
-		end
-		if FandLEn then
-			fogpluslighting.Text = "af and fb = true"
-		else
-			fogpluslighting.Text = "af and fb = false"
-		end
-		if set then
-			spButton.Text = "running = true"
-		else
-			spButton.Text = "running = false"
-		end
-		if espEn then
-			espB.Text = "espEn = true"
-
-		else
-			espB.Text = "espEn = false"
-		end
-		if set and LocalPlayer.Character then
-			LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
+		if set and game.Players.LocalPlayer.Character then
+			if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+				if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+					LocalPlayer.Character.Humanoid.WalkSpeed = setSpeed
+				end
+			end
 		end
 		task.wait(updt)
 	end
@@ -276,7 +354,7 @@ game["Run Service"].RenderStepped:Connect(function()
 					local part:Highlight = Instance.new("Highlight")
 					part.OutlineTransparency = 1
 					part.FillTransparency = 0.5
-					part.FillColor = Color3.fromRGB(255, 255, 255)
+					part.FillColor = Color3.new(255,255,255)
 					part.Adornee = model
 					part.Parent = viewportFrame
 				end
@@ -361,6 +439,11 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	-- Check if C is pressed while Tab is held
 	if input.KeyCode == Enum.KeyCode.E and tabPressed then
 		flying = not flying
+		if flying then
+			flyButton.Text = "flying = true"
+		else
+			flyButton.Text = "flying = false"
+		end
 		if flying then
 			local bodyVelocity = Instance.new("BodyVelocity")
 			bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
