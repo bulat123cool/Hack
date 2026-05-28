@@ -264,7 +264,7 @@ createWaypint.Activated:Connect(function()
 	frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 	frame.BackgroundTransparency = 0.8
 	local textBox = Instance.new("TextBox")
-	textBox.Text = "Checkpoint"..number
+	textBox.Text = "Waypoint "..number
 	textBox.Parent = frame
 	textBox.Size = UDim2.new(0.5, 0, 1, 0)
 	textBox.BackgroundTransparency = 1
