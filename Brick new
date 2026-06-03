@@ -369,10 +369,39 @@ game["Run Service"].RenderStepped:Connect(function()
 					local part:Highlight = Instance.new("Highlight")
 					part.OutlineTransparency = 1
 					part.FillTransparency = 0.5
-					part.FillColor = Color3.new(255,255,255)
+					part.FillColor = Color3.fromRGB(255, 255, 255)
 					part.Adornee = model
 					part.Parent = viewportFrame
 				end
+				local gui = Instance.new("BillboardGui")
+				gui.Name = "destroyable"
+				gui.Parent = model.HumanoidRootPart
+				gui.Size = UDim2.new(0, 50, 0, 250)
+				gui.StudsOffset = Vector3.new(0, 5, 0)
+				gui.AlwaysOnTop = true
+				local distance = LocalPlayer:DistanceFromCharacter(model.HumanoidRootPart.Position)
+				local text = Instance.new("TextLabel")
+				text.Parent = gui
+				text.Size = UDim2.new(1, 0, 1, 0)
+				text.BackgroundTransparency = 1
+				text.TextScaled = true
+				text.Text = plr.Name.." "..math.floor(distance)
+				text.TextColor3 = Color3.fromRGB(255, 255, 255)
+				local outline = Instance.new("UIStroke")
+				outline.Parent = text
+				outline.Thickness = 2
+				outline.Color = Color3.fromRGB(0, 0, 0)
+				game.Debris:AddItem(gui,0.1)
+				local lineToplr = Instance.new("Beam")
+				lineToplr.Attachment0 = plr.Character.HumanoidRootPart.RootRigAttachment
+				lineToplr.Attachment1 = LocalPlayer.Character.HumanoidRootPart.RootRigAttachment
+				lineToplr.FaceCamera = true
+				lineToplr.LightInfluence = 0
+				lineToplr.Transparency = NumberSequence.new(0.5,0.5)
+				lineToplr.Width0 = .3
+				lineToplr.Width1 = .3
+				lineToplr.Parent = plr.Character.HumanoidRootPart
+				game.Debris:AddItem(lineToplr,0.1)
 			end
 		end
 	end
