@@ -2,6 +2,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local UserInputService = game:GetService("UserInputService")
+local gameId = game.PlaceId
+print(gameId)
 
 -- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
@@ -179,7 +181,7 @@ spLabel.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
 spLabel.TextColor3 = Color3.new(1, 1, 1)
 spLabel.BackgroundTransparency = 0.8
 ----------------------------------------------------------------
-local espEn = false
+local espEn = true
 local espB = Instance.new("TextButton")
 espB.Parent = scrollingFrame
 espB.Size = UDim2.new(1, 0, 0, 32)
@@ -258,6 +260,7 @@ local number = 1
 createWaypint.Activated:Connect(function()
 	local position = LocalPlayer.Character:GetPivot()
 	local frame = Instance.new("Frame")
+	print(position)
 	frame.Parent = scrollingFrame
 	frame.Size = UDim2.new(1, 0, 0, 32)
 	frame.Name = "z"..number
@@ -345,6 +348,14 @@ end)
 ----------------------------------------
 local changed = false
 game["Run Service"].RenderStepped:Connect(function()
+	--creating circle around player cursor in gui
+	local mouse = LocalPlayer:GetMouse()
+	local mousePos = UDim2.new(0, mouse.X, 0, mouse.Y+50)
+	local circle = Instance.new("ImageLabel")
+	circle.Parent = screenGui
+	circle.Size = UDim2.new(0, 5, 0, 5)
+	circle.Position = mousePos
+	game.Debris:AddItem(circle,.02)
 	if game.Players.LocalPlayer.Character then
 		if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
 			if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
@@ -363,45 +374,37 @@ game["Run Service"].RenderStepped:Connect(function()
 	if espEn then
 		for i, plr in pairs(players) do
 			if plr ~= LocalPlayer then
-				local model = plr.Character
-				model.Archivable = true
-				if model then
-					local part:Highlight = Instance.new("Highlight")
-					part.OutlineTransparency = 1
-					part.FillTransparency = 0.5
-					part.FillColor = Color3.fromRGB(255, 255, 255)
-					part.Adornee = model
-					part.Parent = viewportFrame
-				end
-				local gui = Instance.new("BillboardGui")
-				gui.Name = "destroyable"
-				gui.Parent = model.HumanoidRootPart
-				gui.Size = UDim2.new(0, 50, 0, 250)
-				gui.StudsOffset = Vector3.new(0, 5, 0)
-				gui.AlwaysOnTop = true
-				local distance = LocalPlayer:DistanceFromCharacter(model.HumanoidRootPart.Position)
-				local text = Instance.new("TextLabel")
-				text.Parent = gui
-				text.Size = UDim2.new(1, 0, 1, 0)
-				text.BackgroundTransparency = 1
-				text.TextScaled = true
-				text.Text = plr.Name.." "..math.floor(distance)
-				text.TextColor3 = Color3.fromRGB(255, 255, 255)
-				local outline = Instance.new("UIStroke")
-				outline.Parent = text
-				outline.Thickness = 2
-				outline.Color = Color3.fromRGB(0, 0, 0)
-				game.Debris:AddItem(gui,0.1)
-				local lineToplr = Instance.new("Beam")
-				lineToplr.Attachment0 = plr.Character.HumanoidRootPart.RootRigAttachment
-				lineToplr.Attachment1 = LocalPlayer.Character.HumanoidRootPart.RootRigAttachment
-				lineToplr.FaceCamera = true
-				lineToplr.LightInfluence = 0
-				lineToplr.Transparency = NumberSequence.new(0.5,0.5)
-				lineToplr.Width0 = .3
-				lineToplr.Width1 = .3
-				lineToplr.Parent = plr.Character.HumanoidRootPart
-				game.Debris:AddItem(lineToplr,0.1)
+				task.spawn(function()
+					local model = plr.Character
+					model.Archivable = true
+					if model then
+						local part:Highlight = Instance.new("Highlight")
+						part.OutlineTransparency = 1
+						part.FillTransparency = 0.5
+						part.FillColor = Color3.fromRGB(255, 255, 255)
+						part.Adornee = model
+						part.Parent = viewportFrame
+					end
+					local gui = Instance.new("BillboardGui")
+					gui.Name = "destroyable"
+					gui.Parent = model.HumanoidRootPart
+					gui.Size = UDim2.new(0, 50, 0, 250)
+					gui.StudsOffset = Vector3.new(0, 5, 0)
+					gui.AlwaysOnTop = true
+					local distance = LocalPlayer:DistanceFromCharacter(model.HumanoidRootPart.Position)
+					local text = Instance.new("TextLabel")
+					text.Parent = gui
+					text.Size = UDim2.new(1, 0, 1, 0)
+					text.BackgroundTransparency = 1
+					text.TextScaled = true
+					text.Text = plr.Name.." "..math.floor(distance)
+					text.TextColor3 = Color3.fromRGB(255, 255, 255)
+					local outline = Instance.new("UIStroke")
+					outline.Parent = text
+					outline.Thickness = 2
+					outline.Color = Color3.fromRGB(0, 0, 0)
+					game.Debris:AddItem(gui,0.1)
+				end)
 			end
 		end
 	end
@@ -527,3 +530,54 @@ quit.Activated:Connect(function()
 	espEn = false
 	screenGui:Destroy()
 end)
+if gameId == 119757349390174 then
+	FandLEn = true
+elseif gameId == 93978595733734 then
+	local positions = {{"Lobby",CFrame.new(1942,3869,-1,0,0,0,1,0,0,0,-1)}}
+	for i,v in pairs(positions) do
+		local name = v[1]
+		local posit = v[2]
+		local position = posit
+		local frame = Instance.new("Frame")
+		frame.Parent = scrollingFrame
+		frame.Size = UDim2.new(1, 0, 0, 32)
+		frame.Name = "z"..number
+		frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+		frame.BackgroundTransparency = 0.8
+		local textBox = Instance.new("TextBox")
+		textBox.Text = name
+		textBox.Parent = frame
+		textBox.Size = UDim2.new(0.5, 0, 1, 0)
+		textBox.BackgroundTransparency = 1
+		textBox.TextColor3 = Color3.new(1, 1, 1)
+		textBox.TextScaled = true
+		textBox.ClearTextOnFocus = false
+		local deleteb = Instance.new("TextButton")
+		deleteb.Parent = frame
+		deleteb.Size = UDim2.new(0.2, 0, 1, 0)
+		deleteb.Position = UDim2.new(0.5, 0, 0, 0)
+		deleteb.TextScaled = true
+		deleteb.BackgroundColor3 = Color3.fromRGB(255, 0, 187)
+		deleteb.TextColor3 = Color3.new(1, 1, 1)
+		deleteb.BackgroundTransparency = 0
+		deleteb.Text = "Del"
+		deleteb.Activated:Connect(function()
+			frame:Destroy()
+		end)
+		local tp = Instance.new("TextButton")
+		tp.Parent = frame
+		tp.Size = UDim2.new(0.2, 0, 1, 0)
+		tp.Position = UDim2.new(0.7, 0, 0, 0)
+		tp.TextScaled = true
+		tp.BackgroundColor3 = Color3.fromRGB(162, 0, 255)
+		tp.TextColor3 = Color3.new(1, 1, 1)
+		tp.BackgroundTransparency = 0
+		tp.Text = "Tp"
+		tp.Activated:Connect(function()
+			local character = LocalPlayer.Character
+			if character then
+				character:PivotTo(position)
+			end
+		end)
+	end
+end
