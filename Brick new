@@ -3,17 +3,40 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local UserInputService = game:GetService("UserInputService")
 local gameId = game.PlaceId
-print(gameId)
+local flySpeed = 100
+local flying = false
+local storeSpeed = 0
+local setSpeed = 70
+local set = false
+local espEn = true
+local FandLEn = false
+local updt = 0.1
+local updt2 = 0.01
+local fly2 = true
+script.Parent = game.ReplicatedStorage
 
 -- Create ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "Yea am pro"
-screenGui.Parent = PlayerGui
-screenGui.ResetOnSpawn = false
-screenGui.DisplayOrder= 10
-screenGui.AutoLocalize = true
-screenGui.IgnoreGuiInset = true
-screenGui.ClipToDeviceSafeArea = true
+local found = false -- hidey system
+local screenGui
+for i,v in pairs(PlayerGui:GetChildren()) do
+	if v:IsA("ScreenGui") then
+		if v.Enabled then
+			found = true
+			screenGui = v
+			break
+		end
+	end
+end
+if not found then
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "Yea am pro"
+	screenGui.Parent = PlayerGui
+	screenGui.ResetOnSpawn = false
+	screenGui.DisplayOrder= 10
+	screenGui.AutoLocalize = true
+	screenGui.IgnoreGuiInset = true
+	screenGui.ClipToDeviceSafeArea = true
+end
 
 -- Create ScrollingFrame
 local scrollingFrame = Instance.new("ScrollingFrame")
@@ -29,30 +52,97 @@ scrollingFrame.Active = true
 scrollingFrame.Visible = true
 scrollingFrame.Parent = screenGui
 
+local function createButton(t)
+	local button = Instance.new("TextButton")
+	if t.Parent then
+		button.Parent = t.Parent
+	else
+		button.Parent = scrollingFrame
+	end
+	if t.SetName then
+		button.Name = t.SetName
+	else
+		button.Name = "a"
+	end
+	if t.Size then
+		button.Size = t.Size
+	else
+		button.Size = UDim2.new(1, 0, 0, 32)
+	end
+	if t.BC3 then
+		button.BackgroundColor3 = t.BC3
+	else
+		button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	end
+	if t.Text then
+		button.Text = t.Text
+	else
+		button.Text = "button"..button.Name
+	end
+	if t.textcolor then
+		button.TextColor3 = t.textcolor
+	else
+		button.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+	if t.Transparency then
+		button.BackgroundTransparency = t.Transparency
+	else
+		button.BackgroundTransparency = 0.8
+	end
+	button.TextScaled = true
+	return button
+end
+local function createLabel(t)
+	local label = Instance.new("TextLabel")
+	if t.Parent then
+		label.Parent = t.Parent
+	else
+		label.Parent = scrollingFrame
+	end
+	if t.SetName then
+		label.Name = t.SetName
+	else
+		label.Name = "a"
+	end
+	if t.Size then
+		label.Size = t.Size
+	else
+		label.Size = UDim2.new(1, 0, 0, 32)
+	end
+	if t.BC3 then
+		label.BackgroundColor3 = t.BC3
+	else
+		label.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	end
+	if t.Text then
+		label.Text = t.Text
+	else
+		label.Text = "button"..label.Name
+	end
+	if t.textcolor then
+		label.TextColor3 = t.textcolor
+	else
+		label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+	label.TextScaled = true
+	if t.Transparency then
+		label.BackgroundTransparency = t.Transparency
+	else
+		label.BackgroundTransparency = 0.8
+	end
+
+	return label
+end
+
 local grad1 = Instance.new("UIGradient")
 grad1.Parent = scrollingFrame
 grad1.Color = ColorSequence.new({
 	ColorSequenceKeypoint.new(0, Color3.new(0, 0.0666667, 1)),
 	ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0.815686))
 })
+local quit = createButton({Transparency=0,SetName="b", Size=UDim2.new(1, 0, 0, 20), BC3=Color3.fromRGB(255, 0, 4), Text="Quit", })
 
-local quit = Instance.new("TextButton")
-quit.Name = "b"
-quit.Size = UDim2.new(1, 0, 0, 20)
-quit.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
-quit.Text = "Quit"
-quit.TextScaled = true
-quit.TextColor3 = Color3.fromRGB(255, 255, 255)
-quit.Parent = scrollingFrame
-
-local restart = Instance.new("TextButton")
-restart.Name = "c"
-restart.Size = UDim2.new(1, 0, 0, 20)
-restart.BackgroundColor3 = Color3.fromRGB(0, 174, 255)
-restart.Text = "Restart"
-restart.TextScaled = true
-restart.TextColor3 = Color3.fromRGB(255, 255, 255)
-restart.Parent = scrollingFrame
+local restart = createButton({Transparency=0,SetName="c", Size=UDim2.new(1, 0, 0, 20), BC3=Color3.fromRGB(0, 174, 255), Text="Restart", })
 
 restart.Activated:Connect(function()
 	script.Archivable = true
@@ -67,16 +157,7 @@ end)
 local layout = Instance.new("UIListLayout")
 layout.Parent = scrollingFrame
 layout.Padding = UDim.new(0, 13)
-
-local title = Instance.new("TextLabel")
-title.Name = "a"
-title.Parent = scrollingFrame
-title.Size = UDim2.new(1, 0, 0, 50)
-title.TextScaled = true
-title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-title.TextColor3 = Color3.new(1, 1, 1)
-title.Text = "Brick hack"
-title.BackgroundTransparency = 0.8
+local title = createLabel({SetName="a", Size=UDim2.new(1, 0, 0, 50), Text="Brick hack"})
 local grad = Instance.new("UIGradient")
 grad.Parent = title
 grad.Color = ColorSequence.new({
@@ -84,9 +165,9 @@ grad.Color = ColorSequence.new({
 	ColorSequenceKeypoint.new(1, Color3.new(0.74902, 0, 1))
 })
 
+
 -- Add demo content
-local flySpeed = 100
-local flying = false
+
 local flyBox = Instance.new("TextBox")
 flyBox.Name = "c1"
 flyBox.Parent = scrollingFrame
@@ -104,14 +185,8 @@ flyBox.InputEnded:Connect(function()
 		flyBox.PlaceholderText = "fly speed = "..flyBox.Text
 	end	
 end)
-local flyButton = Instance.new("TextButton")
-flyButton.Parent = scrollingFrame
-flyButton.Name = "d"
-flyButton.Size = UDim2.new(1, 0, 0, 32)
-flyButton.TextScaled = true
-flyButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-flyButton.TextColor3 = Color3.new(1, 1, 1)
-flyButton.BackgroundTransparency = 0.8
+local flyButton = createButton({SetName="d"})
+
 flyButton.Activated:Connect(function()
 	flying = not flying
 	if flying then
@@ -124,16 +199,23 @@ flyButton.Activated:Connect(function()
 		LocalPlayer.Character.Humanoid.EvaluateStateMachine = true
 		LocalPlayer.Character.Humanoid.PlatformStand = false
 	end
-	if flying then
-		flyButton.Text = "flying = true"
+end)
+local flymodechange = createButton({SetName="d1",Size=UDim2.new(1, 0, 0, 20)})
+if fly2 then
+	flymodechange.Text = "fly mode = force"
+else
+	flymodechange.Text = "fly mode = position"
+end
+flymodechange.Activated:Connect(function()
+	fly2 = not fly2
+	if fly2 then
+		flymodechange.Text = "fly mode = force"
 	else
-		flyButton.Text = "flying = false"
+		flymodechange.Text = "fly mode = position"
 	end
 end)
 ----------------------------------------------------------------
-local storeSpeed = 0
-local setSpeed = 70
-local set = false
+
 local spBox = Instance.new("TextBox")
 spBox.Name = "f"
 spBox.Parent = scrollingFrame
@@ -151,14 +233,9 @@ spBox.InputEnded:Connect(function()
 		spBox.PlaceholderText = "run speed = "..spBox.Text
 	end	
 end)
-local spButton = Instance.new("TextButton")
-spButton.Name = "g"
-spButton.Parent = scrollingFrame
-spButton.Size = UDim2.new(1, 0, 0, 32)
-spButton.TextScaled = true
-spButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-spButton.TextColor3 = Color3.new(1, 1, 1)
-spButton.BackgroundTransparency = 0.8
+
+local spButton = createButton({SetName="g"})
+
 spButton.Activated:Connect(function()
 	set = not set
 	if set then
@@ -172,24 +249,11 @@ spButton.Activated:Connect(function()
 		spButton.Text = "running = false"
 	end
 end)
-local spLabel = Instance.new("TextLabel")
-spLabel.Name = "g1"
-spLabel.Parent = scrollingFrame
-spLabel.Size = UDim2.new(1, 0, 0, 32)
-spLabel.TextScaled = true
-spLabel.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-spLabel.TextColor3 = Color3.new(1, 1, 1)
-spLabel.BackgroundTransparency = 0.8
+local spLabel = createButton({SetName="g1"})
 ----------------------------------------------------------------
-local espEn = true
-local espB = Instance.new("TextButton")
-espB.Parent = scrollingFrame
-espB.Size = UDim2.new(1, 0, 0, 32)
-espB.TextScaled = true
-espB.Name = "e"
-espB.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-espB.TextColor3 = Color3.new(1, 1, 1)
-espB.BackgroundTransparency = 0.8
+
+local espB = createButton({SetName="e"})
+
 local players = game:GetService("Players"):GetPlayers()
 game.Players.PlayerAdded:Connect(function(plr)
 	table.insert(players, plr)
@@ -217,16 +281,8 @@ espB.Activated:Connect(function()
 		espB.Text = "espEn = false"
 	end
 end)
-local FandLEn = false
-local fogpluslighting = Instance.new("TextButton")
-fogpluslighting.Parent = scrollingFrame
-fogpluslighting.Size = UDim2.new(1, 0, 0, 32)
-fogpluslighting.TextScaled = true
-fogpluslighting.Name = "h"
-fogpluslighting.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-fogpluslighting.TextColor3 = Color3.new(1, 1, 1)
-fogpluslighting.BackgroundTransparency = 0.8
-fogpluslighting.Text = "antifog and fullbright"
+
+local fogpluslighting = createButton({SetName="h"})
 
 fogpluslighting.Activated:Connect(function()
 	FandLEn = not FandLEn
@@ -237,25 +293,10 @@ fogpluslighting.Activated:Connect(function()
 	end
 end)
 
-local flycombination = Instance.new("TextLabel")
-flycombination.Parent = scrollingFrame
-flycombination.Size = UDim2.new(1, 0, 0, 32)
-flycombination.TextScaled = true
-flycombination.Name = "i"
-flycombination.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-flycombination.TextColor3 = Color3.new(0.8, 0, 1)
-flycombination.BackgroundTransparency = 0.8
-flycombination.Text = "LeftShift + E to fly"
+local flycombination = createLabel({SetName="i",Text="LeftShift + E to fly",textcolor=Color3.new(0.8, 0, 1)})
 
-local createWaypint = Instance.new("TextButton")
-createWaypint.Parent = scrollingFrame
-createWaypint.Size = UDim2.new(1, 0, 0, 32)
-createWaypint.TextScaled = true
-createWaypint.Name = "y"
-createWaypint.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-createWaypint.TextColor3 = Color3.new(1, 1, 1)
-createWaypint.BackgroundTransparency = 0.8
-createWaypint.Text = "Create Waypoint"
+local createWaypint = createButton({SetName="y",Text="Create Waypoint"})
+
 local number = 1
 createWaypint.Activated:Connect(function()
 	local position = LocalPlayer.Character:GetPivot()
@@ -305,13 +346,7 @@ createWaypint.Activated:Connect(function()
 end)
 
 -----------------------------------------------------------------------
-local updt = 0.1
-local updt2 = 0.01
-if flying then
-	flyButton.Text = "flying = true"
-else
-	flyButton.Text = "flying = false"
-end
+
 if FandLEn then
 	fogpluslighting.Text = "af and fb = true"
 else
@@ -329,6 +364,11 @@ else
 end
 task.spawn(function()
 	while true do
+		if flying then
+			flyButton.Text = "flying = true"
+		else
+			flyButton.Text = "flying = false"
+		end
 		screenGui.Enabled = true
 		scrollingFrame.Visible = true
 		task.wait(.1)
@@ -343,32 +383,14 @@ task.spawn(function()
 		task.wait(updt)
 	end
 end)
-
-
-----------------------------------------
-local changed = false
 game["Run Service"].RenderStepped:Connect(function()
-	--creating circle around player cursor in gui
-	local mouse = LocalPlayer:GetMouse()
-	local mousePos = UDim2.new(0, mouse.X, 0, mouse.Y+50)
-	local circle = Instance.new("ImageLabel")
-	circle.Parent = screenGui
-	circle.Size = UDim2.new(0, 5, 0, 5)
-	circle.Position = mousePos
-	game.Debris:AddItem(circle,.02)
+	UserInputService.MouseIconEnabled = true
 	if game.Players.LocalPlayer.Character then
 		if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
 			if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
 				spLabel.Text = "Speed : "..game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
 			end
 		end
-	end
-	if FandLEn then
-		game.Lighting.FogEnd = 100000
-		game.Lighting.FogStart = 0
-		game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-		game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-		game.Lighting.Brightness = 3
 	end
 	viewportFrame:ClearAllChildren()
 	if espEn then
@@ -408,53 +430,13 @@ game["Run Service"].RenderStepped:Connect(function()
 			end
 		end
 	end
-	if flying then
-		changed = true
-		local hum:Humanoid = LocalPlayer.Character.Humanoid
-		hum:ChangeState(Enum.HumanoidStateType.GettingUp)
-		hum.EvaluateStateMachine = false
-		hum.PlatformStand = true
-		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
-		local camera = workspace.CurrentCamera
-		local direction = Vector3.new()
-
-		if UserInputService:IsKeyDown(Enum.KeyCode.W) then
-			direction = direction + camera.CFrame.LookVector
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.S) then
-			direction = direction - camera.CFrame.LookVector
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.A) then
-			direction = direction - camera.CFrame.RightVector
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.D) then
-			direction = direction + camera.CFrame.RightVector
-		end
-		local plus = 0
-		local char = LocalPlayer.Character
-		for i,v in pairs(char:GetChildren()) do
-			if v:IsA("BasePart") then
-				v.Massless = true
-			end
-		end
-		LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
-		LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
-	else
-
-		if not changed then return end
-		local char = LocalPlayer.Character
-		for i,v in pairs(char:GetChildren()) do
-			if v:IsA("BasePart") then
-				v.Massless = false
-			end
-		end
-
-	end
 end)
 local function updateCanvasSize(reason)
 	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 	if reason then
 		scrollingFrame.CanvasPosition = Vector2.new(0,layout.AbsoluteContentSize.Y)
+	else
+		scrollingFrame.CanvasPosition = Vector2.new(0,0)
 	end
 end
 updateCanvasSize()
@@ -478,6 +460,259 @@ scrollingFrame.InputBegan:Connect(function(input)
 		end)
 	end
 end)
+UserInputService.InputChanged:Connect(function(input,processed)
+	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+		local delta = input.Position - dragStart
+		scrollingFrame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+local function createPoints(positions)
+	for i,v in pairs(positions) do
+		local name = v[1]
+		local posit = v[2]
+		local position = posit
+		local frame = Instance.new("Frame")
+		frame.Parent = scrollingFrame
+		frame.Size = UDim2.new(1, 0, 0, 32)
+		frame.Name = "z99999999999"..i
+		frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+		frame.BackgroundTransparency = 0.8
+		local textBox = Instance.new("TextBox")
+		textBox.Text = name
+		textBox.Parent = frame
+		textBox.Size = UDim2.new(0.7, 0, 1, 0)
+		textBox.BackgroundTransparency = 1
+		textBox.TextColor3 = Color3.new(1, 1, 1)
+		textBox.TextScaled = true
+		textBox.ClearTextOnFocus = false
+		local tp = Instance.new("TextButton")
+		tp.Parent = frame
+		tp.Size = UDim2.new(0.2, 0, 1, 0)
+		tp.Position = UDim2.new(0.7, 0, 0, 0)
+		tp.TextScaled = true
+		tp.BackgroundColor3 = Color3.fromRGB(162, 0, 255)
+		tp.TextColor3 = Color3.new(1, 1, 1)
+		tp.BackgroundTransparency = 0
+		tp.Text = "Tp"
+		tp.Activated:Connect(function()
+			local character = LocalPlayer.Character
+			if character then
+				character:PivotTo(position)
+			end
+		end)
+	end
+end
+local function destroyfly()
+	flyBox:Destroy()
+	flyButton:Destroy()
+	flymodechange:Destroy()
+end
+if gameId == 119757349390174 then -- terraria td remastered
+	FandLEn = true
+elseif gameId == 93978595733734 then -- violence destrict
+	FandLEn = true
+	destroyfly()
+	local positions = {
+		{"Lobby",CFrame.new(1959.13037, 737.964478, 3871.97046, 0.0600200891, -0.192323744, 0.979494214, -0.0109374225, 0.981077731, 0.193304896, -0.998137176, -0.0223153643, 0.0567808747)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 70417016586227 then -- monster runners
+	local positions = {
+		{"Lobby",CFrame.new(-173.899414, 3.99999952, 163.09819, 0.178994134, -3.79953349e-08, -0.983850121, 9.45281755e-08, 1, -2.14212967e-08, 0.983850121, -8.91672727e-08, 0.178994134)},
+		{"Beyond door",CFrame.new(-126.127937, 3.99999952, 161.498093, -0.0449226908, 7.47389972e-09, -0.998990476, 9.95258209e-10, 1, 7.43669748e-09, 0.998990476, -6.60177024e-10, -0.0449226908)},
+		{"Crown",CFrame.new(-165.371857, 3.99999952, 382.098267, 0.017736176, -8.20502208e-08, -0.999842703, -6.83242476e-08, 1, -8.32751326e-08, 0.999842703, 6.97904809e-08, 0.017736176)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 205224386 then -- hide and seek extreme
+	local positions = {
+		{"The Workshop",CFrame.new(10.4305267, 156.279984, 256.164673, -0.411940455, 8.29263342e-08, -0.911210775, 2.68094187e-08, 1, 7.88867425e-08, 0.911210775, 8.0676088e-09, -0.411940455)},
+		{"The Store",CFrame.new(-150.423264, -18, -305.614136, -0.593417764, -5.45903553e-08, -0.804894626, -1.00351386e-07, 1, 6.16222184e-09, 0.804894626, 8.44290611e-08, -0.593417764)},
+		{"The Backyard",CFrame.new(-58.4581528, 156.998947, -191.442108, 0.890541911, -2.60861466e-08, -0.454901159, 2.65700653e-08, 1, -5.32948574e-09, 0.454901159, -7.34062322e-09, 0.890541911)},
+		{"Ethan's Bedroom",CFrame.new(-206.782196, 44.6054688, 348.461853, 0.991653442, -0.00161192194, -0.128921956, 0.000766756886, 0.999977887, -0.00660499791, 0.128929749, 0.00645101676, 0.99163276)},
+		{"The Kitchen",CFrame.new(-365.585205, -15.0998278, 213.255554, -0.997563303, 8.8360963e-09, 0.069767043, 2.86348907e-13, 1, -1.2664735e-07, -0.069767043, -1.26338719e-07, -0.997563303)},
+		{"The Attic",CFrame.new(117.588135, 134.782349, -74.368454, -0.999813199, 1.11359234e-10, 0.0193266999, -2.17951742e-15, 1, -5.76204995e-09, -0.0193266999, -5.76097392e-09, -0.999813199)}
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 92754201181799 or gameId == 93745236275941 or gameId == 73571581348211 or gameId == 71063314346913 or gameId == 136339385292679 or gameId == 10481745633 or gameId == 9320622941 or gameId == 116551468963338 or gameId == 9515389204 or gameId == 9515573665 or gameId == 9536927575 or gameId == 9620781650 or gameId == 9597801903 or gameId == 9756952356 or gameId == 9273658706 or gameId == 9519748053 then -- backrooms
+	local positions = {
+		{"The Sewers",CFrame.new(472.08316, 161.218689, -3930.6521, 0.999587059, 0.00176127884, -0.0286807269, -0.000114228729, 0.998355389, 0.0573280714, 0.0287345313, -0.0573011227, 0.997943342)},
+		{"Level 0",CFrame.new(-1016.03412, -1.53406072, 2461.44336, -0.938906491, -0.123271346, 0.321339697, -0.0270092916, 0.957168698, 0.288268685, -0.343111515, 0.261978388, -0.90202117)},
+		{"Level Cave System",CFrame.new(-484.894012, 60.4885254, 356.608551, 0.999955356, 0.00942882244, -0.00103669986, -0.00899234507, 0.977060378, 0.21277307, 0.00301912427, -0.212754399, 0.977101147)},
+		{"Level 35",CFrame.new(-472.474701, 20.8718987, 852.359924, -0.981728137, 0.119059682, -0.148440629, 0.0752171874, 0.959350586, 0.272008806, 0.174791887, 0.255873382, -0.950776875)},
+		{"Pool rooms",CFrame.new(746.33844, 9.85613346, -1227.15967, -0.119866885, 0.246512443, -0.961698532, 0.0127438325, 0.968984842, 0.246791452, 0.992708504, 0.0173264258, -0.119290695)},
+		--{"Pitfall depths",CFrame.new()},
+		{"thalassophobia",CFrame.new(-56.6016541, 32.2171593, -2619.67236, 0.978263855, -0.00765531603, -0.207223102, 0.0860578269, 0.924185634, 0.372122169, 0.1886639, -0.381866872, 0.904756248)},
+		{"opposite oceans",CFrame.new(298.23819, -227.745529, 2108.08911, -0.926987171, 0.231148392, 0.295406431, 0.309167534, 0.91679126, 0.252802759, -0.212391108, 0.325674981, -0.921317339)},
+		{"level ???",CFrame.new(-782.758423, 19411.5859, 832.037109, -0.997591436, 0.00124149013, 0.0693568215, 0.00586678879, 0.997767627, 0.066524528, -0.0691194013, 0.0667714849, -0.995371461)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 10449761463 then -- tsb
+	local positions = {
+		{"Void",CFrame.new(151.046448, -211.130142, -6.50936365, 0.207010284, -0.156653568, -0.965715468, 0.0707505494, 0.986909807, -0.14492555, 0.975777149, -0.0383238234, 0.215383813)},
+		{"Void1",CFrame.new(-114.496651, 423.072418, -1030.33911, -0.932835579, 0.218708411, 0.286329269, 0.147952318, 0.957118809, -0.249065548, -0.328523874, -0.189974114, -0.925192893)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 11574110446 then -- derelict
+	espEn = false
+	espB.Text = "espEn = false"
+	local positions = {
+		{"Vagrant Sigvard",CFrame.new(-108.92939, 49.5156212, -396.212128, 0.999285996, -6.43442775e-08, -0.0377817973, 6.37105515e-08, 1, -1.79772179e-08, 0.0377817973, 1.55572817e-08, 0.999285996)},
+		{"Avarus Captain",CFrame.new(-1665.72461, -225.986389, -4316.31152, 0.987582743, 2.10365236e-08, 0.157099679, -1.83267765e-08, 1, -1.86971452e-08, -0.157099679, 1.55858473e-08, 0.987582743)},
+		{"NR-02",CFrame.new(2981.36304, -727.856506, -4924.69922, 0.172290549, -1.04348343e-08, 0.985046148, 1.23873818e-07, 1, -1.10730394e-08, -0.985046148, 1.23929212e-07, 0.172290549)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 537413528 then -- babft
+	local positions = {
+		{"Yellow Team",CFrame.new(-549.397034, -2.75000024, 640.757629, -0.0157896373, -1.07085953e-07, -0.999875307, 7.18290138e-08, 1, -1.082336e-07, 0.999875307, -7.352903e-08, -0.0157896373)},
+		{"Green Team",CFrame.new(-557.1521, -9.70000172, 293.201172, -0.0313715339, -4.15651762e-08, -0.999507785, 6.81534967e-11, 1, -4.15877857e-08, 0.999507785, -1.37279255e-09, -0.0313715339)},
+		{"Black Team",CFrame.new(-549.300049, -2.75000024, -69.4243011, -0.0288553741, 2.39496023e-09, -0.999583602, -8.25717734e-08, 1, 4.77958961e-09, 0.999583602, 8.26753066e-08, -0.0288553741)},
+		{"White Team",CFrame.new(-49.9333572, -2.75000119, -565.958496, -0.999979198, 3.0133831e-09, 0.00645049708, 3.45582385e-09, 1, 6.85790553e-08, -0.00645049708, 6.8599924e-08, -0.999979198)},
+		{"Red Team",CFrame.new(442.753693, -3.10000205, -64.6141968, -0.0294210818, 7.93351376e-08, 0.999567091, -2.09040785e-09, 1, -7.94310182e-08, -0.999567091, -4.42644943e-09, -0.0294210818)},
+		{"Blue Team",CFrame.new(442.487762, -2.75000215, 300.020325, 0.00024574998, -4.17459525e-08, 0.99999994, -1.06814619e-08, 1, 4.17485815e-08, -0.99999994, -1.06917213e-08, 0.00024574998)},
+		{"Purple Team",CFrame.new(442.258636, -2.75000215, 646.980408, -0.190795839, 2.29375199e-10, 0.981629729, -8.35565395e-09, 1, -1.85772608e-09, -0.981629729, -8.55660431e-09, -0.190795839)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 97463774278378 then -- hide from the vilian
+	local positions = {
+		{"The Tower",CFrame.new(-706.901733, 165.851944, 104.00515, -0.115021348, 0.10502401, -0.987795591, 4.18887538e-07, 0.994395316, 0.105725653, 0.993363023, 0.0121602938, -0.114376731)},
+		{"The Capitol",CFrame.new(-30.4411755, 242.851288, 737.647278, -0.832246184, 0.0556369126, -0.55160743, 1.20098446e-06, 0.994951963, 0.100352257, 0.554406226, 0.0835171193, -0.828045011)},
+	}
+	createPoints(positions)
+	updateCanvasSize()
+elseif gameId == 142823291 then -- mm2
+	task.spawn(function()
+		while wait(.1) do
+			if espEn then
+				for i, plr in pairs(players) do
+					if plr ~= LocalPlayer then
+						task.spawn(function()
+							local model = plr.Character
+							local gui = Instance.new("BillboardGui")
+							gui.Name = "destroyable"
+							gui.Parent = model.HumanoidRootPart
+							gui.Size = UDim2.new(0, 50, 0, 250)
+							gui.StudsOffset = Vector3.new(0, 5, 0)
+							gui.AlwaysOnTop = true
+							local text = Instance.new("Frame")
+							text.Parent = gui
+							text.Size = UDim2.new(1, 0, 1, 0)
+							text.BackgroundColor3 = Color3.fromRGB(255,255,255)
+							if plr.Backpack:FindFirstChild("Knife") or plr.Character:FindFirstChild("Knife") then
+								text.BackgroundColor3 = Color3.fromRGB(255,0,0)
+							end
+							if plr.Backpack:FindFirstChild("Gun") or plr.Character:FindFirstChild("Gun") then
+								text.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+							end
+							game.Debris:AddItem(gui,0.12)
+						end)
+					end
+				end
+			end
+		end
+	end)
+end
+quit.Activated:Connect(function()
+	flying = false
+	espEn = false
+	screenGui:Destroy()
+end)
+----------------------------------------
+--Non GUI
+----------------------------------------
+local changed = false
+game["Run Service"].RenderStepped:Connect(function()
+	if FandLEn then
+		game.Lighting.FogEnd = 100000
+		game.Lighting.FogStart = 0
+		game.Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+		game.Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+		game.Lighting.Brightness = 3
+	end
+	print(fly2)
+	if fly2 then
+		if flying  then
+			changed = true
+			local hum:Humanoid = LocalPlayer.Character.Humanoid
+			hum:ChangeState(Enum.HumanoidStateType.GettingUp)
+			hum.EvaluateStateMachine = false
+			hum.PlatformStand = true
+			if LocalPlayer.Character then
+				if LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+					if LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity") then
+						LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = Vector3.new(0, 0, 0)
+					end
+				end
+			end
+			local camera = workspace.CurrentCamera
+			local direction = Vector3.new()
+
+			if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+				direction = direction + camera.CFrame.LookVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+				direction = direction - camera.CFrame.LookVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+				direction = direction - camera.CFrame.RightVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+				direction = direction + camera.CFrame.RightVector
+			end
+			local plus = 0
+			local char = LocalPlayer.Character
+			for i,v in pairs(char:GetChildren()) do
+				if v:IsA("BasePart") then
+					v.Massless = true
+				end
+			end
+			print(fly2)
+			LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity").Velocity = direction * flySpeed
+			LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(LocalPlayer.Character.HumanoidRootPart.Position,LocalPlayer.Character.HumanoidRootPart.Position+camera.CFrame.LookVector)
+		else
+			if not changed then return end
+			local char = LocalPlayer.Character
+			for i,v in pairs(char:GetChildren()) do
+				if v:IsA("BasePart") then
+					v.Massless = false
+				end
+			end
+
+		end
+	else
+		if flying then
+			local camera = workspace.CurrentCamera
+			local direction = Vector3.new()
+			if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+				direction = direction + camera.CFrame.LookVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+				direction = direction - camera.CFrame.LookVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+				direction = direction - camera.CFrame.RightVector
+			end
+			if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+				direction = direction + camera.CFrame.RightVector
+			end
+			local char = LocalPlayer.Character
+			char.HumanoidRootPart.Position += direction * flySpeed*0.015
+		end
+	end
+
+end)
+
 local tabPressed = false
 
 -- Track when Tab is pressed down
@@ -489,11 +724,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	-- Check if C is pressed while Tab is held
 	if input.KeyCode == Enum.KeyCode.E and tabPressed then
 		flying = not flying
-		if flying then
-			flyButton.Text = "flying = true"
-		else
-			flyButton.Text = "flying = false"
-		end
 		if flying then
 			local bodyVelocity = Instance.new("BodyVelocity")
 			bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
@@ -513,71 +743,4 @@ UserInputService.InputEnded:Connect(function(input, gameProcessed)
 		tabPressed = false
 	end
 end)
-UserInputService.InputChanged:Connect(function(input,processed)
-	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-		local delta = input.Position - dragStart
-		scrollingFrame.Position = UDim2.new(
-			startPos.X.Scale,
-			startPos.X.Offset + delta.X,
-			startPos.Y.Scale,
-			startPos.Y.Offset + delta.Y
-		)
-	end
-end)
 
-quit.Activated:Connect(function()
-	flying = false
-	espEn = false
-	screenGui:Destroy()
-end)
-if gameId == 119757349390174 then
-	FandLEn = true
-elseif gameId == 93978595733734 then
-	local positions = {{"Lobby",CFrame.new(1942,3869,-1,0,0,0,1,0,0,0,-1)}}
-	for i,v in pairs(positions) do
-		local name = v[1]
-		local posit = v[2]
-		local position = posit
-		local frame = Instance.new("Frame")
-		frame.Parent = scrollingFrame
-		frame.Size = UDim2.new(1, 0, 0, 32)
-		frame.Name = "z"..number
-		frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-		frame.BackgroundTransparency = 0.8
-		local textBox = Instance.new("TextBox")
-		textBox.Text = name
-		textBox.Parent = frame
-		textBox.Size = UDim2.new(0.5, 0, 1, 0)
-		textBox.BackgroundTransparency = 1
-		textBox.TextColor3 = Color3.new(1, 1, 1)
-		textBox.TextScaled = true
-		textBox.ClearTextOnFocus = false
-		local deleteb = Instance.new("TextButton")
-		deleteb.Parent = frame
-		deleteb.Size = UDim2.new(0.2, 0, 1, 0)
-		deleteb.Position = UDim2.new(0.5, 0, 0, 0)
-		deleteb.TextScaled = true
-		deleteb.BackgroundColor3 = Color3.fromRGB(255, 0, 187)
-		deleteb.TextColor3 = Color3.new(1, 1, 1)
-		deleteb.BackgroundTransparency = 0
-		deleteb.Text = "Del"
-		deleteb.Activated:Connect(function()
-			frame:Destroy()
-		end)
-		local tp = Instance.new("TextButton")
-		tp.Parent = frame
-		tp.Size = UDim2.new(0.2, 0, 1, 0)
-		tp.Position = UDim2.new(0.7, 0, 0, 0)
-		tp.TextScaled = true
-		tp.BackgroundColor3 = Color3.fromRGB(162, 0, 255)
-		tp.TextColor3 = Color3.new(1, 1, 1)
-		tp.BackgroundTransparency = 0
-		tp.Text = "Tp"
-		tp.Activated:Connect(function()
-			local character = LocalPlayer.Character
-			if character then
-				character:PivotTo(position)
-			end
-		end)
-	end
-end
