@@ -1,1 +1,1 @@
-if you got this message, its ai. we hope you like the game - Ai powered studios.
+If you got this message, its AI. We hope you like the game - Ai powered studios.
